@@ -34,18 +34,12 @@ public final class MercFrontCoreClientCommand {
     }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        var root = literal("mercfrontcore").requires(source -> source.hasPermissionLevel(2));
-        root.then(
-            literal("editorMode").then(
-                literal("off").executes(MercFrontCoreClientCommand::editorModeOff)
-            ).then(
-                literal("on").then(
-                    argument("mapAsset", StringArgumentType.word()).suggests(MercFrontCoreClientCommand::suggestMapAssets).then(
-                        argument("environment", StringArgumentType.word()).suggests(MercFrontCoreClientCommand::suggestMapEnvironments).executes(MercFrontCoreClientCommand::editorModeOn)
-                    )
-                )
-            )
-        );
+        dispatcher.register(rootCommand("frontcore"));
+        dispatcher.register(rootCommand("fc"));
+    }
+
+    private static com.mojang.brigadier.builder.LiteralArgumentBuilder<ServerCommandSource> rootCommand(String name) {
+        var root = literal(name).requires(source -> source.hasPermissionLevel(2));
         root.then(
             literal("gun").then(
                 literal("giveMenu").then(
@@ -63,12 +57,6 @@ public final class MercFrontCoreClientCommand {
                 ).then(
                     literal("sync").executes(MercFrontCoreClientCommand::gunModifierSync)
                 )
-            ).then(
-                literal("debugOptions").then(
-                    argument("item", IdentifierArgumentType.identifier())
-                        .suggests(MercFrontCoreClientCommand::suggestGunItems)
-                        .executes(MercFrontCoreClientCommand::gunDebugOptions)
-                )
             )
         );
         root.then(
@@ -79,57 +67,23 @@ public final class MercFrontCoreClientCommand {
             )
         );
         root.then(
-            literal("spawnView").requires(source -> source.hasPermissionLevel(3)).then(
-                literal("disable").executes(MercFrontCoreClientCommand::spawnViewDisable)
-            )
+            literal("admin")
+                .then(
+                    literal("gun").then(
+                        literal("debugOptions").then(
+                            argument("item", IdentifierArgumentType.identifier())
+                                .suggests(MercFrontCoreClientCommand::suggestGunItems)
+                                .executes(MercFrontCoreClientCommand::gunDebugOptions)
+                        )
+                    )
+                )
+                .then(
+                    literal("spawnView").requires(source -> source.hasPermissionLevel(3)).then(
+                        literal("disable").executes(MercFrontCoreClientCommand::spawnViewDisable)
+                    )
+                )
         );
-        dispatcher.register(root);
-    }
-
-    private static int editorModeOff(CommandContext<ServerCommandSource> context) {
-        AddonClientData clientData = AddonClientData.getInstance();
-        clientData.editingMapName = null;
-        clientData.editingEnvName = null;
-        return 1;
-    }
-
-    private static int editorModeOn(CommandContext<ServerCommandSource> context) {
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        if (player == null) {
-            return 0;
-        }
-        if (!(player.isCreative() || player.isSpectator())) {
-            context.getSource().sendError(Text.translatable("mercfrontcore.message.command.editorMode.error.mode"));
-            return -1;
-        }
-
-        String mapAsset = StringArgumentType.getString(context, "mapAsset");
-        String environment = StringArgumentType.getString(context, "environment");
-
-        if (!bfEnvironmentExists(mapAsset, environment)) {
-            context.getSource().sendError(Text.translatable("mercfrontcore.message.command.editorMode.error.environment", environment, mapAsset));
-            return -1;
-        }
-
-        AddonClientData clientData = AddonClientData.getInstance();
-        clientData.editingMapName = mapAsset;
-        clientData.editingEnvName = environment;
-        context.getSource().sendMessage(Text.literal("Editor mode enabled: " + mapAsset + " / " + environment));
-        return 1;
-    }
-
-    private static java.util.concurrent.CompletableFuture<Suggestions> suggestMapAssets(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
-        return CommandSource.suggestMatching(getMapAssetNames(), suggestions);
-    }
-
-    private static java.util.concurrent.CompletableFuture<Suggestions> suggestMapEnvironments(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
-        String mapAsset;
-        try {
-            mapAsset = StringArgumentType.getString(context, "mapAsset");
-        } catch (IllegalArgumentException e) {
-            return suggestions.buildFuture();
-        }
-        return CommandSource.suggestMatching(getMapEnvironmentNames(mapAsset), suggestions);
+        return root;
     }
 
     private static java.util.concurrent.CompletableFuture<Suggestions> suggestGunItems(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
@@ -141,45 +95,6 @@ public final class MercFrontCoreClientCommand {
         );
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private static java.util.Collection<String> getMapAssetNames() {
-        try {
-            Class<?> assetStoreClass = Class.forName("com.boehmod.blockfront.assets.AssetStore");
-            Object store = assetStoreClass.getMethod("getInstance").invoke(null);
-            Class<?> mapAssetClass = Class.forName("com.boehmod.blockfront.assets.impl.MapAsset");
-            Object registry = assetStoreClass.getMethod("getRegistry", Class.class).invoke(store, mapAssetClass);
-            Object entries = registry.getClass().getMethod("getEntries").invoke(registry);
-            if (entries instanceof java.util.Map<?, ?> map) {
-                return (java.util.Collection<String>) map.keySet();
-            }
-        } catch (Throwable ignored) {
-        }
-        return java.util.List.of();
-    }
-
-    @SuppressWarnings("unchecked")
-    private static java.util.Collection<String> getMapEnvironmentNames(String mapAsset) {
-        try {
-            Class<?> assetStoreClass = Class.forName("com.boehmod.blockfront.assets.AssetStore");
-            Object store = assetStoreClass.getMethod("getInstance").invoke(null);
-            Class<?> mapAssetClass = Class.forName("com.boehmod.blockfront.assets.impl.MapAsset");
-            Object registry = assetStoreClass.getMethod("getRegistry", Class.class).invoke(store, mapAssetClass);
-            Object asset = registry.getClass().getMethod("getByName", String.class).invoke(registry, mapAsset);
-            if (asset == null) {
-                return java.util.List.of();
-            }
-            Object environments = asset.getClass().getMethod("getEnvironments").invoke(asset);
-            if (environments instanceof java.util.Map<?, ?> map) {
-                return (java.util.Collection<String>) map.keySet();
-            }
-        } catch (Throwable ignored) {
-        }
-        return java.util.List.of();
-    }
-
-    private static boolean bfEnvironmentExists(String mapAsset, String environment) {
-        return getMapEnvironmentNames(mapAsset).contains(environment);
-    }
 
     private static int loadoutEditor(CommandContext<ServerCommandSource> context) {
         if (isInBlockFrontMatch()) {

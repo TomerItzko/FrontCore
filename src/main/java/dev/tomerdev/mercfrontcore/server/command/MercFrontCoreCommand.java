@@ -54,163 +54,169 @@ public final class MercFrontCoreCommand {
     }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(
-            literal("mercfrontcore")
-                .requires(source -> source.hasPermissionLevel(2))
-                .then(literal("status").executes(ctx -> showStatus(ctx.getSource())))
-                .then(
-                    literal("proxy")
-                        .then(literal("show").executes(ctx -> showStatus(ctx.getSource())))
-                        .then(literal("reload").executes(ctx -> reloadConfig(ctx.getSource())))
-                        .then(literal("save").executes(ctx -> saveConfig(ctx.getSource())))
-                        .then(
-                            literal("set")
-                                .then(
-                                    literal("compatibility")
-                                        .then(argument("value", BoolArgumentType.bool()).executes(ctx ->
-                                            setCompatibility(ctx.getSource(), BoolArgumentType.getBool(ctx, "value"))
+        dispatcher.register(rootCommand("frontcore"));
+        dispatcher.register(rootCommand("fc"));
+    }
+
+    private static com.mojang.brigadier.builder.LiteralArgumentBuilder<ServerCommandSource> rootCommand(String name) {
+        return literal(name)
+            .requires(source -> source.hasPermissionLevel(2))
+            .then(literal("status").executes(ctx -> showStatus(ctx.getSource())))
+            .then(
+                literal("profile")
+                    .then(literal("show").executes(ctx -> showProfileOverrides(ctx.getSource())))
+                    .then(literal("save").executes(ctx -> saveProfileOverrides(ctx.getSource())))
+                    .then(literal("reload").executes(ctx -> reloadProfileOverrides(ctx.getSource())))
+                    .then(
+                        literal("clear")
+                            .then(argument("target", EntityArgumentType.player()).executes(ctx ->
+                                clearProfileOverride(ctx.getSource(), EntityArgumentType.getPlayer(ctx, "target"))
+                            ))
+                    )
+                    .then(
+                        literal("set")
+                            .then(argument("target", EntityArgumentType.player())
+                                .then(argument("displayName", StringArgumentType.word())
+                                    .then(argument("level", IntegerArgumentType.integer(0))
+                                        .then(argument("prestige", IntegerArgumentType.integer(0)).executes(ctx ->
+                                            setProfileOverride(
+                                                ctx.getSource(),
+                                                EntityArgumentType.getPlayer(ctx, "target"),
+                                                StringArgumentType.getString(ctx, "displayName"),
+                                                IntegerArgumentType.getInteger(ctx, "level"),
+                                                IntegerArgumentType.getInteger(ctx, "prestige")
+                                            )
                                         ))
+                                    )
                                 )
-                                .then(
-                                    literal("directOnly")
-                                        .then(argument("value", BoolArgumentType.bool()).executes(ctx ->
-                                            setDirectOnly(ctx.getSource(), BoolArgumentType.getBool(ctx, "value"))
-                                        ))
+                            )
+                    )
+            )
+            .then(
+                literal("gun")
+                    .then(
+                        literal("giveWithSkin")
+                            .then(argument("id", StringArgumentType.word())
+                                .suggests(MercFrontCoreCommand::suggestGunIds)
+                                .then(argument("skin", StringArgumentType.word())
+                                    .suggests(MercFrontCoreCommand::suggestGunSkins)
+                                    .executes(ctx -> giveWithSkin(
+                                        ctx.getSource(),
+                                        StringArgumentType.getString(ctx, "id"),
+                                        StringArgumentType.getString(ctx, "skin")
+                                    ))
                                 )
-                                .then(
-                                    literal("trustForwardedIdentity")
-                                        .then(argument("value", BoolArgumentType.bool()).executes(ctx ->
-                                            setTrustForwardedIdentity(ctx.getSource(), BoolArgumentType.getBool(ctx, "value"))
-                                        ))
-                                )
-                        )
-                )
-                .then(
-                    literal("profile")
-                        .then(literal("show").executes(ctx -> showProfileOverrides(ctx.getSource())))
-                        .then(literal("save").executes(ctx -> saveProfileOverrides(ctx.getSource())))
-                        .then(literal("reload").executes(ctx -> reloadProfileOverrides(ctx.getSource())))
-                        .then(
-                            literal("clear")
-                                .then(argument("target", EntityArgumentType.player()).executes(ctx ->
-                                    clearProfileOverride(ctx.getSource(), EntityArgumentType.getPlayer(ctx, "target"))
+                            )
+                    )
+                    .then(
+                        literal("modifier")
+                            .then(literal("list").executes(ctx -> listGunModifiers(ctx.getSource())))
+                    )
+            )
+            .then(
+                literal("loadout")
+                    .then(literal("list").executes(ctx -> showLoadouts(ctx.getSource())))
+                    .then(literal("save").executes(ctx -> saveLoadouts(ctx.getSource())))
+                    .then(literal("reload").executes(ctx -> reloadLoadouts(ctx.getSource())))
+                    .then(
+                        literal("remove")
+                            .then(argument("name", StringArgumentType.word())
+                                .suggests(MercFrontCoreCommand::suggestLoadoutNames)
+                                .executes(ctx ->
+                                    removeLoadout(ctx.getSource(), StringArgumentType.getString(ctx, "name"))
                                 ))
-                        )
-                        .then(
-                            literal("set")
-                                .then(argument("target", EntityArgumentType.player())
-                                    .then(argument("displayName", StringArgumentType.word())
-                                        .then(argument("level", IntegerArgumentType.integer(0))
-                                            .then(argument("prestige", IntegerArgumentType.integer(0)).executes(ctx ->
-                                                setProfileOverride(
-                                                    ctx.getSource(),
-                                                    EntityArgumentType.getPlayer(ctx, "target"),
-                                                    StringArgumentType.getString(ctx, "displayName"),
-                                                    IntegerArgumentType.getInteger(ctx, "level"),
-                                                    IntegerArgumentType.getInteger(ctx, "prestige")
-                                                )
-                                            ))
-                                        )
-                                    )
-                                )
-                        )
-                )
-                .then(
-                    literal("gun")
-                        .then(
-                            literal("giveWithSkin")
-                                .then(argument("id", StringArgumentType.word())
-                                    .suggests(MercFrontCoreCommand::suggestGunIds)
-                                    .then(argument("skin", StringArgumentType.word())
-                                        .suggests(MercFrontCoreCommand::suggestGunSkins)
-                                        .executes(ctx -> giveWithSkin(
-                                            ctx.getSource(),
-                                            StringArgumentType.getString(ctx, "id"),
-                                            StringArgumentType.getString(ctx, "skin")
+                    )
+                    .then(
+                        literal("set")
+                            .then(argument("name", StringArgumentType.word())
+                                .suggests(MercFrontCoreCommand::suggestLoadoutNames)
+                                .then(argument("primary", StringArgumentType.word())
+                                    .suggests(MercFrontCoreCommand::suggestItemIds)
+                                    .then(argument("secondary", StringArgumentType.word())
+                                        .suggests(MercFrontCoreCommand::suggestItemIds)
+                                        .executes(ctx ->
+                                            setLoadout(
+                                                ctx.getSource(),
+                                                StringArgumentType.getString(ctx, "name"),
+                                                StringArgumentType.getString(ctx, "primary"),
+                                                StringArgumentType.getString(ctx, "secondary")
+                                            )
                                         ))
-                                    )
-                                )
-                        )
-                        .then(
-                            literal("modifier")
-                                .then(literal("list").executes(ctx -> listGunModifiers(ctx.getSource())))
-                        )
-                )
-                .then(
-                    literal("loadout")
-                        .then(literal("list").executes(ctx -> showLoadouts(ctx.getSource())))
-                        .then(literal("save").executes(ctx -> saveLoadouts(ctx.getSource())))
-                        .then(literal("reload").executes(ctx -> reloadLoadouts(ctx.getSource())))
-                        .then(
-                            literal("remove")
+                                ))
+                    )
+                    .then(
+                        literal("give")
+                            .then(argument("target", EntityArgumentType.player())
                                 .then(argument("name", StringArgumentType.word())
                                     .suggests(MercFrontCoreCommand::suggestLoadoutNames)
                                     .executes(ctx ->
-                                        removeLoadout(ctx.getSource(), StringArgumentType.getString(ctx, "name"))
+                                        giveLoadout(
+                                            ctx.getSource(),
+                                            EntityArgumentType.getPlayer(ctx, "target"),
+                                            StringArgumentType.getString(ctx, "name")
+                                        )
                                     ))
-                        )
-                        .then(
-                            literal("set")
-                                .then(argument("name", StringArgumentType.word())
-                                    .suggests(MercFrontCoreCommand::suggestLoadoutNames)
-                                    .then(argument("primary", StringArgumentType.word())
-                                        .suggests(MercFrontCoreCommand::suggestItemIds)
-                                        .then(argument("secondary", StringArgumentType.word())
-                                            .suggests(MercFrontCoreCommand::suggestItemIds)
-                                            .executes(ctx ->
-                                                setLoadout(
-                                                    ctx.getSource(),
-                                                    StringArgumentType.getString(ctx, "name"),
-                                                    StringArgumentType.getString(ctx, "primary"),
-                                                    StringArgumentType.getString(ctx, "secondary")
-                                                )
+                            )
+                    )
+            )
+            .then(
+                literal("admin")
+                    .then(
+                        literal("proxy")
+                            .then(literal("show").executes(ctx -> showStatus(ctx.getSource())))
+                            .then(literal("reload").executes(ctx -> reloadConfig(ctx.getSource())))
+                            .then(literal("save").executes(ctx -> saveConfig(ctx.getSource())))
+                            .then(
+                                literal("set")
+                                    .then(
+                                        literal("compatibility")
+                                            .then(argument("value", BoolArgumentType.bool()).executes(ctx ->
+                                                setCompatibility(ctx.getSource(), BoolArgumentType.getBool(ctx, "value"))
                                             ))
-                                    ))
-                        )
-                        .then(
-                            literal("give")
-                                .then(argument("target", EntityArgumentType.player())
-                                    .then(argument("name", StringArgumentType.word())
-                                        .suggests(MercFrontCoreCommand::suggestLoadoutNames)
-                                        .executes(ctx ->
-                                            giveLoadout(
-                                                ctx.getSource(),
-                                                EntityArgumentType.getPlayer(ctx, "target"),
-                                                StringArgumentType.getString(ctx, "name")
-                                            )
-                                        ))
-                                )
-                        )
-                )
-                .then(
-                    literal("randomDrop")
-                        .then(argument("players", EntityArgumentType.players()).executes(ctx ->
-                            randomDrop(ctx.getSource(), EntityArgumentType.getPlayers(ctx, "players"), 1)
-                        ))
-                        .then(argument("players", EntityArgumentType.players())
-                            .then(argument("count", IntegerArgumentType.integer(1, 100)).executes(ctx ->
-                                randomDrop(
-                                    ctx.getSource(),
-                                    EntityArgumentType.getPlayers(ctx, "players"),
-                                    IntegerArgumentType.getInteger(ctx, "count")
-                                )
+                                    )
+                                    .then(
+                                        literal("directOnly")
+                                            .then(argument("value", BoolArgumentType.bool()).executes(ctx ->
+                                                setDirectOnly(ctx.getSource(), BoolArgumentType.getBool(ctx, "value"))
+                                            ))
+                                    )
+                                    .then(
+                                        literal("trustForwardedIdentity")
+                                            .then(argument("value", BoolArgumentType.bool()).executes(ctx ->
+                                                setTrustForwardedIdentity(ctx.getSource(), BoolArgumentType.getBool(ctx, "value"))
+                                            ))
+                                    )
+                            )
+                    )
+                    .then(
+                        literal("randomDrop")
+                            .then(argument("players", EntityArgumentType.players()).executes(ctx ->
+                                randomDrop(ctx.getSource(), EntityArgumentType.getPlayers(ctx, "players"), 1)
                             ))
-                        )
-                )
-                .then(
-                    literal("spawnView")
-                        .then(
-                            literal("enable")
-                                .then(argument("game", StringArgumentType.word())
-                                    .suggests(MercFrontCoreCommand::suggestGames)
-                                    .executes(ctx -> enableSpawnView(
+                            .then(argument("players", EntityArgumentType.players())
+                                .then(argument("count", IntegerArgumentType.integer(1, 100)).executes(ctx ->
+                                    randomDrop(
                                         ctx.getSource(),
-                                        StringArgumentType.getString(ctx, "game")
-                                    ))
-                                )
-                        )
-                )
-        );
+                                        EntityArgumentType.getPlayers(ctx, "players"),
+                                        IntegerArgumentType.getInteger(ctx, "count")
+                                    )
+                                ))
+                            )
+                    )
+                    .then(
+                        literal("spawnView")
+                            .then(
+                                literal("enable")
+                                    .then(argument("game", StringArgumentType.word())
+                                        .suggests(MercFrontCoreCommand::suggestGames)
+                                        .executes(ctx -> enableSpawnView(
+                                            ctx.getSource(),
+                                            StringArgumentType.getString(ctx, "game")
+                                        ))
+                                    )
+                            )
+                    )
+            );
     }
 
     private static CompletableFuture<Suggestions> suggestGames(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
@@ -394,9 +400,7 @@ public final class MercFrontCoreCommand {
         String message = AddonConstants.MOD_NAME + " remake baseline loaded. "
             + "proxyCompatibility=" + ProxyCompatibility.isCompatibilityEnabled()
             + ", enforceDirectConnection=" + cfg.proxy.enforceDirectConnection
-            + ", trustForwardedIdentity=" + cfg.proxy.trustForwardedIdentity
-            + ", gunSfxVolume=" + cfg.audio.gunSfxVolume
-            + ", grenadeSfxVolume=" + cfg.audio.grenadeSfxVolume;
+            + ", trustForwardedIdentity=" + cfg.proxy.trustForwardedIdentity;
         source.sendFeedback(() -> Text.literal(message), false);
         return 1;
     }

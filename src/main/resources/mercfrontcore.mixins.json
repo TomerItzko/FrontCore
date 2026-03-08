@@ -8,6 +8,7 @@
     "PacketListenerPlayerMoveMixin"
   ],
   "client": [
+    "client.AbstractSoundInstanceMixin",
     "client.BFIntroRouteMixin",
     "client.BFWeaponItemRendererMixin",
     "client.BFClientScreenSubscriberMixin",

@@ -61,7 +61,7 @@ public record LoadoutsPacket(Map<LoadoutIndex.Identifier, List<Loadout>> loadout
         if (anyGamesActive()) {
             player.sendMessage(Text.translatable(
                 "mercfrontcore.message.packet.loadouts.game",
-                Text.literal("/mercfrontcore loadout sync").formatted(Formatting.GOLD)
+                Text.literal("/frontcore loadout sync").formatted(Formatting.GOLD)
             ).formatted(Formatting.RED));
             return;
         }

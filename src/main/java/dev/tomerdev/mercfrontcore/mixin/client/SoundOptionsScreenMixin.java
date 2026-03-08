@@ -69,11 +69,11 @@ public abstract class SoundOptionsScreenMixin extends net.minecraft.client.gui.s
         }
 
         private static double toSliderValue(float volume) {
-            return MathHelper.clamp(volume / 2.0f, 0.0f, 1.0f);
+            return MathHelper.clamp(volume, 0.0f, 1.0f);
         }
 
         private static float fromSliderValue(double slider) {
-            return (float) MathHelper.clamp(slider * 2.0f, 0.0, 2.0);
+            return (float) MathHelper.clamp(slider, 0.0, 1.0);
         }
     }
 }

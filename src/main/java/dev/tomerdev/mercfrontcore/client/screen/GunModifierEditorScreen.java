@@ -122,7 +122,7 @@ public class GunModifierEditorScreen extends AddonScreen {
 		client.getMessageHandler().onGameMessage(
 			Text.translatable(
 				"mercfrontcore.screen.gun.modifier.editor.closeMessage",
-				Text.literal("/mercfrontcore gun modifier sync").formatted(Formatting.RED)
+				Text.literal("/frontcore gun modifier sync").formatted(Formatting.RED)
 			),
 			false
 		);

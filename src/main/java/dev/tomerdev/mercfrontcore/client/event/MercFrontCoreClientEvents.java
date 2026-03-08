@@ -1,6 +1,7 @@
 package dev.tomerdev.mercfrontcore.client.event;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 import com.boehmod.blockfront.client.BFClient;
 import com.boehmod.blockfront.client.BFClientManager;
@@ -18,6 +19,7 @@ import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.sound.PlaySoundEvent;
 import net.neoforged.neoforge.client.event.sound.PlaySoundSourceEvent;
 import net.neoforged.neoforge.client.event.sound.PlayStreamingSourceEvent;
 import dev.tomerdev.mercfrontcore.AddonConstants;
@@ -28,8 +30,6 @@ import dev.tomerdev.mercfrontcore.client.input.MouseButton;
 import dev.tomerdev.mercfrontcore.client.render.AssetEditRenderer;
 import dev.tomerdev.mercfrontcore.client.render.RenderObject;
 import dev.tomerdev.mercfrontcore.client.render.SpawnViewRenderer;
-import dev.tomerdev.mercfrontcore.config.MercFrontCoreConfig;
-import dev.tomerdev.mercfrontcore.config.MercFrontCoreConfigManager;
 import dev.tomerdev.mercfrontcore.data.AddonCommonData;
 
 @EventBusSubscriber(modid = AddonConstants.MOD_ID, value = Dist.CLIENT)
@@ -129,105 +129,17 @@ public final class MercFrontCoreClientEvents {
 
     @SubscribeEvent
     public static void onPlaySoundSource(PlaySoundSourceEvent event) {
-        applyScaledVolume(event.getSound(), event.getName(), event.getChannel());
+        // Sound scaling is handled in AbstractSoundInstanceMixin#getVolume.
     }
 
     @SubscribeEvent
     public static void onPlayStreamingSource(PlayStreamingSourceEvent event) {
-        applyScaledVolume(event.getSound(), event.getName(), event.getChannel());
+        // Sound scaling is handled in AbstractSoundInstanceMixin#getVolume.
     }
 
-    private static void applyScaledVolume(SoundInstance sound, String pathFromEvent, Object channel) {
-        if (sound == null || channel == null) {
-            return;
-        }
-        Identifier location = resolveSoundLocation(sound);
-        String namespace = location != null ? location.getNamespace() : "";
-        String path = pathFromEvent != null && !pathFromEvent.isBlank()
-            ? pathFromEvent
-            : (location != null ? location.getPath() : "");
-        if (path.isBlank()) {
-            return;
-        }
-
-        float scale = resolveSoundScale(namespace, path);
-        if (Math.abs(scale - 1.0f) < 0.001f) {
-            return;
-        }
-        try {
-            channel.getClass().getMethod("setVolume", float.class).invoke(channel, clamp(sound.getVolume() * scale));
-        } catch (Throwable ignored) {
-        }
-    }
-
-    private static float resolveSoundScale(String namespace, String path) {
-        String lower = path.toLowerCase(java.util.Locale.ROOT);
-        boolean blockfrontNamespace = "blockfront".equals(namespace);
-        MercFrontCoreConfig.AudioSettings audio = MercFrontCoreConfigManager.get().audio;
-        if (isGrenadePath(lower)) {
-            return clamp(audio.grenadeSfxVolume);
-        }
-        if (isGunPath(lower)) {
-            return clamp(audio.gunSfxVolume);
-        }
-        if (blockfrontNamespace && isLikelyWeaponPath(lower)) {
-            return clamp(audio.gunSfxVolume);
-        }
-        return 1.0f;
-    }
-
-    private static Identifier resolveSoundLocation(SoundInstance sound) {
-        try {
-            Object value = sound.getClass().getMethod("getLocation").invoke(sound);
-            if (value instanceof Identifier id) {
-                return id;
-            }
-        } catch (Throwable ignored) {
-        }
-        try {
-            Object value = sound.getClass().getMethod("getId").invoke(sound);
-            if (value instanceof Identifier id) {
-                return id;
-            }
-        } catch (Throwable ignored) {
-        }
-        return null;
-    }
-
-    private static boolean isGunPath(String path) {
-        return path.contains("gun")
-            || path.contains("weapon")
-            || path.contains("rifle")
-            || path.contains("pistol")
-            || path.contains("shotgun")
-            || path.contains("smg")
-            || path.contains("lmg")
-            || path.contains("fire")
-            || path.contains("shot")
-            || path.contains("bullet")
-            || path.contains("reload")
-            || path.contains("mag")
-            || path.contains("mg");
-    }
-
-    private static boolean isGrenadePath(String path) {
-        return path.contains("grenade")
-            || path.contains("frag")
-            || path.contains("explosion")
-            || path.contains("blast");
-    }
-
-    private static boolean isLikelyWeaponPath(String path) {
-        return path.contains("weapon")
-            || path.contains("wep")
-            || path.contains("wpn")
-            || path.contains("shoot")
-            || path.contains("fire")
-            || path.contains("reload");
-    }
-
-    private static float clamp(float value) {
-        return Math.max(0.0f, Math.min(2.0f, value));
+    @SubscribeEvent
+    public static void onPlaySound(PlaySoundEvent event) {
+        // Scaling is done in mixin; no event-time mutation to avoid loops/mute bleed.
     }
 
     private static boolean shouldForceOfflineTitle(String className) {
