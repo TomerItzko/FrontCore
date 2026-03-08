@@ -4,6 +4,7 @@ plugins {
 
 group = "red.vuis"
 version = "0.7.1.2b"
+description = "FrontCore companion utility mod for BlockFront. Credit to the OG author: forteus19 (https://github.com/forteus19/Front-Utilities)."
 
 val bfVersion = "0.7.1.2b"
 val bfNamedJar = file("bf/$bfVersion-named.jar")
@@ -67,7 +68,7 @@ tasks.withType<JavaCompile>() {
 
 val remapForRelease by tasks.registering(JavaExec::class) {
     group = "build"
-    description = "Remaps MERCFront-core from BF named symbols to BF official runtime symbols."
+    description = "Remaps FrontCore from BF named symbols to BF official runtime symbols."
     dependsOn("remapJar")
     classpath = remapperTools
     mainClass.set("net.fabricmc.tinyremapper.Main")

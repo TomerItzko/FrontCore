@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-license = "MIT"
+license = "GPL-3.0"
 
 [[mixins]]
 config = "mercfrontcore.mixins.json"
@@ -8,9 +8,9 @@ config = "mercfrontcore.mixins.json"
 [[mods]]
 modId = "mercfrontcore"
 version = "0.7.1.2b"
-displayName = "MERCFront-core"
-authors = "TomerDev"
-description = '''Helper stuff for BlockFront'''
+displayName = "FrontCore"
+authors = "TomerDev (credit to OG author: forteus19)"
+description = '''Helper stuff for BlockFront. Credit to the OG author: forteus19 (https://github.com/forteus19/Front-Utilities).'''
 logoFile = "logo.png"
 
 [[dependencies.mercfrontcore]]

@@ -1,6 +1,8 @@
-# MERCFront-core
+# FrontCore
 
-`MERCFront-core` is a companion utility mod for BlockFront focused on offline flow control, loadout editing, and advanced admin/setup helpers.
+`FrontCore` is a companion utility mod for BlockFront focused on offline flow control, loadout editing, and advanced admin/setup helpers.
+
+Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilities).
 
 ## In-Game Usage
 
@@ -8,7 +10,7 @@
 
 - Launch game normally: BlockFront menu appears first.
 - Choose offline mode in BlockFront.
-- `MERCFront-core` redirects to the vanilla Minecraft title screen.
+- `FrontCore` redirects to the vanilla Minecraft title screen.
 
 ## 2) Key Commands
 
