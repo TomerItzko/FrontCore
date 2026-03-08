@@ -6,6 +6,10 @@ group = "red.vuis"
 version = "0.7.1.2b"
 description = "FrontCore companion utility mod for BlockFront. Credit to the OG author: forteus19 (https://github.com/forteus19/Front-Utilities)."
 
+base {
+    archivesName.set("FrontCore")
+}
+
 val bfVersion = "0.7.1.2b"
 val bfNamedJar = file("bf/$bfVersion-named.jar")
 val bfOriginalJar = file("bf/$bfVersion-original.jar")
