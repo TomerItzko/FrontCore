@@ -1,11 +1,18 @@
 package dev.tomerdev.mercfrontcore.server.event;
 
+import com.boehmod.blockfront.BlockFront;
+import com.boehmod.blockfront.common.BFAbstractManager;
+import com.boehmod.blockfront.game.AbstractGame;
+import com.boehmod.blockfront.server.BFServerManager;
+import com.boehmod.blockfront.server.player.BFServerPlayerData;
+import com.boehmod.blockfront.server.player.ServerPlayerDataHandler;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import dev.tomerdev.mercfrontcore.MercFrontCore;
@@ -37,8 +44,6 @@ public final class MercFrontCoreServerEvents {
         MercFrontCore.LOGGER.info("Loaded {} profile overrides.", loaded);
         int loadoutsLoaded = LoadoutStore.getInstance().load(event.getServer());
         MercFrontCore.LOGGER.info("Loaded {} loadouts.", loadoutsLoaded);
-        int editorLoadoutsLoaded = LoadoutEditorStore.getInstance().loadAndApply(event.getServer());
-        MercFrontCore.LOGGER.info("Loaded {} BF loadout-editor entries.", editorLoadoutsLoaded);
 
         GunModifierIndex.init();
         GunModifier.ACTIVE.clear();
@@ -55,6 +60,12 @@ public final class MercFrontCoreServerEvents {
     }
 
     @SubscribeEvent
+    public void onServerStarted(ServerStartedEvent event) {
+        int editorLoadoutsLoaded = LoadoutEditorStore.getInstance().loadAndApply(event.getServer());
+        MercFrontCore.LOGGER.info("Loaded {} BF loadout-editor entries.", editorLoadoutsLoaded);
+    }
+
+    @SubscribeEvent
     public void onServerStopping(ServerStoppingEvent event) {
         boolean saved = AddonCommonData.getInstance().saveProfileOverrides(event.getServer());
         if (!saved) {
@@ -64,7 +75,7 @@ public final class MercFrontCoreServerEvents {
         if (!loadoutsSaved) {
             MercFrontCore.LOGGER.warn("Failed to save loadouts during shutdown.");
         }
-        boolean editorLoadoutsSaved = LoadoutEditorStore.getInstance().saveCurrent(event.getServer());
+        boolean editorLoadoutsSaved = LoadoutEditorStore.getInstance().saveCachedOrCurrent(event.getServer());
         if (!editorLoadoutsSaved) {
             MercFrontCore.LOGGER.warn("Failed to save BF loadout-editor entries during shutdown.");
         }
@@ -106,6 +117,8 @@ public final class MercFrontCoreServerEvents {
 
     @SubscribeEvent
     public void onServerTickPost(ServerTickEvent.Post event) {
+        forceRefreshAfkTrackers(event.getServer().getPlayerManager().getPlayerList());
+
         if (PENDING_LOADOUT_SYNC.isEmpty()) {
             return;
         }
@@ -121,6 +134,36 @@ public final class MercFrontCoreServerEvents {
 
             PacketDistributor.sendToPlayer(player, new LoadoutsPacket(LoadoutIndex.currentFlat()));
             iterator.remove();
+        }
+    }
+
+    private static void forceRefreshAfkTrackers(Iterable<ServerPlayerEntity> players) {
+        try {
+            BlockFront blockFront = BlockFront.getInstance();
+            if (blockFront == null) {
+                return;
+            }
+            BFAbstractManager<?, ?, ?> abstractManager = blockFront.getManager();
+            if (!(abstractManager instanceof BFServerManager manager)) {
+                return;
+            }
+            if (!(manager.getPlayerDataHandler() instanceof ServerPlayerDataHandler dataHandler)) {
+                return;
+            }
+
+            for (ServerPlayerEntity player : players) {
+                UUID uuid = player.getUuid();
+                AbstractGame<?, ?, ?> game = manager.getGameWithPlayer(uuid);
+                if (game == null || game.isPaused()) {
+                    continue;
+                }
+                var playerData = dataHandler.getPlayerData(player);
+                if (playerData instanceof BFServerPlayerData serverPlayerData) {
+                    serverPlayerData.getAfkTracker().playerMoved();
+                }
+            }
+        } catch (Throwable t) {
+            MercFrontCore.LOGGER.debug("AFK tick keepalive hook failed: {}", t.toString());
         }
     }
 

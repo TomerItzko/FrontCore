@@ -103,13 +103,15 @@ public final class AddonClientData {
 	}
 	
 	public void syncTempLoadouts() {
-		LoadoutIndex.apply(tempLoadouts);
-		reloadLoadouts();
-
-		if (!MinecraftClient.getInstance().isInSingleplayer()) {
-			AddonConstants.LOGGER.info("Syncing edited loadouts with the server...");
-			PacketDistributor.sendToServer(new LoadoutsPacket(tempLoadouts));
+		Map<LoadoutIndex.Identifier, List<Loadout>> snapshot = LoadoutIndex.copyFlat(tempLoadouts);
+		if (MinecraftClient.getInstance().isInSingleplayer()) {
+			LoadoutIndex.apply(snapshot);
+			reloadLoadouts();
+			return;
 		}
+
+		AddonConstants.LOGGER.info("Syncing edited loadouts with the server...");
+		PacketDistributor.sendToServer(new LoadoutsPacket(snapshot));
 	}
 
     public @Nullable GunExtraOptionsPacket.GunOptions getGunExtraOptions(Identifier itemId) {

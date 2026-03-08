@@ -345,8 +345,8 @@ public class LoadoutEditorScreen extends AddonScreen {
 		);
 		for (int i = 0; i < EXTRA_MAX; i++) {
 			ItemStack extra = weaponContainers[i + EXTRA_OFFSET].getValue();
-			if (extra != ItemStack.EMPTY) {
-				loadout.addExtra(extra);
+			if (extra != null && !extra.isEmpty()) {
+				loadout.addExtra(extra.copy());
 			}
 		}
 		loadout.setMinimumXp(minimumXpField.getOptionalInt().orElse(0));

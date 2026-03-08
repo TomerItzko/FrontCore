@@ -1,0 +1,6291 @@
+﻿{
+  "ambient.weather.lightning.nose": {
+	"sounds": [
+	  "bf:ambient/weather/lightning_nose0",
+	  "bf:ambient/weather/lightning_nose1",
+	  "bf:ambient/weather/lightning_nose2",
+	  "bf:ambient/weather/lightning_nose3",
+	  "bf:ambient/weather/lightning_nose4"
+	]
+  },
+  "ambient.weather.lightning.stereo": {
+	"sounds": [
+	  "bf:ambient/weather/lightning_stereo"
+	]
+  },
+  "ambient.weather.lightning": {
+	"sounds": [
+	  "bf:ambient/weather/lightning0",
+	  "bf:ambient/weather/lightning1"
+	]
+  },
+  "ambient.explosion.debris": {
+	"sounds": [
+	  "bf:ambient/explosion/debris0",
+	  "bf:ambient/explosion/debris1",
+	  "bf:ambient/explosion/debris2",
+	  "bf:ambient/explosion/debris3",
+	  "bf:ambient/explosion/debris4",
+	  "bf:ambient/explosion/debris5"
+	]
+  },
+  "ambient.explosion.debris.indoors": {
+	"sounds": [
+	  "bf:ambient/explosion/debris_indoors0",
+	  "bf:ambient/explosion/debris_indoors1",
+	  "bf:ambient/explosion/debris_indoors2",
+	  "bf:ambient/explosion/debris_indoors3",
+	  "bf:ambient/explosion/debris_indoors4",
+	  "bf:ambient/explosion/debris_indoors5"
+	]
+  },
+  "ambient.explosion.debris.brick": {
+	"sounds": [
+	  "bf:ambient/explosion/debris_brick0",
+	  "bf:ambient/explosion/debris_brick1",
+	  "bf:ambient/explosion/debris_brick2"
+	]
+  },
+  "ambient.explosion.debris.vehicle": {
+	"sounds": [
+	  "bf:ambient/explosion/debris_vehicle0",
+	  "bf:ambient/explosion/debris_vehicle1",
+	  "bf:ambient/explosion/debris_vehicle2",
+	  "bf:ambient/explosion/debris_vehicle3"
+	]
+  },
+  "ambient.explosion.debris.glass": {
+	"sounds": [
+	  "bf:ambient/explosion/debris_glass0",
+	  "bf:ambient/explosion/debris_glass1",
+	  "bf:ambient/explosion/debris_glass2"
+	]
+  },
+  "ambient.explosion.debris.wood": {
+	"sounds": [
+	  "bf:ambient/explosion/debris_wood0",
+	  "bf:ambient/explosion/debris_wood1",
+	  "bf:ambient/explosion/debris_wood2"
+	]
+  },
+  "ambient.explosion.debris.metal": {
+	"sounds": [
+	  "bf:ambient/explosion/debris_metal0",
+	  "bf:ambient/explosion/debris_metal1",
+	  "bf:ambient/explosion/debris_metal2"
+	]
+  },
+  "ambient.explosion.debris.rock": {
+	"sounds": [
+	  "bf:ambient/explosion/debris_rock0",
+	  "bf:ambient/explosion/debris_rock1",
+	  "bf:ambient/explosion/debris_rock2"
+	]
+  },
+  "ambient.explosion.debris.sandbag": {
+	"sounds": [
+	  "bf:ambient/explosion/debris_sandbag0",
+	  "bf:ambient/explosion/debris_sandbag1",
+	  "bf:ambient/explosion/debris_sandbag2"
+	]
+  },
+  "ambient.explosion.grenade.nose": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/explode_nose0",
+	  "bf:ambient/explosion/grenade/explode_nose1",
+	  "bf:ambient/explosion/grenade/explode_nose2",
+	  "bf:ambient/explosion/grenade/explode_nose3"
+	]
+  },
+  "ambient.explosion.grenade.nose.distant": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/explode_nose_distant0",
+	  "bf:ambient/explosion/grenade/explode_nose_distant1",
+	  "bf:ambient/explosion/grenade/explode_nose_distant2",
+	  "bf:ambient/explosion/grenade/explode_nose_distant3"
+	]
+  },
+  "ambient.explosion.grenade.ambience": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/ambience0",
+	  "bf:ambient/explosion/grenade/ambience1",
+	  "bf:ambient/explosion/grenade/ambience2",
+	  "bf:ambient/explosion/grenade/ambience3",
+	  "bf:ambient/explosion/grenade/ambience4",
+	  "bf:ambient/explosion/grenade/ambience5",
+	  "bf:ambient/explosion/grenade/ambience6"
+	]
+  },
+  "ambient.explosion.grenade.ambience.distant": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/ambience_distant0",
+	  "bf:ambient/explosion/grenade/ambience_distant1",
+	  "bf:ambient/explosion/grenade/ambience_distant2",
+	  "bf:ambient/explosion/grenade/ambience_distant3"
+	]
+  },
+  "ambient.explosion.grenade.ambience.indoors": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/ambience_indoors0",
+	  "bf:ambient/explosion/grenade/ambience_indoors1",
+	  "bf:ambient/explosion/grenade/ambience_indoors2",
+	  "bf:ambient/explosion/grenade/ambience_indoors3"
+	]
+  },
+  "ambient.explosion.grenade.ambience.indoors.distant": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/ambience_indoors_distant0",
+	  "bf:ambient/explosion/grenade/ambience_indoors_distant1",
+	  "bf:ambient/explosion/grenade/ambience_indoors_distant2",
+	  "bf:ambient/explosion/grenade/ambience_indoors_distant3"
+	]
+  },
+  "ambient.explosion.grenade.explode.bass": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/explode_bass0",
+	  "bf:ambient/explosion/grenade/explode_bass1",
+	  "bf:ambient/explosion/grenade/explode_bass2",
+	  "bf:ambient/explosion/grenade/explode_bass3"
+	]
+  },
+  "ambient.explosion.grenade.explode.close": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/explode_close0",
+	  "bf:ambient/explosion/grenade/explode_close1",
+	  "bf:ambient/explosion/grenade/explode_close2",
+	  "bf:ambient/explosion/grenade/explode_close3"
+	]
+  },
+  "ambient.explosion.grenade.explode.close.indoors": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/explode_close_indoors0",
+	  "bf:ambient/explosion/grenade/explode_close_indoors1",
+	  "bf:ambient/explosion/grenade/explode_close_indoors2"
+	]
+  },
+  "ambient.explosion.grenade.explode.close.stereo": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/explode_close_stereo0",
+	  "bf:ambient/explosion/grenade/explode_close_stereo1",
+	  "bf:ambient/explosion/grenade/explode_close_stereo2",
+	  "bf:ambient/explosion/grenade/explode_close_stereo3"
+	]
+  },
+  "ambient.explosion.grenade.explode.distant": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/explode_distant0",
+	  "bf:ambient/explosion/grenade/explode_distant1",
+	  "bf:ambient/explosion/grenade/explode_distant2",
+	  "bf:ambient/explosion/grenade/explode_distant3"
+	]
+  },
+  "ambient.explosion.grenade.explode.distant.indoors": {
+	"sounds": [
+	  "bf:ambient/explosion/grenade/explode_distant_indoors0",
+	  "bf:ambient/explosion/grenade/explode_distant_indoors1",
+	  "bf:ambient/explosion/grenade/explode_distant_indoors2"
+	]
+  },
+  "ambient.explosion.artillery.ambience": {
+	"sounds": [
+	  "bf:ambient/explosion/artillery/ambience0",
+	  "bf:ambient/explosion/artillery/ambience1",
+	  "bf:ambient/explosion/artillery/ambience2",
+	  "bf:ambient/explosion/artillery/ambience3"
+	]
+  },
+  "ambient.explosion.artillery.ambience.distant": {
+	"sounds": [
+	  "bf:ambient/explosion/artillery/ambience_distant0",
+	  "bf:ambient/explosion/artillery/ambience_distant1",
+	  "bf:ambient/explosion/artillery/ambience_distant2",
+	  "bf:ambient/explosion/artillery/ambience_distant3"
+	]
+  },
+  "ambient.explosion.artillery.tbtsk.fire": {
+	"sounds": [
+	  "bf:ambient/explosion/artillery/tbtsk_fire0",
+	  "bf:ambient/explosion/artillery/tbtsk_fire1",
+	  "bf:ambient/explosion/artillery/tbtsk_fire2",
+	  "bf:ambient/explosion/artillery/tbtsk_fire3"
+	]
+  },
+  "ambient.explosion.artillery.tbtsk.fire.stereo": {
+	"sounds": [
+	  "bf:ambient/explosion/artillery/tbtsk_fire_stereo"
+	]
+  },
+  "ambient.explosion.artillery.tbtsk.fire.commander": {
+	"sounds": [
+	  "bf:ambient/explosion/artillery/tbtsk_fire_commander"
+	]
+  },
+  "ambient.loop.crickets.desert": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/crickets_desert"
+	]
+  },
+  "ambient.loop.urban": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/urban"
+	]
+  },
+  "ambient.loop.crickets": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/crickets"
+	]
+  },
+  "ambient.loop.forest": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/forest0",
+	  "bf:ambient/loop/exterior/forest1"
+	]
+  },
+  "ambient.loop.interior.bunker": {
+	"sounds": [
+	  "bf:ambient/loop/interior/bunker"
+	]
+  },
+  "ambient.loop.interior.house": {
+	"sounds": [
+	  "bf:ambient/loop/interior/house"
+	]
+  },
+  "ambient.loop.interior.rainstorm.urban": {
+	"sounds": [
+	  "bf:ambient/loop/interior/rainstorm_urban"
+	]
+  },
+  "ambient.loop.interior.wind.howl": {
+	"sounds": [
+	  "bf:ambient/loop/interior/wind_howl"
+	]
+  },
+  "ambient.loop.rainstorm": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/rainstorm"
+	]
+  },
+  "ambient.loop.rainstorm.urban": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/rainstorm_urban"
+	]
+  },
+  "ambient.loop.war": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/war"
+	]
+  },
+  "ambient.loop.wind": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/wind"
+	]
+  },
+  "ambient.loop.wind.scary": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/wind_scary"
+	]
+  },
+  "ambient.loop.wind.blizzard": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/wind_blizzard"
+	]
+  },
+  "ambient.loop.wind.strong": {
+	"sounds": [
+	  "bf:ambient/loop/exterior/wind_strong"
+	]
+  },
+  "ambient.lsp.mosque.call": {
+	"sounds": [
+	  "bf:ambient/lsp/mosque/call0",
+	  "bf:ambient/lsp/mosque/call1",
+	  "bf:ambient/lsp/mosque/call2",
+	  "bf:ambient/lsp/mosque/call3",
+	  "bf:ambient/lsp/mosque/call4",
+	  "bf:ambient/lsp/mosque/call5"
+	]
+  },
+  "ambient.lsp.alarm.0": {
+	"sounds": [
+	  "bf:ambient/lsp/alarm/0"
+	]
+  },
+  "ambient.lsp.alarm.1": {
+	"sounds": [
+	  "bf:ambient/lsp/alarm/1"
+	]
+  },
+  "ambient.lsp.alarm.2": {
+	"sounds": [
+	  "bf:ambient/lsp/alarm/2"
+	]
+  },
+  "ambient.lsp.alarm.3": {
+	"sounds": [
+	  "bf:ambient/lsp/alarm/3"
+	]
+  },
+  "ambient.lsp.alarm.4": {
+	"sounds": [
+	  "bf:ambient/lsp/alarm/4"
+	]
+  },
+  "ambient.lsp.alarm.5": {
+	"sounds": [
+	  "bf:ambient/lsp/alarm/5"
+	]
+  },
+  "ambient.lsp.alarm.6": {
+	"sounds": [
+	  "bf:ambient/lsp/alarm/6"
+	]
+  },
+  "ambient.lsp.alarm.7": {
+	"sounds": [
+	  "bf:ambient/lsp/alarm/7"
+	]
+  },
+  "ambient.lsp.alarm.8": {
+	"sounds": [
+	  "bf:ambient/lsp/alarm/8"
+	]
+  },
+  "ambient.lsp.alarm.9": {
+	"sounds": [
+	  "bf:ambient/lsp/alarm/9"
+	]
+  },
+  "ambient.lsp.beach.wave": {
+	"sounds": [
+	  "bf:ambient/lsp/beach/wave0",
+	  "bf:ambient/lsp/beach/wave1",
+	  "bf:ambient/lsp/beach/wave2",
+	  "bf:ambient/lsp/beach/wave3",
+	  "bf:ambient/lsp/beach/wave4"
+	]
+  },
+  "ambient.lsp.church.bell0": {
+	"sounds": [
+	  "bf:ambient/lsp/church/bell0"
+	]
+  },
+  "ambient.lsp.church.bell0.far": {
+	"sounds": [
+	  "bf:ambient/lsp/church/bell0_far"
+	]
+  },
+  "ambient.lsp.church.bell1": {
+	"sounds": [
+	  "bf:ambient/lsp/church/bell1"
+	]
+  },
+  "ambient.lsp.church.bell1.far": {
+	"sounds": [
+	  "bf:ambient/lsp/church/bell1_far"
+	]
+  },
+  "ambient.lsp.church.bell2": {
+	"sounds": [
+	  "bf:ambient/lsp/church/bell2"
+	]
+  },
+  "ambient.lsp.church.bell2.far": {
+	"sounds": [
+	  "bf:ambient/lsp/church/bell2_far"
+	]
+  },
+  "ambient.lsp.docks.horn": {
+	"sounds": [
+	  "bf:ambient/lsp/docks/horn0",
+	  "bf:ambient/lsp/docks/horn1",
+	  "bf:ambient/lsp/docks/horn2",
+	  "bf:ambient/lsp/docks/horn3"
+	]
+  },
+  "ambient.lsp.docks.shipbell": {
+	"sounds": [
+	  "bf:ambient/lsp/docks/shipbell"
+	]
+  },
+  "ambient.lsp.human.whistle": {
+	"sounds": [
+	  "bf:ambient/lsp/human/whistle0",
+	  "bf:ambient/lsp/human/whistle1",
+	  "bf:ambient/lsp/human/whistle2"
+	]
+  },
+  "ambient.lsp.music.italian0": {
+	"sounds": [
+	  "bf:ambient/lsp/music/italian0"
+	]
+  },
+  "ambient.lsp.music.italian1": {
+	"sounds": [
+	  "bf:ambient/lsp/music/italian1"
+	]
+  },
+  "ambient.lsp.music.italian2": {
+	"sounds": [
+	  "bf:ambient/lsp/music/italian2"
+	]
+  },
+  "ambient.lsp.music.italian3": {
+	"sounds": [
+	  "bf:ambient/lsp/music/italian3"
+	]
+  },
+  "ambient.lsp.music.japanese0": {
+	"sounds": [
+	  "bf:ambient/lsp/music/japanese0"
+	]
+  },
+  "ambient.lsp.music.reichstag": {
+	"sounds": [
+	  "bf:ambient/lsp/music/reichstag"
+	]
+  },
+  "ambient.lsp.phone.ring": {
+	"sounds": [
+	  "bf:ambient/lsp/phone/ring"
+	]
+  },
+  "ambient.lsp.radar.collapse": {
+	"sounds": [
+	  "bf:ambient/lsp/radar/collapse"
+	]
+  },
+  "ambient.lsp.radio.arabic": {
+	"sounds": [
+	  "bf:ambient/lsp/radio/german0",
+	  "bf:ambient/lsp/radio/german1",
+	  "bf:ambient/lsp/radio/german2",
+	  "bf:ambient/lsp/radio/german3",
+	  "bf:ambient/lsp/radio/german4"
+	]
+  },
+  "ambient.lsp.radio.german": {
+	"sounds": [
+	  "bf:ambient/lsp/radio/german0",
+	  "bf:ambient/lsp/radio/german1",
+	  "bf:ambient/lsp/radio/german2",
+	  "bf:ambient/lsp/radio/german3",
+	  "bf:ambient/lsp/radio/german4"
+	]
+  },
+  "ambient.lsp.radio.japan": {
+	"sounds": [
+	  "bf:ambient/lsp/radio/japan0",
+	  "bf:ambient/lsp/radio/japan1",
+	  "bf:ambient/lsp/radio/japan2",
+	  "bf:ambient/lsp/radio/japan3",
+	  "bf:ambient/lsp/radio/japan4",
+	  "bf:ambient/lsp/radio/japan5",
+	  "bf:ambient/lsp/radio/japan6",
+	  "bf:ambient/lsp/radio/japan7"
+	]
+  },
+  "ambient.lsp.radio.music.church.0": {
+	"sounds": [
+	  "bf:ambient/lsp/radio/music_church0"
+	]
+  },
+  "ambient.lsp.radio.music.arabic.0": {
+	"sounds": [
+	  "bf:ambient/lsp/radio/music_arabic0"
+	]
+  },
+  "ambient.lsp.radio.music.arabic.1": {
+	"sounds": [
+	  "bf:ambient/lsp/radio/music_arabic1"
+	]
+  },
+  "ambient.lsp.radio.music.jazz.0": {
+	"sounds": [
+	  {
+		"name": "bf:ambient/lsp/radio/music_jazz_0",
+		"stream": true
+	  }
+	]
+  },
+  "ambient.lsp.radio.music.jazz.1": {
+	"sounds": [
+	  {
+		"name": "bf:ambient/lsp/radio/music_jazz_1",
+		"stream": true
+	  }
+	]
+  },
+  "ambient.lsp.thunder": {
+	"sounds": [
+	  "bf:ambient/lsp/thunder/thunder0",
+	  "bf:ambient/lsp/thunder/thunder1",
+	  "bf:ambient/lsp/thunder/thunder2",
+	  "bf:ambient/lsp/thunder/thunder3",
+	  "bf:ambient/lsp/thunder/thunder4",
+	  "bf:ambient/lsp/thunder/thunder5",
+	  "bf:ambient/lsp/thunder/thunder6",
+	  "bf:ambient/lsp/thunder/thunder7"
+	]
+  },
+  "ambient.lsp.vehicle.tank.engine.idle": {
+	"sounds": [
+	  "bf:ambient/lsp/vehicle/tank_engine_idle"
+	]
+  },
+  "ambient.lsp.vehicle.truck.engine.idle": {
+	"sounds": [
+	  "bf:ambient/lsp/vehicle/truck_engine_idle"
+	]
+  },
+  "ambient.lsp.vehicle.boat.engine.idle": {
+	"sounds": [
+	  "bf:ambient/lsp/vehicle/boat_engine_idle"
+	]
+  },
+  "ambient.lsp.water.drip.heavy.0": {
+	"sounds": [
+	  "bf:ambient/lsp/water/drip_heavy_0"
+	]
+  },
+  "ambient.lsp.water.drip.heavy.1": {
+	"sounds": [
+	  "bf:ambient/lsp/water/drip_heavy_1"
+	]
+  },
+  "ambient.lsp.water.drip.metal.0": {
+	"sounds": [
+	  "bf:ambient/lsp/water/drip_metal_0"
+	]
+  },
+  "ambient.lsp.water.drip.metal.1": {
+	"sounds": [
+	  "bf:ambient/lsp/water/drip_metal_1"
+	]
+  },
+  "ambient.lsp.waterfall": {
+	"sounds": [
+	  "bf:ambient/lsp/waterfall/waterfall0",
+	  "bf:ambient/lsp/waterfall/waterfall1",
+	  "bf:ambient/lsp/waterfall/waterfall2",
+	  "bf:ambient/lsp/waterfall/waterfall3"
+	]
+  },
+  "ambient.war.artillery.close": {
+	"sounds": [
+	  "bf:ambient/war/artillery/close0",
+	  "bf:ambient/war/artillery/close1",
+	  "bf:ambient/war/artillery/close2",
+	  "bf:ambient/war/artillery/close3",
+	  "bf:ambient/war/artillery/close4",
+	  "bf:ambient/war/artillery/close5"
+	]
+  },
+  "ambient.war.artillery.distant": {
+	"sounds": [
+	  "bf:ambient/war/artillery/distant0",
+	  "bf:ambient/war/artillery/distant1",
+	  "bf:ambient/war/artillery/distant2",
+	  "bf:ambient/war/artillery/distant3"
+	]
+  },
+  "ambient.war.artillery.far": {
+	"sounds": [
+	  "bf:ambient/war/artillery/far0",
+	  "bf:ambient/war/artillery/far1",
+	  "bf:ambient/war/artillery/far2",
+	  "bf:ambient/war/artillery/far3",
+	  "bf:ambient/war/artillery/far4",
+	  "bf:ambient/war/artillery/far5",
+	  "bf:ambient/war/artillery/far6"
+	]
+  },
+  "ambient.war.artillery.katyusha": {
+	"sounds": [
+	  "bf:ambient/war/artillery/katyusha0"
+	]
+  },
+  "block.telephone.impact": {
+	"sounds": [
+	  "bf:block/telephone/impact"
+	]
+  },
+  "block.swinging.log.creak": {
+	"sounds": [
+	  "bf:block/swinginglog/creak0",
+	  "bf:block/swinginglog/creak1",
+	  "bf:block/swinginglog/creak2",
+	  "bf:block/swinginglog/creak3"
+	]
+  },
+  "block.shisa.whisper": {
+	"sounds": [
+	  "bf:block/shisa/whisper0",
+	  "bf:block/shisa/whisper1",
+	  "bf:block/shisa/whisper2"
+	]
+  },
+  "block.bell.bell": {
+	"sounds": [
+	  "bf:block/bell/bell"
+	]
+  },
+  "block.bell.bell.far": {
+	"sounds": [
+	  "bf:block/bell/bell_far"
+	]
+  },
+  "block.button.press": {
+	"sounds": [
+	  "bf:block/button/press"
+	]
+  },
+  "block.button.release": {
+	"sounds": [
+	  "bf:block/button/release"
+	]
+  },
+  "block.door.bunker.open": {
+	"sounds": [
+	  "bf:block/door/bunker/open"
+	]
+  },
+  "block.door.bunker.close": {
+	"sounds": [
+	  "bf:block/door/bunker/close"
+	]
+  },
+  "block.hedgehog.hit": {
+	"sounds": [
+	  "bf:block/hedgehog/hit0",
+	  "bf:block/hedgehog/hit1",
+	  "bf:block/hedgehog/hit2",
+	  "bf:block/hedgehog/hit3",
+	  "bf:block/hedgehog/hit4",
+	  "bf:block/hedgehog/hit5"
+	]
+  },
+  "block.jeep.engine": {
+	"sounds": [
+	  "bf:block/jeep/engine"
+	]
+  },
+  "block.piano.hit": {
+	"sounds": [
+	  "bf:block/piano/hit0",
+	  "bf:block/piano/hit1",
+	  "bf:block/piano/hit2",
+	  "bf:block/piano/hit3",
+	  "bf:block/piano/hit4",
+	  "bf:block/piano/hit5",
+	  "bf:block/piano/hit6"
+	]
+  },
+  "block.plank.step": {
+	"sounds": [
+	  "bf:block/plank/step0",
+	  "bf:block/plank/step1",
+	  "bf:block/plank/step2",
+	  "bf:block/plank/step3",
+	  "bf:block/plank/step4",
+	  "bf:block/plank/step5",
+	  "bf:block/plank/step6"
+	]
+  },
+  "block.powerline.electric": {
+	"sounds": [
+	  "bf:block/powerline/electric0",
+	  "bf:block/powerline/electric1",
+	  "bf:block/powerline/electric2",
+	  "bf:block/powerline/electric3"
+	]
+  },
+  "block.powerline.explode": {
+	"sounds": [
+	  "bf:block/powerline/explode0",
+	  "bf:block/powerline/explode1",
+	  "bf:block/powerline/explode2"
+	]
+  },
+  "block.powerline.zap": {
+	"sounds": [
+	  "bf:block/powerline/zap0",
+	  "bf:block/powerline/zap1",
+	  "bf:block/powerline/zap2"
+	]
+  },
+  "block.radio.chatter.american": {
+	"sounds": [
+	  "bf:block/radio/chatter/american0",
+	  "bf:block/radio/chatter/american1",
+	  "bf:block/radio/chatter/american2",
+	  "bf:block/radio/chatter/american3",
+	  "bf:block/radio/chatter/american4",
+	  "bf:block/radio/chatter/american5",
+	  "bf:block/radio/chatter/american6"
+	]
+  },
+  "block.radio.chatter.german": {
+	"sounds": [
+	  "bf:block/radio/chatter/german0",
+	  "bf:block/radio/chatter/german1",
+	  "bf:block/radio/chatter/german2",
+	  "bf:block/radio/chatter/german3",
+	  "bf:block/radio/chatter/german4",
+	  "bf:block/radio/chatter/german5",
+	  "bf:block/radio/chatter/german6"
+	]
+  },
+  "block.radio.morse": {
+	"sounds": [
+	  "bf:block/radio/morse0",
+	  "bf:block/radio/morse1",
+	  "bf:block/radio/morse2",
+	  "bf:block/radio/morse3"
+	]
+  },
+  "block.radio.static": {
+	"sounds": [
+	  "bf:block/radio/static0",
+	  "bf:block/radio/static1",
+	  "bf:block/radio/static2",
+	  "bf:block/radio/static3",
+	  "bf:block/radio/static4"
+	]
+  },
+  "block.rubble.step": {
+	"sounds": [
+	  "bf:block/rubble/step0",
+	  "bf:block/rubble/step1",
+	  "bf:block/rubble/step2",
+	  "bf:block/rubble/step3",
+	  "bf:block/rubble/step4",
+	  "bf:block/rubble/step5",
+	  "bf:block/rubble/step6",
+	  "bf:block/rubble/step7"
+	]
+  },
+  "block.tank.engine": {
+	"sounds": [
+	  "bf:block/tank/engine"
+	]
+  },
+  "block.target.hit": {
+	"sounds": [
+	  "bf:block/target/hit0",
+	  "bf:block/target/hit1",
+	  "bf:block/target/hit2"
+	]
+  },
+  "block.target.hit.distant": {
+	"sounds": [
+	  "bf:block/target/hit_distant0",
+	  "bf:block/target/hit_distant1",
+	  "bf:block/target/hit_distant2"
+	]
+  },
+  "entity.panzerknacker.idle": {
+	"sounds": [
+	  "bf:entity/panzerknacker/idle"
+	]
+  },
+  "entity.acidball.splat": {
+	"sounds": [
+	  "bf:entity/acidball/splat0",
+	  "bf:entity/acidball/splat1"
+	]
+  },
+  "entity.flame.ignite": {
+	"sounds": [
+	  "bf:entity/flame/ignite0",
+	  "bf:entity/flame/ignite1",
+	  "bf:entity/flame/ignite2",
+	  "bf:entity/flame/ignite3",
+	  "bf:entity/flame/ignite4"
+	]
+  },
+  "entity.gundealer.open": {
+	"sounds": [
+	  "bf:entity/gundealer/open"
+	]
+  },
+  "entity.gundealer.relocate": {
+	"sounds": [
+	  "bf:entity/gundealer/relocate"
+	]
+  },
+  "entity.gundealer.resupply": {
+	"sounds": [
+	  "bf:entity/gundealer/resupply"
+	]
+  },
+  "entity.gundealer.sale": {
+	"sounds": [
+	  "bf:entity/gundealer/sale"
+	]
+  },
+  "entity.infected.death": {
+	"sounds": [
+	  "bf:entity/infected/death0",
+	  "bf:entity/infected/death1",
+	  "bf:entity/infected/death2",
+	  "bf:entity/infected/death3",
+	  "bf:entity/infected/death4"
+	]
+  },
+  "entity.infected.dog.bark": {
+	"sounds": [
+	  "bf:entity/infected/dog/bark0",
+	  "bf:entity/infected/dog/bark1",
+	  "bf:entity/infected/dog/bark2",
+	  "bf:entity/infected/dog/bark3",
+	  "bf:entity/infected/dog/bark4",
+	  "bf:entity/infected/dog/bark5",
+	  "bf:entity/infected/dog/bark6",
+	  "bf:entity/infected/dog/bark7"
+	]
+  },
+  "entity.infected.dog.howl": {
+	"sounds": [
+	  "bf:entity/infected/dog/howl0"
+	]
+  },
+  "entity.infected.hurt": {
+	"sounds": [
+	  "bf:entity/infected/hurt0",
+	  "bf:entity/infected/hurt1",
+	  "bf:entity/infected/hurt2",
+	  "bf:entity/infected/hurt3",
+	  "bf:entity/infected/hurt4",
+	  "bf:entity/infected/hurt5",
+	  "bf:entity/infected/hurt6",
+	  "bf:entity/infected/hurt7"
+	]
+  },
+  "entity.infected.spitter.spit": {
+	"sounds": [
+	  "bf:entity/infected/spitter/spit0",
+	  "bf:entity/infected/spitter/spit1",
+	  "bf:entity/infected/spitter/spit2"
+	]
+  },
+  "entity.obunga.idle": {
+	"sounds": [
+	  "bf:entity/obunga/idle"
+	]
+  },
+  "entity.player.foley.arm": {
+	"sounds": [
+	  "bf:entity/player/foley/arm"
+	]
+  },
+  "entity.player.foley.land": {
+	"sounds": [
+	  "bf:entity/player/foley/land0",
+	  "bf:entity/player/foley/land1",
+	  "bf:entity/player/foley/land2",
+	  "bf:entity/player/foley/land3",
+	  "bf:entity/player/foley/land4"
+	]
+  },
+  "entity.rocket.tank.flyby": {
+	"sounds": [
+	  "bf:entity/rocket/tank/flyby0",
+	  "bf:entity/rocket/tank/flyby1"
+	]
+  },
+  "entity.rocket.tank.fire": {
+	"sounds": [
+	  "bf:entity/rocket/tank/fire"
+	]
+  },
+  "entity.rocket.bounce": {
+	"sounds": [
+	  "bf:entity/rocket/bounce"
+	]
+  },
+  "entity.rocket.ricochet": {
+	"sounds": [
+	  "bf:entity/rocket/ricochet0",
+	  "bf:entity/rocket/ricochet1",
+	  "bf:entity/rocket/ricochet2",
+	  "bf:entity/rocket/ricochet3"
+	]
+  },
+  "entity.rocket.flyby": {
+	"sounds": [
+	  "bf:entity/rocket/flyby0",
+	  "bf:entity/rocket/flyby1",
+	  "bf:entity/rocket/flyby2",
+	  "bf:entity/rocket/flyby3"
+	]
+  },
+  "entity.rocket.fall": {
+	"sounds": [
+	  "bf:entity/rocket/fall0",
+	  "bf:entity/rocket/fall1",
+	  "bf:entity/rocket/fall2",
+	  "bf:entity/rocket/fall3",
+	  "bf:entity/rocket/fall4",
+	  "bf:entity/rocket/fall5",
+	  "bf:entity/rocket/fall6"
+	]
+  },
+  "entity.rocket.loop": {
+	"sounds": [
+	  "bf:entity/rocket/loop"
+	]
+  },
+  "entity.vehicle.tilt": {
+	"sounds": [
+	  "bf:entity/vehicle/tilt"
+	]
+  },
+  "entity.vehicle.willys.jeep.horn": {
+	"sounds": [
+	  "bf:entity/vehicle/willys_jeep/horn"
+	]
+  },
+  "entity.vehicle.willys.jeep.horn.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/willys_jeep/horn_distant"
+	]
+  },
+  "entity.vehicle.chiha.engine.forward": {
+	"sounds": [
+	  "bf:entity/vehicle/chiha/engine_forward"
+	]
+  },
+  "entity.vehicle.chiha.engine.forward.start": {
+	"sounds": [
+	  "bf:entity/vehicle/chiha/engine_forward_start"
+	]
+  },
+  "entity.vehicle.chiha.engine.forward.stop": {
+	"sounds": [
+	  "bf:entity/vehicle/chiha/engine_forward_stop"
+	]
+  },
+  "entity.vehicle.chiha.engine.idle": {
+	"sounds": [
+	  "bf:entity/vehicle/chiha/engine_idle"
+	]
+  },
+  "entity.vehicle.chiha.engine.start": {
+	"sounds": [
+	  "bf:entity/vehicle/chiha/engine_start"
+	]
+  },
+  "entity.vehicle.chiha.engine.stop": {
+	"sounds": [
+	  "bf:entity/vehicle/chiha/engine_stop"
+	]
+  },
+  "entity.vehicle.chiha.tracks": {
+	"sounds": [
+	  "bf:entity/vehicle/chiha/tracks"
+	]
+  },
+  "entity.vehicle.lancia_1zm.wheels.turn": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/wheels_turn"
+	]
+  },
+  "entity.vehicle.lancia_1zm.wheels": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/wheels"
+	]
+  },
+  "entity.vehicle.lancia_1zm.turret.turn": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/turret_turn"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.forward": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_forward"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.forward.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_forward_distant"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.forward.start": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_forward_start"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.forward.start.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_forward_start_distant"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.forward.stop": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_forward_stop"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.forward.stop.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_forward_stop_distant"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.idle": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_idle"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.idle.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_idle_distant"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.start": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_start"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.start.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_start_distant"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.stop": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_stop"
+	]
+  },
+  "entity.vehicle.lancia_1zm.engine.stop.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/lancia_1zm/engine_stop_distant"
+	]
+  },
+  "entity.vehicle.destroyed.fire": {
+	"sounds": [
+	  "bf:entity/vehicle/destroyed_fire"
+	]
+  },
+  "entity.vehicle.damage": {
+	"sounds": [
+	  "bf:entity/vehicle/damage0",
+	  "bf:entity/vehicle/damage1",
+	  "bf:entity/vehicle/damage2",
+	  "bf:entity/vehicle/damage3"
+	]
+  },
+  "entity.vehicle.damage.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/damage_distant0",
+	  "bf:entity/vehicle/damage_distant1",
+	  "bf:entity/vehicle/damage_distant2",
+	  "bf:entity/vehicle/damage_distant3"
+	]
+  },
+  "entity.vehicle.damage.internal": {
+	"sounds": [
+	  "bf:entity/vehicle/damage_internal0",
+	  "bf:entity/vehicle/damage_internal1",
+	  "bf:entity/vehicle/damage_internal2",
+	  "bf:entity/vehicle/damage_internal3",
+	  "bf:entity/vehicle/damage_internal4"
+	]
+  },
+  "entity.vehicle.explode": {
+	"sounds": [
+	  "bf:entity/vehicle/explode0",
+	  "bf:entity/vehicle/explode1",
+	  "bf:entity/vehicle/explode2",
+	  "bf:entity/vehicle/explode3"
+	]
+  },
+  "entity.vehicle.hatch": {
+	"sounds": [
+	  "bf:entity/vehicle/hatch0",
+	  "bf:entity/vehicle/hatch1",
+	  "bf:entity/vehicle/hatch2"
+	]
+  },
+  "entity.vehicle.door": {
+	"sounds": [
+	  "bf:entity/vehicle/door0"
+	]
+  },
+  "entity.vehicle.turret.fire.internal": {
+	"sounds": [
+	  "bf:entity/vehicle/turret_fire_internal0",
+	  "bf:entity/vehicle/turret_fire_internal1",
+	  "bf:entity/vehicle/turret_fire_internal2"
+	]
+  },
+  "entity.vehicle.alarm": {
+	"sounds": [
+	  "bf:entity/vehicle/alarm"
+	]
+  },
+  "entity.vehicle.alarm.internal": {
+	"sounds": [
+	  "bf:entity/vehicle/alarm_internal"
+	]
+  },
+  "entity.vehicle.sherman.engine.forward": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_forward"
+	]
+  },
+  "entity.vehicle.sherman.engine.forward.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_forward_distant"
+	]
+  },
+  "entity.vehicle.sherman.engine.forward.start": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_forward_start"
+	]
+  },
+  "entity.vehicle.sherman.engine.forward.start.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_forward_start_distant"
+	]
+  },
+  "entity.vehicle.sherman.engine.forward.stop": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_forward_stop"
+	]
+  },
+  "entity.vehicle.sherman.engine.forward.stop.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_forward_stop_distant"
+	]
+  },
+  "entity.vehicle.sherman.engine.idle": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_idle"
+	]
+  },
+  "entity.vehicle.sherman.engine.idle.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_idle_distant"
+	]
+  },
+  "entity.vehicle.sherman.engine.start": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_start"
+	]
+  },
+  "entity.vehicle.sherman.engine.start.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_start_distant"
+	]
+  },
+  "entity.vehicle.sherman.engine.stop": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_stop"
+	]
+  },
+  "entity.vehicle.sherman.engine.stop.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/engine_stop_distant"
+	]
+  },
+  "entity.vehicle.sherman.tracks": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/tracks"
+	]
+  },
+  "entity.vehicle.sherman.tracks.turn": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/tracks_turn"
+	]
+  },
+  "entity.vehicle.sherman.turret.fire": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/turret_fire0",
+	  "bf:entity/vehicle/sherman/turret_fire1",
+	  "bf:entity/vehicle/sherman/turret_fire2"
+	]
+  },
+  "entity.vehicle.sherman.turret.fire.add": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/turret_fire_add0",
+	  "bf:entity/vehicle/sherman/turret_fire_add1",
+	  "bf:entity/vehicle/sherman/turret_fire_add2",
+	  "bf:entity/vehicle/sherman/turret_fire_add3",
+	  "bf:entity/vehicle/sherman/turret_fire_add4",
+	  "bf:entity/vehicle/sherman/turret_fire_add5"
+	]
+  },
+  "entity.vehicle.sherman.turret.fire.distant": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/turret_fire_distant0",
+	  "bf:entity/vehicle/sherman/turret_fire_distant1",
+	  "bf:entity/vehicle/sherman/turret_fire_distant2"
+	]
+  },
+  "entity.vehicle.sherman.turret.fire.hifi": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/turret_fire_hifi"
+	]
+  },
+  "entity.vehicle.sherman.turret.move": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/turret_move"
+	]
+  },
+  "entity.vehicle.sherman.turret.move.start": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/turret_move_start"
+	]
+  },
+  "entity.vehicle.sherman.turret.move.stop": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/turret_move_stop"
+	]
+  },
+  "entity.vehicle.sherman.turret.reload": {
+	"sounds": [
+	  "bf:entity/vehicle/sherman/turret_reload0",
+	  "bf:entity/vehicle/sherman/turret_reload1",
+	  "bf:entity/vehicle/sherman/turret_reload2",
+	  "bf:entity/vehicle/sherman/turret_reload3",
+	  "bf:entity/vehicle/sherman/turret_reload4"
+	]
+  },
+  "entity.vehicle.flak88.turret.move": {
+	"sounds": [
+	  "bf:entity/vehicle/flak88/turret_move"
+	]
+  },
+  "entity.vehicle.flak88.turret.move.start": {
+	"sounds": [
+	  "bf:entity/vehicle/flak88/turret_move_start"
+	]
+  },
+  "entity.vehicle.flak88.turret.move.stop": {
+	"sounds": [
+	  "bf:entity/vehicle/flak88/turret_move_stop"
+	]
+  },
+  "entity.vehicle.flak88.turret.reload": {
+	"sounds": [
+	  "bf:entity/vehicle/flak88/turret_reload"
+	]
+  },
+  "entity.vehicle.flak88.turret.fire": {
+	"sounds": [
+	  "bf:entity/vehicle/flak88/turret_fire0",
+	  "bf:entity/vehicle/flak88/turret_fire1",
+	  "bf:entity/vehicle/flak88/turret_fire2",
+	  "bf:entity/vehicle/flak88/turret_fire3"
+	]
+  },
+  "entity.vehicle.flak88.turret.fire.hifi": {
+	"sounds": [
+	  "bf:entity/vehicle/flak88/turret_fire_hifi0",
+	  "bf:entity/vehicle/flak88/turret_fire_hifi1",
+	  "bf:entity/vehicle/flak88/turret_fire_hifi2"
+	]
+  },
+  "entity.vehicle.zoom.in": {
+	"sounds": [
+	  "bf:entity/vehicle/zoom_in"
+	]
+  },
+  "entity.vehicle.zoom.out": {
+	"sounds": [
+	  "bf:entity/vehicle/zoom_out"
+	]
+  },
+  "gui.game.vote.error": {
+	"sounds": [
+	  "bf:gui/game/vote/error"
+	]
+  },
+  "gui.game.vote.vote": {
+	"sounds": [
+	  "bf:gui/game/vote/vote"
+	]
+  },
+  "gui.game.vote.vote.self": {
+	"sounds": [
+	  "bf:gui/game/vote/vote_self"
+	]
+  },
+  "gui.game.summary.promoted": {
+	"sounds": [
+	  "bf:gui/game/summary/promoted"
+	]
+  },
+  "gui.game.summary.intro.map.vote": {
+	"sounds": [
+	  "bf:gui/game/summary/intro_map_vote"
+	]
+  },
+  "gui.game.summary.intro.map.vote.conclude": {
+	"sounds": [
+	  "bf:gui/game/summary/intro_map_vote_conclude"
+	]
+  },
+  "gui.game.summary.intro.progress": {
+	"sounds": [
+	  "bf:gui/game/summary/intro_progress"
+	]
+  },
+  "gui.game.summary.intro.top.players": {
+	"sounds": [
+	  "bf:gui/game/summary/intro_top_players"
+	]
+  },
+  "gui.game.summary.top.players.entry": {
+	"sounds": [
+	  "bf:gui/game/summary/top_players_entry0",
+	  "bf:gui/game/summary/top_players_entry1",
+	  "bf:gui/game/summary/top_players_entry2"
+	]
+  },
+  "gui.game.summary.top.players.entry.final": {
+	"sounds": [
+	  "bf:gui/game/summary/top_players_entry_final"
+	]
+  },
+  "gui.armory.default.armor": {
+	"sounds": [
+	  "bf:gui/armory/default/armor0",
+	  "bf:gui/armory/default/armor1",
+	  "bf:gui/armory/default/armor2",
+	  "bf:gui/armory/default/armor3"
+	]
+  },
+  "gui.armory.default.card": {
+	"sounds": [
+	  "bf:gui/armory/default/card0",
+	  "bf:gui/armory/default/card1",
+	  "bf:gui/armory/default/card2"
+	]
+  },
+  "gui.armory.default.gun": {
+	"sounds": [
+	  "bf:gui/armory/default/gun0",
+	  "bf:gui/armory/default/gun1",
+	  "bf:gui/armory/default/gun2",
+	  "bf:gui/armory/default/gun3"
+	]
+  },
+  "gui.armory.default.melee": {
+	"sounds": [
+	  "bf:gui/armory/default/melee0",
+	  "bf:gui/armory/default/melee1"
+	]
+  },
+  "gui.armory.default.shared": {
+	"sounds": [
+	  "bf:gui/armory/default/shared0",
+	  "bf:gui/armory/default/shared1",
+	  "bf:gui/armory/default/shared2"
+	]
+  },
+  "gui.bootcamp.complete": {
+	"sounds": [
+	  "bf:gui/bootcamp_complete"
+	]
+  },
+  "gui.button.back": {
+	"sounds": [
+	  "bf:gui/button/back"
+	]
+  },
+  "gui.button.forward": {
+	"sounds": [
+	  "bf:gui/button/forward"
+	]
+  },
+  "gui.button.hover": {
+	"sounds": [
+	  "bf:gui/button/hover0",
+	  "bf:gui/button/hover1",
+	  "bf:gui/button/hover2",
+	  "bf:gui/button/hover3",
+	  "bf:gui/button/hover4",
+	  "bf:gui/button/hover5"
+	]
+  },
+  "gui.button.press": {
+	"sounds": [
+	  "bf:gui/button/press0",
+	  "bf:gui/button/press1",
+	  "bf:gui/button/press2",
+	  "bf:gui/button/press3",
+	  "bf:gui/button/press4"
+	]
+  },
+  "gui.dailychallenge.complete": {
+	"sounds": [
+	  "bf:gui/challenge/complete"
+	]
+  },
+  "gui.dailychallenge.complete.all": {
+	"sounds": [
+	  "bf:gui/challenge/complete_all"
+	]
+  },
+  "gui.dailychallenge.reminder": {
+	"sounds": [
+	  "bf:gui/challenge/reminder"
+	]
+  },
+  "gui.intro.content": {
+	"sounds": [
+	  "bf:gui/intro/content"
+	]
+  },
+  "gui.intro.refer": {
+	"sounds": [
+	  "bf:gui/intro/refer"
+	]
+  },
+  "gui.intro.discord": {
+	"sounds": [
+	  "bf:gui/intro/discord"
+	]
+  },
+  "gui.intro.patreon": {
+	"sounds": [
+	  "bf:gui/intro/patreon"
+	]
+  },
+  "gui.intro.rules": {
+	"sounds": [
+	  "bf:gui/intro/rules"
+	]
+  },
+  "gui.emitter.flash": {
+	"sounds": [
+	  "bf:gui/emitter/flash0",
+	  "bf:gui/emitter/flash1",
+	  "bf:gui/emitter/flash2",
+	  "bf:gui/emitter/flash3",
+	  "bf:gui/emitter/flash4"
+	]
+  },
+  "gui.events.hover": {
+	"sounds": [
+	  "bf:gui/events/hover"
+	]
+  },
+  "gui.inventory.crate.open": {
+	"sounds": [
+	  "bf:gui/inventory/crate/open"
+	]
+  },
+  "gui.inventory.item.inspect": {
+	"sounds": [
+	  "bf:gui/inventory/item/inspect"
+	]
+  },
+  "gui.inventory.item.trophy": {
+	"sounds": [
+	  "bf:gui/inventory/item/trophy"
+	]
+  },
+  "gui.lobby.cancel": {
+	"sounds": [
+	  "bf:gui/lobby/cancel"
+	]
+  },
+  "gui.lobby.join": {
+	"sounds": [
+	  "bf:gui/lobby/join"
+	]
+  },
+  "gui.lobby.search": {
+	"sounds": [
+	  "bf:gui/lobby/search"
+	]
+  },
+  "gui.newmessage": {
+	"sounds": [
+	  "bf:gui/newmessage"
+	]
+  },
+  "gui.openurl": {
+	"sounds": [
+	  "bf:gui/openurl"
+	]
+  },
+  "gui.sidemenu.close": {
+	"sounds": [
+	  "bf:gui/sidemenu/close"
+	]
+  },
+  "gui.sidemenu.open": {
+	"sounds": [
+	  "bf:gui/sidemenu/open"
+	]
+  },
+  "gui.typewriter": {
+	"sounds": [
+	  "bf:gui/typewriter/typewriter0",
+	  "bf:gui/typewriter/typewriter1",
+	  "bf:gui/typewriter/typewriter2",
+	  "bf:gui/typewriter/typewriter3",
+	  "bf:gui/typewriter/typewriter4",
+	  "bf:gui/typewriter/typewriter5",
+	  "bf:gui/typewriter/typewriter6",
+	  "bf:gui/typewriter/typewriter7"
+	]
+  },
+  "item.flamethrower.move": {
+	"sounds": [
+	  "bf:item/flamethrower/move"
+	]
+  },
+  "item.binoculars.equip": {
+	"sounds": [
+	  "bf:item/binoculars/equip"
+	]
+  },
+  "item.binoculars.use": {
+	"sounds": [
+	  "bf:item/binoculars/use"
+	]
+  },
+  "item.binoculars.stop_using": {
+	"sounds": [
+	  "bf:item/binoculars/stop_using"
+	]
+  },
+  "item.bomb.beep": {
+	"sounds": [
+	  "bf:item/bomb/beep"
+	]
+  },
+  "item.bomb.button": {
+	"sounds": [
+	  "bf:item/bomb/button"
+	]
+  },
+  "item.bomb.defuse": {
+	"sounds": [
+	  "bf:item/bomb/defuse"
+	]
+  },
+  "item.bomb.defusing": {
+	"sounds": [
+	  "bf:item/bomb/defusing"
+	]
+  },
+  "item.bomb.explode": {
+	"sounds": [
+	  "bf:item/bomb/explode"
+	]
+  },
+  "item.bomb.ignite": {
+	"sounds": [
+	  "bf:item/bomb/ignite"
+	]
+  },
+  "item.bomb.plant": {
+	"sounds": [
+	  "bf:item/bomb/plant"
+	]
+  },
+  "item.bomb.planting": {
+	"sounds": [
+	  "bf:item/bomb/planting"
+	]
+  },
+  "team.shared.whistle": {
+	"sounds": [
+	  "bf:team/shared/whistle0",
+	  "bf:team/shared/whistle1",
+	  "bf:team/shared/whistle2"
+	]
+  },
+  "item.radio.equipped": {
+	"sounds": [
+	  "bf:item/radio/equipped"
+	]
+  },
+  "item.radio.equip": {
+	"sounds": [
+	  "bf:item/radio/equip0",
+	  "bf:item/radio/equip1"
+	]
+  },
+  "item.radio.call": {
+	"sounds": [
+	  "bf:item/radio/call"
+	]
+  },
+  "item.syringe.equip": {
+	"sounds": [
+	  "bf:item/syringe/equip"
+	]
+  },
+  "item.syringe.use": {
+	"sounds": [
+	  "bf:item/syringe/use0",
+	  "bf:item/syringe/use1",
+	  "bf:item/syringe/use2"
+	]
+  },
+  "item.grenade.equip": {
+	"sounds": [
+	  "bf:item/grenade/equip0",
+	  "bf:item/grenade/equip1",
+	  "bf:item/grenade/equip2"
+	]
+  },
+  "item.grenade.bounce.dirt": {
+	"sounds": [
+	  "bf:item/grenade/bounce/dirt0",
+	  "bf:item/grenade/bounce/dirt1",
+	  "bf:item/grenade/bounce/dirt2",
+	  "bf:item/grenade/bounce/dirt3"
+	]
+  },
+  "item.grenade.bounce.metal": {
+	"sounds": [
+	  "bf:item/grenade/bounce/metal0",
+	  "bf:item/grenade/bounce/metal1",
+	  "bf:item/grenade/bounce/metal2",
+	  "bf:item/grenade/bounce/metal3"
+	]
+  },
+  "item.grenade.bounce.wood": {
+	"sounds": [
+	  "bf:item/grenade/bounce/wood0",
+	  "bf:item/grenade/bounce/wood1",
+	  "bf:item/grenade/bounce/wood2",
+	  "bf:item/grenade/bounce/wood3"
+	]
+  },
+  "item.grenade.fire.explode": {
+	"sounds": [
+	  "bf:item/grenade/fire/explode0",
+	  "bf:item/grenade/fire/explode1",
+	  "bf:item/grenade/fire/explode2"
+	]
+  },
+  "item.grenade.molotov.explode": {
+	"sounds": [
+	  "bf:item/grenade/molotov/explode"
+	]
+  },
+  "item.grenade.molotov.equip": {
+	"sounds": [
+	  "bf:item/grenade/molotov/equip0",
+	  "bf:item/grenade/molotov/equip1",
+	  "bf:item/grenade/molotov/equip2"
+	]
+  },
+  "item.grenade.molotov.throw": {
+	"sounds": [
+	  "bf:item/grenade/molotov/throw"
+	]
+  },
+  "item.grenade.flash.blind": {
+	"sounds": [
+	  "bf:item/grenade/flash/blind"
+	]
+  },
+  "item.grenade.flash.explode": {
+	"sounds": [
+	  "bf:item/grenade/flash/explode0",
+	  "bf:item/grenade/flash/explode1",
+	  "bf:item/grenade/flash/explode2"
+	]
+  },
+  "item.grenade.holyhandgrenade": {
+	"sounds": [
+	  "bf:item/grenade/holyhandgrenade"
+	]
+  },
+  "item.grenade.smoke.explode": {
+	"sounds": [
+	  "bf:item/grenade/smoke/explode0",
+	  "bf:item/grenade/smoke/explode1",
+	  "bf:item/grenade/smoke/explode2",
+	  "bf:item/grenade/smoke/explode3"
+	]
+  },
+  "item.grenade.throw": {
+	"sounds": [
+	  "bf:item/grenade/throw0",
+	  "bf:item/grenade/throw1",
+	  "bf:item/grenade/throw2",
+	  "bf:item/grenade/throw3"
+	]
+  },
+  "item.sword.swing": {
+	"sounds": [
+	  "bf:item/knife/sword_swing0",
+	  "bf:item/knife/sword_swing1",
+	  "bf:item/knife/sword_swing2",
+	  "bf:item/knife/sword_swing3"
+	]
+  },
+  "item.shovel.swing": {
+	"sounds": [
+	  "bf:item/knife/shovel_swing0",
+	  "bf:item/knife/shovel_swing1",
+	  "bf:item/knife/shovel_swing2",
+	  "bf:item/knife/shovel_swing3"
+	]
+  },
+  "item.wrench.swing": {
+	"sounds": [
+	  "bf:item/knife/wrench_swing0",
+	  "bf:item/knife/wrench_swing1",
+	  "bf:item/knife/wrench_swing2",
+	  "bf:item/knife/wrench_swing3"
+	]
+  },
+  "item.knife.equip": {
+	"sounds": [
+	  "bf:item/knife/equip0",
+	  "bf:item/knife/equip1",
+	  "bf:item/knife/equip2"
+	]
+  },
+  "item.knife.swing": {
+	"sounds": [
+	  "bf:item/knife/swing0",
+	  "bf:item/knife/swing1",
+	  "bf:item/knife/swing2",
+	  "bf:item/knife/swing3"
+	]
+  },
+  "item.knife.trick.0": {
+	"sounds": [
+	  "bf:item/knife/trick0"
+	]
+  },
+  "item.gun.modele_1892_revolver.fire": {
+	"sounds": [
+	  "bf:item/gun/modele_1892_revolver/fire"
+	]
+  },
+  "item.gun.modele_1892_revolver.pre": {
+	"sounds": [
+	  "bf:item/gun/modele_1892_revolver/pre"
+	]
+  },
+  "item.gun.modele_1892_revolver.reload": {
+	"sounds": [
+	  "bf:item/gun/modele_1892_revolver/reload"
+	]
+  },
+  "item.gun.ak74.fire": {
+	"sounds": [
+	  "bf:item/gun/ak74/fire"
+	]
+  },
+  "item.gun.ak74.pre": {
+	"sounds": [
+	  "bf:item/gun/ak74/pre"
+	]
+  },
+  "item.gun.ak74.reload": {
+	"sounds": [
+	  "bf:item/gun/ak74/reload"
+	]
+  },
+  "item.gun.ak74.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/ak74/reload_empty"
+	]
+  },
+  "item.gun.bar.fire": {
+	"sounds": [
+	  "bf:item/gun/bar/fire"
+	]
+  },
+  "item.gun.bar.pre": {
+	"sounds": [
+	  "bf:item/gun/bar/pre"
+	]
+  },
+  "item.gun.bar.reload": {
+	"sounds": [
+	  "bf:item/gun/bar/reload"
+	]
+  },
+  "item.gun.bar.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/bar/reload_empty"
+	]
+  },
+  "item.gun.batr.fire": {
+	"sounds": [
+	  "bf:item/gun/batr/fire"
+	]
+  },
+  "item.gun.batr.pre": {
+	"sounds": [
+	  "bf:item/gun/batr/pre"
+	]
+  },
+  "item.gun.batr.reload": {
+	"sounds": [
+	  "bf:item/gun/batr/reload"
+	]
+  },
+  "item.gun.wz35.fire": {
+	"sounds": [
+	  "bf:item/gun/wz35/fire"
+	]
+  },
+  "item.gun.wz35.pre": {
+	"sounds": [
+	  "bf:item/gun/wz35/pre"
+	]
+  },
+  "item.gun.wz35.reload": {
+	"sounds": [
+	  "bf:item/gun/wz35/reload"
+	]
+  },
+  "item.gun.panzerbuchse39.equip": {
+	"sounds": [
+	  "bf:item/gun/panzerbuchse39/equip"
+	]
+  },
+  "item.gun.panzerbuchse39.fire": {
+	"sounds": [
+	  "bf:item/gun/panzerbuchse39/fire"
+	]
+  },
+  "item.gun.panzerbuchse39.pre": {
+	"sounds": [
+	  "bf:item/gun/panzerbuchse39/pre"
+	]
+  },
+  "item.gun.panzerbuchse39.reload": {
+	"sounds": [
+	  "bf:item/gun/panzerbuchse39/reload"
+	]
+  },
+  "item.gun.bazooka.fire": {
+	"sounds": [
+	  "bf:item/gun/bazooka/fire"
+	]
+  },
+  "item.gun.berettam1934.fire": {
+	"sounds": [
+	  "bf:item/gun/berettam1934/fire"
+	]
+  },
+  "item.gun.berettam1934.reload": {
+	"sounds": [
+	  "bf:item/gun/berettam1934/reload"
+	]
+  },
+  "item.gun.berettam1934.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/berettam1934/reload_empty"
+	]
+  },
+  "item.gun.blyskawica.fire": {
+	"sounds": [
+	  "bf:item/gun/blyskawica/fire"
+	]
+  },
+  "item.gun.blyskawica.reload": {
+	"sounds": [
+	  "bf:item/gun/blyskawica/reload"
+	]
+  },
+  "item.gun.blyskawica.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/blyskawica/reload_empty"
+	]
+  },
+  "item.gun.bren.mk2.fire": {
+	"sounds": [
+	  "bf:item/gun/bren_mk2/fire"
+	]
+  },
+  "item.gun.bren.mk2.pre": {
+	"sounds": [
+	  "bf:item/gun/bren_mk2/pre"
+	]
+  },
+  "item.gun.bren.mk2.reload": {
+	"sounds": [
+	  "bf:item/gun/bren_mk2/reload"
+	]
+  },
+  "item.gun.browning30.fire": {
+	"sounds": [
+	  "bf:item/gun/browning30/fire"
+	]
+  },
+  "item.gun.browning30.reload": {
+	"sounds": [
+	  "bf:item/gun/browning30/reload"
+	]
+  },
+  "item.gun.bullet.impact": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact0",
+	  "bf:item/gun/bullet/impact1",
+	  "bf:item/gun/bullet/impact2",
+	  "bf:item/gun/bullet/impact3",
+	  "bf:item/gun/bullet/impact4",
+	  "bf:item/gun/bullet/impact5",
+	  "bf:item/gun/bullet/impact6",
+	  "bf:item/gun/bullet/impact7",
+	  "bf:item/gun/bullet/impact8",
+	  "bf:item/gun/bullet/impact9",
+	  "bf:item/gun/bullet/impact10",
+	  "bf:item/gun/bullet/impact11"
+	]
+  },
+  "item.gun.bullet.impact.dirt": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_dirt0",
+	  "bf:item/gun/bullet/impact_dirt1",
+	  "bf:item/gun/bullet/impact_dirt2",
+	  "bf:item/gun/bullet/impact_dirt3"
+	]
+  },
+  "item.gun.bullet.impact.dirt.debris": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_dirt_debris0",
+	  "bf:item/gun/bullet/impact_dirt_debris1",
+	  "bf:item/gun/bullet/impact_dirt_debris2",
+	  "bf:item/gun/bullet/impact_dirt_debris3"
+	]
+  },
+  "item.gun.bullet.impact.flesh": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_flesh0",
+	  "bf:item/gun/bullet/impact_flesh1",
+	  "bf:item/gun/bullet/impact_flesh2",
+	  "bf:item/gun/bullet/impact_flesh3",
+	  "bf:item/gun/bullet/impact_flesh4",
+	  "bf:item/gun/bullet/impact_flesh5",
+	  "bf:item/gun/bullet/impact_flesh6",
+	  "bf:item/gun/bullet/impact_flesh7",
+	  "bf:item/gun/bullet/impact_flesh8",
+	  "bf:item/gun/bullet/impact_flesh9",
+	  "bf:item/gun/bullet/impact_flesh10",
+	  "bf:item/gun/bullet/impact_flesh11"
+	]
+  },
+  "item.gun.bullet.impact.flesh.local": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_flesh_local0",
+	  "bf:item/gun/bullet/impact_flesh_local1",
+	  "bf:item/gun/bullet/impact_flesh_local2",
+	  "bf:item/gun/bullet/impact_flesh_local3",
+	  "bf:item/gun/bullet/impact_flesh_local4"
+	]
+  },
+  "item.gun.bullet.impact.flesh.stereo": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_flesh_stereo"
+	]
+  },
+  "item.gun.bullet.impact.flesh.nose": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_flesh_nose"
+	]
+  },
+  "item.gun.bullet.impact.corebass": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_corebass0",
+	  "bf:item/gun/bullet/impact_corebass1",
+	  "bf:item/gun/bullet/impact_corebass2"
+	]
+  },
+  "item.gun.bullet.impact.flesh.head.helmet": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_flesh_head_helmet0",
+	  "bf:item/gun/bullet/impact_flesh_head_helmet1",
+	  "bf:item/gun/bullet/impact_flesh_head_helmet2"
+	]
+  },
+  "item.gun.bullet.impact.flesh.head": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_flesh_head0",
+	  "bf:item/gun/bullet/impact_flesh_head1",
+	  "bf:item/gun/bullet/impact_flesh_head2",
+	  "bf:item/gun/bullet/impact_flesh_head3"
+	]
+  },
+  "item.gun.bullet.impact.glass": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_glass0",
+	  "bf:item/gun/bullet/impact_glass1",
+	  "bf:item/gun/bullet/impact_glass2",
+	  "bf:item/gun/bullet/impact_glass3"
+	]
+  },
+  "item.gun.bullet.impact.glass.debris": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_glass_debris0",
+	  "bf:item/gun/bullet/impact_glass_debris1",
+	  "bf:item/gun/bullet/impact_glass_debris2",
+	  "bf:item/gun/bullet/impact_glass_debris3",
+	  "bf:item/gun/bullet/impact_glass_debris4",
+	  "bf:item/gun/bullet/impact_glass_debris5"
+	]
+  },
+  "item.gun.bullet.impact.water": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_water0",
+	  "bf:item/gun/bullet/impact_water1",
+	  "bf:item/gun/bullet/impact_water2",
+	  "bf:item/gun/bullet/impact_water3"
+	]
+  },
+  "item.gun.bullet.impact.metal": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_metal0",
+	  "bf:item/gun/bullet/impact_metal1",
+	  "bf:item/gun/bullet/impact_metal2",
+	  "bf:item/gun/bullet/impact_metal3"
+	]
+  },
+  "item.gun.bullet.impact.metal.debris": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_metal_debris0",
+	  "bf:item/gun/bullet/impact_metal_debris1",
+	  "bf:item/gun/bullet/impact_metal_debris2",
+	  "bf:item/gun/bullet/impact_metal_debris3"
+	]
+  },
+  "item.gun.bullet.impact.stone": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_stone0",
+	  "bf:item/gun/bullet/impact_stone1",
+	  "bf:item/gun/bullet/impact_stone2",
+	  "bf:item/gun/bullet/impact_stone3"
+	]
+  },
+  "item.gun.bullet.impact.stone.debris": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_stone_debris0",
+	  "bf:item/gun/bullet/impact_stone_debris1",
+	  "bf:item/gun/bullet/impact_stone_debris2",
+	  "bf:item/gun/bullet/impact_stone_debris3"
+	]
+  },
+  "item.gun.bullet.impact.wood": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_wood0",
+	  "bf:item/gun/bullet/impact_wood1",
+	  "bf:item/gun/bullet/impact_wood2",
+	  "bf:item/gun/bullet/impact_wood3"
+	]
+  },
+  "item.gun.bullet.impact.wood.debris": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_wood_debris0",
+	  "bf:item/gun/bullet/impact_wood_debris1",
+	  "bf:item/gun/bullet/impact_wood_debris2",
+	  "bf:item/gun/bullet/impact_wood_debris3",
+	  "bf:item/gun/bullet/impact_wood_debris4",
+	  "bf:item/gun/bullet/impact_wood_debris5"
+	]
+  },
+  "item.gun.bullet.pass": {
+	"sounds": [
+	  "bf:item/gun/bullet/pass0",
+	  "bf:item/gun/bullet/pass1",
+	  "bf:item/gun/bullet/pass2",
+	  "bf:item/gun/bullet/pass3",
+	  "bf:item/gun/bullet/pass4",
+	  "bf:item/gun/bullet/pass5",
+	  "bf:item/gun/bullet/pass6",
+	  "bf:item/gun/bullet/pass7",
+	  "bf:item/gun/bullet/pass8",
+	  "bf:item/gun/bullet/pass9",
+	  "bf:item/gun/bullet/pass10",
+	  "bf:item/gun/bullet/pass11",
+	  "bf:item/gun/bullet/pass12",
+	  "bf:item/gun/bullet/pass13",
+	  "bf:item/gun/bullet/pass14",
+	  "bf:item/gun/bullet/pass15",
+	  "bf:item/gun/bullet/pass16",
+	  "bf:item/gun/bullet/pass17",
+	  "bf:item/gun/bullet/pass18",
+	  "bf:item/gun/bullet/pass19",
+	  "bf:item/gun/bullet/pass20",
+	  "bf:item/gun/bullet/pass21",
+	  "bf:item/gun/bullet/pass22",
+	  "bf:item/gun/bullet/pass23",
+	  "bf:item/gun/bullet/pass24"
+	]
+  },
+  "item.gun.bullet.impact.mg42": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_mg42_0",
+	  "bf:item/gun/bullet/impact_mg42_1"
+	]
+  },
+  "item.gun.bullet.impact.mg42.stereo": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_mg42_stereo"
+	]
+  },
+  "item.gun.bullet.impact.nose": {
+	"sounds": [
+	  "bf:item/gun/bullet/impact_nose0",
+	  "bf:item/gun/bullet/impact_nose1",
+	  "bf:item/gun/bullet/impact_nose2",
+	  "bf:item/gun/bullet/impact_nose3",
+	  "bf:item/gun/bullet/impact_nose4",
+	  "bf:item/gun/bullet/impact_nose5"
+	]
+  },
+  "item.gun.bullet.snap.0": {
+	"sounds": [
+	  "bf:item/gun/bullet/snap0"
+	]
+  },
+  "item.gun.bullet.snap.1": {
+	"sounds": [
+	  "bf:item/gun/bullet/snap1"
+	]
+  },
+  "item.gun.bullet.snap.2": {
+	"sounds": [
+	  "bf:item/gun/bullet/snap2"
+	]
+  },
+  "item.gun.bullet.snap.3": {
+	"sounds": [
+	  "bf:item/gun/bullet/snap3"
+	]
+  },
+  "item.gun.bullet.snap.4": {
+	"sounds": [
+	  "bf:item/gun/bullet/snap4"
+	]
+  },
+  "item.gun.bullet.snap.5": {
+	"sounds": [
+	  "bf:item/gun/bullet/snap5"
+	]
+  },
+  "item.gun.bullet.snap.stereo.indoors": {
+	"sounds": [
+	  "bf:item/gun/bullet/snap_stereo_indoors0",
+	  "bf:item/gun/bullet/snap_stereo_indoors1",
+	  "bf:item/gun/bullet/snap_stereo_indoors2",
+	  "bf:item/gun/bullet/snap_stereo_indoors3"
+	]
+  },
+  "item.gun.bullet.snap.stereo.outdoors": {
+	"sounds": [
+	  "bf:item/gun/bullet/snap_stereo_outdoors0",
+	  "bf:item/gun/bullet/snap_stereo_outdoors1",
+	  "bf:item/gun/bullet/snap_stereo_outdoors2",
+	  "bf:item/gun/bullet/snap_stereo_outdoors3"
+	]
+  },
+  "item.gun.mauser_c96.fire": {
+	"sounds": [
+	  "bf:item/gun/mauser_c96/fire"
+	]
+  },
+  "item.gun.mauser_c96.reload": {
+	"sounds": [
+	  "bf:item/gun/mauser_c96/reload"
+	]
+  },
+  "item.gun.mauser_c96.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/mauser_c96/reload_empty"
+	]
+  },
+  "item.gun.m712.fire": {
+	"sounds": [
+	  "bf:item/gun/m712/fire"
+	]
+  },
+  "item.gun.m712.pre": {
+	"sounds": [
+	  "bf:item/gun/m712/pre"
+	]
+  },
+  "item.gun.m712.reload": {
+	"sounds": [
+	  "bf:item/gun/m712/reload"
+	]
+  },
+  "item.gun.m712.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/m712/reload_empty"
+	]
+  },
+  "item.gun.carcano.fire": {
+	"sounds": [
+	  "bf:item/gun/carcano/fire"
+	]
+  },
+  "item.gun.colt.fire": {
+	"sounds": [
+	  "bf:item/gun/colt/fire"
+	]
+  },
+  "item.gun.colt.reload": {
+	"sounds": [
+	  "bf:item/gun/colt/reload"
+	]
+  },
+  "item.gun.colt.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/colt/reload_empty"
+	]
+  },
+  "item.gun.browninghipower.fire": {
+	"sounds": [
+	  "bf:item/gun/browninghipower/fire"
+	]
+  },
+  "item.gun.browninghipower.reload": {
+	"sounds": [
+	  "bf:item/gun/browninghipower/reload"
+	]
+  },
+  "item.gun.browninghipower.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/browninghipower/reload_empty"
+	]
+  },
+  "item.gun.welrod.equip": {
+	"sounds": [
+	  "bf:item/gun/welrod/equip"
+	]
+  },
+  "item.gun.welrod.fire": {
+	"sounds": [
+	  "bf:item/gun/welrod/fire"
+	]
+  },
+  "item.gun.welrod.pre": {
+	"sounds": [
+	  "bf:item/gun/welrod/pre"
+	]
+  },
+  "item.gun.welrod.reload": {
+	"sounds": [
+	  "bf:item/gun/welrod/reload"
+	]
+  },
+  "item.gun.dp28.fire": {
+	"sounds": [
+	  "bf:item/gun/dp28/fire"
+	]
+  },
+  "item.gun.dp28.reload": {
+	"sounds": [
+	  "bf:item/gun/dp28/reload"
+	]
+  },
+  "item.gun.fiatrevelli.fire": {
+	"sounds": [
+	  "bf:item/gun/fiatrevelli/fire"
+	]
+  },
+  "item.gun.shared.firemode": {
+	"sounds": [
+	  "bf:item/gun/shared/firemode0",
+	  "bf:item/gun/shared/firemode1",
+	  "bf:item/gun/shared/firemode2"
+	]
+  },
+  "item.gun.fnmodel1910.fire": {
+	"sounds": [
+	  "bf:item/gun/fnmodel1910/fire"
+	]
+  },
+  "item.gun.fnmodel1910.reload": {
+	"sounds": [
+	  "bf:item/gun/fnmodel1910/reload"
+	]
+  },
+  "item.gun.fnmodel1910.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/fnmodel1910/reload_empty"
+	]
+  },
+  "item.gun.fusil1917.fire": {
+	"sounds": [
+	  "bf:item/gun/fusil1917/fire"
+	]
+  },
+  "item.gun.fusil1917.reload": {
+	"sounds": [
+	  "bf:item/gun/fusil1917/reload"
+	]
+  },
+  "item.gun.gewehr43.fire": {
+	"sounds": [
+	  "bf:item/gun/gewehr43/fire"
+	]
+  },
+  "item.gun.gewehr43.reload": {
+	"sounds": [
+	  "bf:item/gun/gewehr43/reload"
+	]
+  },
+  "item.gun.gewehr43.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/gewehr43/reload_empty"
+	]
+  },
+  "item.gun.greasegun.fire": {
+	"sounds": [
+	  "bf:item/gun/greasegun/fire"
+	]
+  },
+  "item.gun.greasegun.fire.suppressor": {
+	"sounds": [
+	  "bf:item/gun/greasegun/fire_suppressor"
+	]
+  },
+  "item.gun.greasegun.pre.suppressor": {
+	"sounds": [
+	  "bf:item/gun/greasegun/pre_suppressor"
+	]
+  },
+  "item.gun.greasegun.reload": {
+	"sounds": [
+	  "bf:item/gun/greasegun/reload"
+	]
+  },
+  "item.gun.kar98k.bolt": {
+	"sounds": [
+	  "bf:item/gun/kar98k/bolt"
+	]
+  },
+  "item.gun.kar98k.fire": {
+	"sounds": [
+	  "bf:item/gun/kar98k/fire"
+	]
+  },
+  "item.gun.kar98k.pre": {
+	"sounds": [
+	  "bf:item/gun/kar98k/pre"
+	]
+  },
+  "item.gun.kar98k.reload": {
+	"sounds": [
+	  "bf:item/gun/kar98k/reload"
+	]
+  },
+  "item.gun.kbkwz29.fire": {
+	"sounds": [
+	  "bf:item/gun/kbkwz29/fire"
+	]
+  },
+  "item.gun.kbkwz29.reload": {
+	"sounds": [
+	  "bf:item/gun/kbkwz29/reload"
+	]
+  },
+  "item.gun.koppal.fire": {
+	"sounds": [
+	  "bf:item/gun/koppal/fire"
+	]
+  },
+  "item.gun.koppal.reload": {
+	"sounds": [
+	  "bf:item/gun/koppal/reload"
+	]
+  },
+  "item.gun.lebel1886.fire": {
+	"sounds": [
+	  "bf:item/gun/lebel1886/fire"
+	]
+  },
+  "item.gun.leeenfieldmk1.fire": {
+	"sounds": [
+	  "bf:item/gun/leeenfieldmk1/fire"
+	]
+  },
+  "item.gun.leeenfieldmk1.pre": {
+	"sounds": [
+	  "bf:item/gun/leeenfieldmk1/pre"
+	]
+  },
+  "item.gun.howell.fire": {
+	"sounds": [
+	  "bf:item/gun/howell/fire"
+	]
+  },
+  "item.gun.howell.pre": {
+	"sounds": [
+	  "bf:item/gun/howell/pre"
+	]
+  },
+  "item.gun.howell.reload": {
+	"sounds": [
+	  "bf:item/gun/howell/reload"
+	]
+  },
+  "item.gun.brownbess.fire": {
+	"sounds": [
+	  "bf:item/gun/brownbess/fire"
+	]
+  },
+  "item.gun.brownbess.pre": {
+	"sounds": [
+	  "bf:item/gun/brownbess/pre"
+	]
+  },
+  "item.gun.lewisgun.fire": {
+	"sounds": [
+	  "bf:item/gun/lewisgun/fire"
+	]
+  },
+  "item.gun.lewisgun.reload": {
+	"sounds": [
+	  "bf:item/gun/lewisgun/reload"
+	]
+  },
+  "item.gun.luger.fire": {
+	"sounds": [
+	  "bf:item/gun/luger/fire"
+	]
+  },
+  "item.gun.luger.reload": {
+	"sounds": [
+	  "bf:item/gun/luger/reload"
+	]
+  },
+  "item.gun.luger.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/luger/reload_empty"
+	]
+  },
+  "item.gun.m1944.fire": {
+	"sounds": [
+	  "bf:item/gun/m1944/fire"
+	]
+  },
+  "item.gun.m1944.reload": {
+	"sounds": [
+	  "bf:item/gun/m1944/reload"
+	]
+  },
+  "item.gun.m2carbine.fire": {
+	"sounds": [
+	  "bf:item/gun/m2carbine/fire"
+	]
+  },
+  "item.gun.m2carbine.reload": {
+	"sounds": [
+	  "bf:item/gun/m2carbine/reload"
+	]
+  },
+  "item.gun.m1carbine.fire": {
+	"sounds": [
+	  "bf:item/gun/m1carbine/fire"
+	]
+  },
+  "item.gun.m1carbine.pre": {
+	"sounds": [
+	  "bf:item/gun/m1carbine/pre"
+	]
+  },
+  "item.gun.m1carbine.reload": {
+	"sounds": [
+	  "bf:item/gun/m1carbine/reload"
+	]
+  },
+  "item.gun.m1garand.fire": {
+	"sounds": [
+	  "bf:item/gun/m1garand/fire"
+	]
+  },
+  "item.gun.m1garand.ping": {
+	"sounds": [
+	  "bf:item/gun/m1garand/ping"
+	]
+  },
+  "item.gun.m1garand.pre": {
+	"sounds": [
+	  "bf:item/gun/m1garand/pre"
+	]
+  },
+  "item.gun.m1garand.reload": {
+	"sounds": [
+	  "bf:item/gun/m1garand/reload"
+	]
+  },
+  "item.gun.m1garand.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/m1garand/reload_empty"
+	]
+  },
+  "item.gun.m2flamethrower.fire": {
+	"sounds": [
+	  "bf:item/gun/m2flamethrower/fire0",
+	  "bf:item/gun/m2flamethrower/fire1",
+	  "bf:item/gun/m2flamethrower/fire2"
+	]
+  },
+  "item.gun.m2flamethrower.post": {
+	"sounds": [
+	  "bf:item/gun/m2flamethrower/post"
+	]
+  },
+  "item.gun.m2flamethrower.ignite.start": {
+	"sounds": [
+	  "bf:item/gun/m2flamethrower/ignite_start0",
+	  "bf:item/gun/m2flamethrower/ignite_start1"
+	]
+  },
+  "item.gun.m2flamethrower.ignite": {
+	"sounds": [
+	  "bf:item/gun/m2flamethrower/ignite"
+	]
+  },
+  "item.gun.m2flamethrower.last": {
+	"sounds": [
+	  "bf:item/gun/m2flamethrower/last"
+	]
+  },
+  "item.gun.m2flamethrower.pre": {
+	"sounds": [
+	  "bf:item/gun/m2flamethrower/pre"
+	]
+  },
+  "item.gun.m2flamethrower.reload": {
+	"sounds": [
+	  "bf:item/gun/m2flamethrower/reload"
+	]
+  },
+  "item.gun.m30.fire": {
+	"sounds": [
+	  "bf:item/gun/m30/fire"
+	]
+  },
+  "item.gun.m30.reload": {
+	"sounds": [
+	  "bf:item/gun/m30/reload"
+	]
+  },
+  "item.gun.m4a4.fire": {
+	"sounds": [
+	  "bf:item/gun/m4a4/fire"
+	]
+  },
+  "item.gun.m4a4.pre": {
+	"sounds": [
+	  "bf:item/gun/m4a4/pre"
+	]
+  },
+  "item.gun.m4a4.reload": {
+	"sounds": [
+	  "bf:item/gun/m4a4/reload"
+	]
+  },
+  "item.gun.macmle1931.fire": {
+	"sounds": [
+	  "bf:item/gun/macmle1931/fire"
+	]
+  },
+  "item.gun.macmle1931.pre": {
+	"sounds": [
+	  "bf:item/gun/macmle1931/pre"
+	]
+  },
+  "item.gun.macmle1931.reload": {
+	"sounds": [
+	  "bf:item/gun/macmle1931/reload"
+	]
+  },
+  "item.gun.mas38.fire": {
+	"sounds": [
+	  "bf:item/gun/mas38/fire"
+	]
+  },
+  "item.gun.mas38.pre": {
+	"sounds": [
+	  "bf:item/gun/mas38/pre"
+	]
+  },
+  "item.gun.mas38.reload": {
+	"sounds": [
+	  "bf:item/gun/mas38/reload"
+	]
+  },
+  "item.gun.meloncannon.fire": {
+	"sounds": [
+	  "bf:item/gun/meloncannon/fire"
+	]
+  },
+  "item.gun.meloncannon.reload": {
+	"sounds": [
+	  "bf:item/gun/meloncannon/reload"
+	]
+  },
+  "item.gun.mg34.fire": {
+	"sounds": [
+	  "bf:item/gun/mg34/fire"
+	]
+  },
+  "item.gun.mg34.equip": {
+	"sounds": [
+	  "bf:item/gun/mg34/equip"
+	]
+  },
+  "item.gun.mg34.pre": {
+	"sounds": [
+	  "bf:item/gun/mg34/pre"
+	]
+  },
+  "item.gun.mg34.reload": {
+	"sounds": [
+	  "bf:item/gun/mg34/reload"
+	]
+  },
+  "item.gun.mg42.fire": {
+	"sounds": [
+	  "bf:item/gun/mg42/fire"
+	]
+  },
+  "item.gun.mg42.pre": {
+	"sounds": [
+	  "bf:item/gun/mg42/pre"
+	]
+  },
+  "item.gun.mg42.reload": {
+	"sounds": [
+	  "bf:item/gun/mg42/reload"
+	]
+  },
+  "item.gun.glisenti.model.1910.fire": {
+	"sounds": [
+	  "bf:item/gun/glisenti_model_1910/fire"
+	]
+  },
+  "item.gun.glisenti.model.1910.reload": {
+	"sounds": [
+	  "bf:item/gun/glisenti_model_1910/reload"
+	]
+  },
+  "item.gun.glisenti.model.1910.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/glisenti_model_1910/reload_empty"
+	]
+  },
+  "item.gun.model1930.fire": {
+	"sounds": [
+	  "bf:item/gun/model1930/fire"
+	]
+  },
+  "item.gun.model1930.reload": {
+	"sounds": [
+	  "bf:item/gun/model1930/reload"
+	]
+  },
+  "item.gun.model1930.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/model1930/reload_empty"
+	]
+  },
+  "item.gun.model1935.fire": {
+	"sounds": [
+	  "bf:item/gun/model1935/fire"
+	]
+  },
+  "item.gun.model1935.reload": {
+	"sounds": [
+	  "bf:item/gun/model1935/reload"
+	]
+  },
+  "item.gun.model38.fire": {
+	"sounds": [
+	  "bf:item/gun/model38/fire"
+	]
+  },
+  "item.gun.model38.pre": {
+	"sounds": [
+	  "bf:item/gun/model38/pre"
+	]
+  },
+  "item.gun.model38.reload": {
+	"sounds": [
+	  "bf:item/gun/model38/reload"
+	]
+  },
+  "item.gun.model38.equip": {
+	"sounds": [
+	  "bf:item/gun/model38/equip"
+	]
+  },
+  "item.gun.mosinnagant.fire": {
+	"sounds": [
+	  "bf:item/gun/mosinnagant/fire"
+	]
+  },
+  "item.gun.mosinnagant.pre": {
+	"sounds": [
+	  "bf:item/gun/mosinnagant/pre"
+	]
+  },
+  "item.gun.winchester.1895.fire": {
+	"sounds": [
+	  "bf:item/gun/winchester_1895/fire"
+	]
+  },
+  "item.gun.winchester.1895.reload": {
+	"sounds": [
+	  "bf:item/gun/winchester_1895/reload"
+	]
+  },
+  "item.gun.mp41.fire": {
+	"sounds": [
+	  "bf:item/gun/mp41/fire"
+	]
+  },
+  "item.gun.mp40.equip": {
+	"sounds": [
+	  "bf:item/gun/mp40/equip"
+	]
+  },
+  "item.gun.mp40.fire": {
+	"sounds": [
+	  "bf:item/gun/mp40/fire"
+	]
+  },
+  "item.gun.mp40.pre": {
+	"sounds": [
+	  "bf:item/gun/mp40/pre"
+	]
+  },
+  "item.gun.mp40.reload": {
+	"sounds": [
+	  "bf:item/gun/mp40/reload"
+	]
+  },
+  "item.gun.mp40.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/mp40/reload_empty"
+	]
+  },
+  "item.gun.p38.fire": {
+	"sounds": [
+	  "bf:item/gun/p38/fire"
+	]
+  },
+  "item.gun.p38.reload": {
+	"sounds": [
+	  "bf:item/gun/p38/reload"
+	]
+  },
+  "item.gun.p38.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/p38/reload_empty"
+	]
+  },
+  "item.gun.panzerfaust.fire": {
+	"sounds": [
+	  "bf:item/gun/panzerfaust/fire"
+	]
+  },
+  "item.gun.panzerfaust.reload": {
+	"sounds": [
+	  "bf:item/gun/panzerfaust/reload"
+	]
+  },
+  "item.gun.panzerschreck.fire": {
+	"sounds": [
+	  "bf:item/gun/panzerschreck/fire"
+	]
+  },
+  "item.gun.pistolet_automatique_modele_1935a.fire": {
+	"sounds": [
+	  "bf:item/gun/pistolet_automatique_modele_1935a/fire"
+	]
+  },
+  "item.gun.pistolet_automatique_modele_1935a.reload": {
+	"sounds": [
+	  "bf:item/gun/pistolet_automatique_modele_1935a/reload"
+	]
+  },
+  "item.gun.pistolet_automatique_modele_1935a.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/pistolet_automatique_modele_1935a/reload_empty"
+	]
+  },
+  "item.gun.pps43.fire": {
+	"sounds": [
+	  "bf:item/gun/pps43/fire"
+	]
+  },
+  "item.gun.pps43.reload": {
+	"sounds": [
+	  "bf:item/gun/pps43/reload"
+	]
+  },
+  "item.gun.pps43.equip": {
+	"sounds": [
+	  "bf:item/gun/pps43/equip"
+	]
+  },
+  "item.gun.ppsh.fire": {
+	"sounds": [
+	  "bf:item/gun/ppsh/fire"
+	]
+  },
+  "item.gun.ppsh.reload": {
+	"sounds": [
+	  "bf:item/gun/ppsh/reload"
+	]
+  },
+  "item.gun.ppsh.equip": {
+	"sounds": [
+	  "bf:item/gun/ppsh/equip"
+	]
+  },
+  "item.gun.ptrs.fire": {
+	"sounds": [
+	  "bf:item/gun/ptrs/fire"
+	]
+  },
+  "item.gun.ptrs.reload": {
+	"sounds": [
+	  "bf:item/gun/ptrs/reload"
+	]
+  },
+  "item.gun.shared.rattle.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/rattle/smg"
+	]
+  },
+  "item.gun.shared.rattle.lmg": {
+	"sounds": [
+	  "bf:item/gun/shared/rattle/lmg"
+	]
+  },
+  "item.gun.shared.rattle.mg42": {
+	"sounds": [
+	  "bf:item/gun/shared/rattle/mg42"
+	]
+  },
+  "item.gun.shared.rattle.mg": {
+	"sounds": [
+	  "bf:item/gun/shared/rattle/mg"
+	]
+  },
+  "item.gun.shared.bullet.vehicle": {
+	"sounds": [
+	  "bf:item/gun/shared/bullet/vehicle0",
+	  "bf:item/gun/shared/bullet/vehicle1",
+	  "bf:item/gun/shared/bullet/vehicle2",
+	  "bf:item/gun/shared/bullet/vehicle3",
+	  "bf:item/gun/shared/bullet/vehicle4"
+	]
+  },
+  "item.gun.shared.bullet.lmg": {
+	"sounds": [
+	  "bf:item/gun/shared/bullet/lmg0",
+	  "bf:item/gun/shared/bullet/lmg1",
+	  "bf:item/gun/shared/bullet/lmg2",
+	  "bf:item/gun/shared/bullet/lmg3"
+	]
+  },
+  "item.gun.shared.bullet.lmg.dirt": {
+	"sounds": [
+	  "bf:item/gun/shared/bullet/lmg_dirt0",
+	  "bf:item/gun/shared/bullet/lmg_dirt1",
+	  "bf:item/gun/shared/bullet/lmg_dirt2"
+	]
+  },
+  "item.gun.shared.bullet.lmg.wood": {
+	"sounds": [
+	  "bf:item/gun/shared/bullet/lmg_wood0",
+	  "bf:item/gun/shared/bullet/lmg_wood1",
+	  "bf:item/gun/shared/bullet/lmg_wood2",
+	  "bf:item/gun/shared/bullet/lmg_wood3",
+	  "bf:item/gun/shared/bullet/lmg_wood4",
+	  "bf:item/gun/shared/bullet/lmg_wood5",
+	  "bf:item/gun/shared/bullet/lmg_wood6"
+	]
+  },
+  "item.gun.shared.bullet.lmg.water": {
+	"sounds": [
+	  "bf:item/gun/shared/bullet/lmg_water0",
+	  "bf:item/gun/shared/bullet/lmg_water1",
+	  "bf:item/gun/shared/bullet/lmg_water2",
+	  "bf:item/gun/shared/bullet/lmg_water3",
+	  "bf:item/gun/shared/bullet/lmg_water4",
+	  "bf:item/gun/shared/bullet/lmg_water5",
+	  "bf:item/gun/shared/bullet/lmg_water6"
+	]
+  },
+  "item.gun.shared.bullet.lmg.metal": {
+	"sounds": [
+	  "bf:item/gun/shared/bullet/lmg_metal_0",
+	  "bf:item/gun/shared/bullet/lmg_metal_1",
+	  "bf:item/gun/shared/bullet/lmg_metal_2",
+	  "bf:item/gun/shared/bullet/lmg_metal_3"
+	]
+  },
+  "item.gun.shared.bullet.shotgun": {
+	"sounds": [
+	  "bf:item/gun/shared/bullet/shotgun0",
+	  "bf:item/gun/shared/bullet/shotgun1",
+	  "bf:item/gun/shared/bullet/shotgun2",
+	  "bf:item/gun/shared/bullet/shotgun3"
+	]
+  },
+  "item.gun.shared.nose": {
+	"sounds": [
+	  "bf:item/gun/shared/nose/nose"
+	]
+  },
+  "item.gun.shared.nose.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/nose/nose_stereo"
+	]
+  },
+  "item.gun.shared.corebass.close.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/close/smg"
+	]
+  },
+  "item.gun.shared.corebass.close.lmg": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/close/lmg"
+	]
+  },
+  "item.gun.shared.corebass.close.mg": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/close/mg"
+	]
+  },
+  "item.gun.shared.corebass.close.mg34": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/close/mg34"
+	]
+  },
+  "item.gun.shared.corebass.close.mg42": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/close/mg42"
+	]
+  },
+  "item.gun.shared.corebass.close.mp40": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/close/mp40"
+	]
+  },
+  "item.gun.shared.corebass.close.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/close/pistol"
+	]
+  },
+  "item.gun.shared.corebass.close.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/close/rifle"
+	]
+  },
+  "item.gun.shared.corebass.close.stg44": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/close/stg44"
+	]
+  },
+  "item.gun.shared.corebass.smg.distant": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/distant/smg"
+	]
+  },
+  "item.gun.shared.corebass.lmg.distant": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/distant/lmg"
+	]
+  },
+  "item.gun.shared.corebass.pistol.distant": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/distant/pistol"
+	]
+  },
+  "item.gun.shared.corebass.rifle.distant": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/distant/rifle"
+	]
+  },
+  "item.gun.shared.corebass.mg.distant": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/distant/mg"
+	]
+  },
+  "item.gun.shared.corebass.rocket.distant": {
+	"sounds": [
+	  "bf:item/gun/shared/corebass/distant/rocket"
+	]
+  },
+  "item.gun.shared.deploy": {
+	"sounds": [
+	  "bf:item/gun/shared/deploy/deploy0",
+	  "bf:item/gun/shared/deploy/deploy1",
+	  "bf:item/gun/shared/deploy/deploy2",
+	  "bf:item/gun/shared/deploy/deploy3",
+	  "bf:item/gun/shared/deploy/deploy4"
+	]
+  },
+  "item.gun.shared.add.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/add/pistol"
+	]
+  },
+  "item.gun.shared.add.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/add/smg"
+	]
+  },
+  "item.gun.shared.add.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/add/rifle"
+	]
+  },
+  "item.gun.shared.add.rifle.semi": {
+	"sounds": [
+	  "bf:item/gun/shared/add/rifle_semi"
+	]
+  },
+  "item.gun.shared.echo.close": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/echo0",
+	  "bf:item/gun/shared/echo/close/echo1",
+	  "bf:item/gun/shared/echo/close/echo2"
+	]
+  },
+  "item.gun.shared.echo.close.self": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/echo_self0",
+	  "bf:item/gun/shared/echo/close/echo_self1",
+	  "bf:item/gun/shared/echo/close/echo_self2",
+	  "bf:item/gun/shared/echo/close/echo_self3",
+	  "bf:item/gun/shared/echo/close/echo_self4"
+	]
+  },
+  "item.gun.shared.echo.close.suppressor": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/suppressor/echo"
+	]
+  },
+  "item.gun.shared.echo.close.suppressor.self": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/suppressor/echo_self"
+	]
+  },
+  "item.gun.shared.echo.close.indoors": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.mg": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_mg"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_pistol"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_rifle"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_smg"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.self": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_self"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.self.open": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_self_open"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.self.mg": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_self_mg"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.self.mg.open": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_self_mg_open"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.self.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_self_pistol"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.self.pistol.open": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_self_pistol_open"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.self.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_self_rifle"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.self.rifle.open": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_self_rifle_open"
+	]
+  },
+  "item.gun.shared.echo.close.indoors.self.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/close/indoors/echo_self_smg"
+	]
+  },
+  "item.gun.shared.echo.distant.indoors": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/echo_indoors"
+	]
+  },
+  "item.gun.shared.echo.distant.indoors.mg": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/echo_indoors_mg"
+	]
+  },
+  "item.gun.shared.echo.distant.indoors.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/echo_indoors_pistol"
+	]
+  },
+  "item.gun.shared.echo.distant.indoors.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/echo_indoors_rifle"
+	]
+  },
+  "item.gun.shared.echo.distant.indoors.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/echo_indoors_smg"
+	]
+  },
+  "item.gun.shared.echo.distant.revolver": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/revolver/echo0",
+	  "bf:item/gun/shared/echo/distant/revolver/echo1",
+	  "bf:item/gun/shared/echo/distant/revolver/echo2",
+	  "bf:item/gun/shared/echo/distant/revolver/echo3",
+	  "bf:item/gun/shared/echo/distant/revolver/echo4",
+	  "bf:item/gun/shared/echo/distant/revolver/echo5"
+	]
+  },
+  "item.gun.shared.echo.distant.revolver.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/revolver/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.leeenfield": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/leeenfield/echo0",
+	  "bf:item/gun/shared/echo/distant/leeenfield/echo1",
+	  "bf:item/gun/shared/echo/distant/leeenfield/echo2",
+	  "bf:item/gun/shared/echo/distant/leeenfield/echo3",
+	  "bf:item/gun/shared/echo/distant/leeenfield/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.leeenfield.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/leeenfield/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.mp40": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/mp40/echo0",
+	  "bf:item/gun/shared/echo/distant/mp40/echo1",
+	  "bf:item/gun/shared/echo/distant/mp40/echo2"
+	]
+  },
+  "item.gun.shared.echo.distant.mp40.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/mp40/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.springfield": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/springfield/echo0",
+	  "bf:item/gun/shared/echo/distant/springfield/echo1",
+	  "bf:item/gun/shared/echo/distant/springfield/echo2"
+	]
+  },
+  "item.gun.shared.echo.distant.springfield.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/springfield/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.lewisgun": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/lewisgun/echo0",
+	  "bf:item/gun/shared/echo/distant/lewisgun/echo1",
+	  "bf:item/gun/shared/echo/distant/lewisgun/echo2"
+	]
+  },
+  "item.gun.shared.echo.distant.lewisgun.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/lewisgun/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.musket": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/musket/echo0",
+	  "bf:item/gun/shared/echo/distant/musket/echo1",
+	  "bf:item/gun/shared/echo/distant/musket/echo2",
+	  "bf:item/gun/shared/echo/distant/musket/echo3",
+	  "bf:item/gun/shared/echo/distant/musket/echo4",
+	  "bf:item/gun/shared/echo/distant/musket/echo5"
+	]
+  },
+  "item.gun.shared.echo.distant.musket.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/musket/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.lmg": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/lmg/echo0",
+	  "bf:item/gun/shared/echo/distant/lmg/echo1",
+	  "bf:item/gun/shared/echo/distant/lmg/echo2",
+	  "bf:item/gun/shared/echo/distant/lmg/echo3",
+	  "bf:item/gun/shared/echo/distant/lmg/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.lmg.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/lmg/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.mg": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/mg/echo0",
+	  "bf:item/gun/shared/echo/distant/mg/echo1",
+	  "bf:item/gun/shared/echo/distant/mg/echo2",
+	  "bf:item/gun/shared/echo/distant/mg/echo3",
+	  "bf:item/gun/shared/echo/distant/mg/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.mg.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/mg/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/pistol/echo0",
+	  "bf:item/gun/shared/echo/distant/pistol/echo1",
+	  "bf:item/gun/shared/echo/distant/pistol/echo2",
+	  "bf:item/gun/shared/echo/distant/pistol/echo3",
+	  "bf:item/gun/shared/echo/distant/pistol/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.pistol.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/pistol/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.meloncannon": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/meloncannon/echo0"
+	]
+  },
+  "item.gun.shared.echo.distant.meloncannon.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/meloncannon/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.at": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/at/echo0",
+	  "bf:item/gun/shared/echo/distant/at/echo1",
+	  "bf:item/gun/shared/echo/distant/at/echo2"
+	]
+  },
+  "item.gun.shared.echo.distant.at.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/at/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/rifle/echo0",
+	  "bf:item/gun/shared/echo/distant/rifle/echo1",
+	  "bf:item/gun/shared/echo/distant/rifle/echo2",
+	  "bf:item/gun/shared/echo/distant/rifle/echo3",
+	  "bf:item/gun/shared/echo/distant/rifle/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.rifle.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/rifle/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.rifle.semi": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/rifle_semi/echo0",
+	  "bf:item/gun/shared/echo/distant/rifle_semi/echo1",
+	  "bf:item/gun/shared/echo/distant/rifle_semi/echo2",
+	  "bf:item/gun/shared/echo/distant/rifle_semi/echo3",
+	  "bf:item/gun/shared/echo/distant/rifle_semi/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.rifle.semi.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/rifle_semi/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.rocket": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/rocket/echo0",
+	  "bf:item/gun/shared/echo/distant/rocket/echo1",
+	  "bf:item/gun/shared/echo/distant/rocket/echo2",
+	  "bf:item/gun/shared/echo/distant/rocket/echo3"
+	]
+  },
+  "item.gun.shared.echo.distant.rocket.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/rocket/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.m3": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/m3/echo0",
+	  "bf:item/gun/shared/echo/distant/m3/echo1",
+	  "bf:item/gun/shared/echo/distant/m3/echo2",
+	  "bf:item/gun/shared/echo/distant/m3/echo3",
+	  "bf:item/gun/shared/echo/distant/m3/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.m3.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/m3/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.stenmk2": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/stenmk2/echo0",
+	  "bf:item/gun/shared/echo/distant/stenmk2/echo1",
+	  "bf:item/gun/shared/echo/distant/stenmk2/echo2",
+	  "bf:item/gun/shared/echo/distant/stenmk2/echo3",
+	  "bf:item/gun/shared/echo/distant/stenmk2/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.stenmk2.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/stenmk2/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.pps43": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/pps43/echo0",
+	  "bf:item/gun/shared/echo/distant/pps43/echo1",
+	  "bf:item/gun/shared/echo/distant/pps43/echo2",
+	  "bf:item/gun/shared/echo/distant/pps43/echo3",
+	  "bf:item/gun/shared/echo/distant/pps43/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.pps43.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/pps43/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.mg42": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/mg42/echo0",
+	  "bf:item/gun/shared/echo/distant/mg42/echo1",
+	  "bf:item/gun/shared/echo/distant/mg42/echo2",
+	  "bf:item/gun/shared/echo/distant/mg42/echo3",
+	  "bf:item/gun/shared/echo/distant/mg42/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.mg42.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/mg42/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.shotgun": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/shotgun/echo0",
+	  "bf:item/gun/shared/echo/distant/shotgun/echo1",
+	  "bf:item/gun/shared/echo/distant/shotgun/echo2",
+	  "bf:item/gun/shared/echo/distant/shotgun/echo3",
+	  "bf:item/gun/shared/echo/distant/shotgun/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.shotgun.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/shotgun/echo_stereo"
+	]
+  },
+  "item.gun.shared.echo.distant.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/smg/echo0",
+	  "bf:item/gun/shared/echo/distant/smg/echo1",
+	  "bf:item/gun/shared/echo/distant/smg/echo2",
+	  "bf:item/gun/shared/echo/distant/smg/echo3",
+	  "bf:item/gun/shared/echo/distant/smg/echo4"
+	]
+  },
+  "item.gun.shared.echo.distant.smg.stereo": {
+	"sounds": [
+	  "bf:item/gun/shared/echo/distant/smg/echo_stereo"
+	]
+  },
+  "item.gun.shared.foley.equip.revolver": {
+	"sounds": [
+	  "bf:item/gun/shared/foley/equip/revolver"
+	]
+  },
+  "item.gun.shared.foley.equip.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/foley/equip/pistol"
+	]
+  },
+  "item.gun.shared.foley.equip.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/foley/equip/rifle"
+	]
+  },
+  "item.gun.shared.foley.equip.rocket": {
+	"sounds": [
+	  "bf:item/gun/shared/foley/equip/rocket"
+	]
+  },
+  "item.gun.shared.foley.equip.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/foley/equip/smg"
+	]
+  },
+  "item.gun.shared.foley.arm.lmg": {
+	"sounds": [
+	  "bf:item/gun/shared/foley/arm/lmg"
+	]
+  },
+  "item.gun.shared.foley.arm.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/foley/arm/pistol"
+	]
+  },
+  "item.gun.shared.foley.arm.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/foley/arm/rifle"
+	]
+  },
+  "item.gun.shared.foley.arm.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/foley/arm/smg"
+	]
+  },
+  "item.gun.shared.lastround.lmg": {
+	"sounds": [
+	  "bf:item/gun/shared/lastround/lmg"
+	]
+  },
+  "item.gun.shared.lastround.mg": {
+	"sounds": [
+	  "bf:item/gun/shared/lastround/mg"
+	]
+  },
+  "item.gun.shared.lastround.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/lastround/pistol"
+	]
+  },
+  "item.gun.shared.lastround.shotgun": {
+	"sounds": [
+	  "bf:item/gun/shared/lastround/shotgun"
+	]
+  },
+  "item.gun.shared.lastround.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/lastround/smg"
+	]
+  },
+  "item.gun.shared.lfe.lmg": {
+	"sounds": [
+	  "bf:item/gun/shared/lfe/lmg"
+	]
+  },
+  "item.gun.shared.lfe.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/lfe/pistol"
+	]
+  },
+  "item.gun.shared.lfe.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/lfe/rifle"
+	]
+  },
+  "item.gun.shared.lfe.rpg": {
+	"sounds": [
+	  "bf:item/gun/shared/lfe/rpg"
+	]
+  },
+  "item.gun.shared.overheat": {
+	"sounds": [
+	  "bf:item/gun/shared/overheat"
+	]
+  },
+  "item.gun.shared.reload.winchester.lever": {
+	"sounds": [
+	  "bf:item/gun/shared/reload/winchester_lever"
+	]
+  },
+  "item.gun.shared.reload.bolt": {
+	"sounds": [
+	  "bf:item/gun/shared/reload/bolt/bolt"
+	]
+  },
+  "item.gun.shared.reload.bolt.back": {
+	"sounds": [
+	  "bf:item/gun/shared/reload/bolt_back0",
+	  "bf:item/gun/shared/reload/bolt_back1",
+	  "bf:item/gun/shared/reload/bolt_back2"
+	]
+  },
+  "item.gun.shared.reload.bolt.forward": {
+	"sounds": [
+	  "bf:item/gun/shared/reload/bolt_forward0",
+	  "bf:item/gun/shared/reload/bolt_forward1",
+	  "bf:item/gun/shared/reload/bolt_forward2"
+	]
+  },
+  "item.gun.shared.reload.bullet.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/reload/bullet_rifle0",
+	  "bf:item/gun/shared/reload/bullet_rifle1",
+	  "bf:item/gun/shared/reload/bullet_rifle2"
+	]
+  },
+  "item.gun.shared.reload.pump": {
+	"sounds": [
+	  "bf:item/gun/shared/reload/pump"
+	]
+  },
+  "item.gun.shared.reload.pump.back": {
+	"sounds": [
+	  "bf:item/gun/shared/reload/pump_back"
+	]
+  },
+  "item.gun.shared.reload.pump.forward": {
+	"sounds": [
+	  "bf:item/gun/shared/reload/pump_forward"
+	]
+  },
+  "item.gun.shared.reload.shell": {
+	"sounds": [
+	  "bf:item/gun/shared/reload/shell0",
+	  "bf:item/gun/shared/reload/shell1",
+	  "bf:item/gun/shared/reload/shell2",
+	  "bf:item/gun/shared/reload/shell3"
+	]
+  },
+  "item.gun.shared.towards.mg": {
+	"sounds": [
+	  "bf:item/gun/shared/towards/mg"
+	]
+  },
+  "item.gun.shared.towards.pistol": {
+	"sounds": [
+	  "bf:item/gun/shared/towards/pistol"
+	]
+  },
+  "item.gun.shared.towards.rifle": {
+	"sounds": [
+	  "bf:item/gun/shared/towards/rifle"
+	]
+  },
+  "item.gun.shared.towards.smg": {
+	"sounds": [
+	  "bf:item/gun/shared/towards/smg"
+	]
+  },
+  "item.gun.shared.undeploy": {
+	"sounds": [
+	  "bf:item/gun/shared/deploy/undeploy0",
+	  "bf:item/gun/shared/deploy/undeploy1",
+	  "bf:item/gun/shared/deploy/undeploy2",
+	  "bf:item/gun/shared/deploy/undeploy3",
+	  "bf:item/gun/shared/deploy/undeploy4"
+	]
+  },
+  "item.gun.shared.zoom.mg.in": {
+	"sounds": [
+	  "bf:item/gun/shared/zoom/mg/in"
+	]
+  },
+  "item.gun.shared.zoom.mg.out": {
+	"sounds": [
+	  "bf:item/gun/shared/zoom/mg/out"
+	]
+  },
+  "item.gun.shared.zoom.pistol.in": {
+	"sounds": [
+	  "bf:item/gun/shared/zoom/pistol/in"
+	]
+  },
+  "item.gun.shared.zoom.pistol.out": {
+	"sounds": [
+	  "bf:item/gun/shared/zoom/pistol/out"
+	]
+  },
+  "item.gun.shared.zoom.rifle.in": {
+	"sounds": [
+	  "bf:item/gun/shared/zoom/rifle/in"
+	]
+  },
+  "item.gun.shared.zoom.rifle.out": {
+	"sounds": [
+	  "bf:item/gun/shared/zoom/rifle/out"
+	]
+  },
+  "item.gun.shared.zoom.smg.in": {
+	"sounds": [
+	  "bf:item/gun/shared/zoom/smg/in"
+	]
+  },
+  "item.gun.shared.zoom.smg.out": {
+	"sounds": [
+	  "bf:item/gun/shared/zoom/smg/out"
+	]
+  },
+  "item.gun.springfield.fire": {
+	"sounds": [
+	  "bf:item/gun/springfield/fire"
+	]
+  },
+  "item.gun.kis.fire": {
+	"sounds": [
+	  "bf:item/gun/kis/fire"
+	]
+  },
+  "item.gun.kis.reload": {
+	"sounds": [
+	  "bf:item/gun/kis/reload"
+	]
+  },
+  "item.gun.kis.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/kis/reload_empty"
+	]
+  },
+  "item.gun.mp.3008.fire": {
+	"sounds": [
+	  "bf:item/gun/mp3008/fire"
+	]
+  },
+  "item.gun.mp.3008.reload": {
+	"sounds": [
+	  "bf:item/gun/mp3008/reload"
+	]
+  },
+  "item.gun.mp.3008.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/mp3008/reload_empty"
+	]
+  },
+  "item.gun.delislecarbine.reload": {
+	"sounds": [
+	  "bf:item/gun/de_lisle_carbine/reload"
+	]
+  },
+  "item.gun.delislecarbine.fire": {
+	"sounds": [
+	  "bf:item/gun/de_lisle_carbine/fire"
+	]
+  },
+  "item.gun.delislecarbine.pre": {
+	"sounds": [
+	  "bf:item/gun/de_lisle_carbine/pre"
+	]
+  },
+  "item.gun.stenmk2.fire.suppressor": {
+	"sounds": [
+	  "bf:item/gun/stenmk2/fire_suppressor"
+	]
+  },
+  "item.gun.stenmk2.pre.suppressor": {
+	"sounds": [
+	  "bf:item/gun/stenmk2/pre_suppressor"
+	]
+  },
+  "item.gun.stenmk2.fire": {
+	"sounds": [
+	  "bf:item/gun/stenmk2/fire"
+	]
+  },
+  "item.gun.stenmk2.pre": {
+	"sounds": [
+	  "bf:item/gun/stenmk2/pre"
+	]
+  },
+  "item.gun.stenmk2.reload": {
+	"sounds": [
+	  "bf:item/gun/stenmk2/reload"
+	]
+  },
+  "item.gun.stenmk2.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/stenmk2/reload_empty"
+	]
+  },
+  "item.gun.stg44.fire": {
+	"sounds": [
+	  "bf:item/gun/stg44/fire"
+	]
+  },
+  "item.gun.stg44.reload": {
+	"sounds": [
+	  "bf:item/gun/stg44/reload"
+	]
+  },
+  "item.gun.stg44.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/stg44/reload_empty"
+	]
+  },
+  "item.gun.stg44.equip": {
+	"sounds": [
+	  "bf:item/gun/stg44/equip"
+	]
+  },
+  "item.gun.fg42.fire": {
+	"sounds": [
+	  "bf:item/gun/fg42/fire"
+	]
+  },
+  "item.gun.fg42.reload": {
+	"sounds": [
+	  "bf:item/gun/fg42/reload"
+	]
+  },
+  "item.gun.thompson.fire": {
+	"sounds": [
+	  "bf:item/gun/thompson/fire"
+	]
+  },
+  "item.gun.thompson.pre": {
+	"sounds": [
+	  "bf:item/gun/thompson/pre"
+	]
+  },
+  "item.gun.thompson.reload": {
+	"sounds": [
+	  "bf:item/gun/thompson/reload"
+	]
+  },
+  "item.gun.thompson.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/thompson/reload_empty"
+	]
+  },
+  "item.gun.tokarevavt40.fire": {
+	"sounds": [
+	  "bf:item/gun/tokarevavt40/fire"
+	]
+  },
+  "item.gun.tokarevavt40.reload": {
+	"sounds": [
+	  "bf:item/gun/tokarevavt40/reload"
+	]
+  },
+  "item.gun.tokarevtt33.fire": {
+	"sounds": [
+	  "bf:item/gun/tokarevtt33/fire"
+	]
+  },
+  "item.gun.tokarevtt33.reload": {
+	"sounds": [
+	  "bf:item/gun/tokarevtt33/reload"
+	]
+  },
+  "item.gun.tokarevtt33.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/tokarevtt33/reload_empty"
+	]
+  },
+  "item.gun.browninga5.fire": {
+	"sounds": [
+	  "bf:item/gun/browning_a5/fire"
+	]
+  },
+  "item.gun.browninga5.pre": {
+	"sounds": [
+	  "bf:item/gun/browning_a5/pre"
+	]
+  },
+  "item.gun.trenchgun.fire": {
+	"sounds": [
+	  "bf:item/gun/trenchgun/fire"
+	]
+  },
+  "item.gun.trenchgun.pre": {
+	"sounds": [
+	  "bf:item/gun/trenchgun/pre"
+	]
+  },
+  "item.gun.trenchgun.reload": {
+	"sounds": [
+	  "bf:item/gun/trenchgun/reload"
+	]
+  },
+  "item.gun.tromboncino.fire": {
+	"sounds": [
+	  "bf:item/gun/tromboncino/fire"
+	]
+  },
+  "item.gun.type100.fire": {
+	"sounds": [
+	  "bf:item/gun/type100/fire"
+	]
+  },
+  "item.gun.type100.reload": {
+	"sounds": [
+	  "bf:item/gun/type100/reload"
+	]
+  },
+  "item.gun.type100.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/type100/reload_empty"
+	]
+  },
+  "item.gun.type11.fire": {
+	"sounds": [
+	  "bf:item/gun/type11/fire"
+	]
+  },
+  "item.gun.type11.reload": {
+	"sounds": [
+	  "bf:item/gun/type11/reload"
+	]
+  },
+  "item.gun.type14.fire": {
+	"sounds": [
+	  "bf:item/gun/type14/fire"
+	]
+  },
+  "item.gun.type14.reload": {
+	"sounds": [
+	  "bf:item/gun/type14/reload"
+	]
+  },
+  "item.gun.type14.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/type14/reload_empty"
+	]
+  },
+  "item.gun.type26.fire": {
+	"sounds": [
+	  "bf:item/gun/type26/fire"
+	]
+  },
+  "item.gun.type26.reload": {
+	"sounds": [
+	  "bf:item/gun/type26/reload"
+	]
+  },
+  "item.gun.type38.fire": {
+	"sounds": [
+	  "bf:item/gun/type38/fire"
+	]
+  },
+  "item.gun.type38.pre": {
+	"sounds": [
+	  "bf:item/gun/type38/pre"
+	]
+  },
+  "item.gun.type4.fire": {
+	"sounds": [
+	  "bf:item/gun/type4/fire"
+	]
+  },
+  "item.gun.type4.reload": {
+	"sounds": [
+	  "bf:item/gun/type4/reload"
+	]
+  },
+  "item.gun.type92.equip": {
+	"sounds": [
+	  "bf:item/gun/type92/equip"
+	]
+  },
+  "item.gun.type92.fire": {
+	"sounds": [
+	  "bf:item/gun/type92/fire"
+	]
+  },
+  "item.gun.type92.reload": {
+	"sounds": [
+	  "bf:item/gun/type92/reload"
+	]
+  },
+  "item.gun.type94.fire": {
+	"sounds": [
+	  "bf:item/gun/type94/fire"
+	]
+  },
+  "item.gun.type94.reload": {
+	"sounds": [
+	  "bf:item/gun/type94/reload"
+	]
+  },
+  "item.gun.type94.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/type94/reload_empty"
+	]
+  },
+  "item.gun.type96.equip": {
+	"sounds": [
+	  "bf:item/gun/type96/equip"
+	]
+  },
+  "item.gun.type96.fire": {
+	"sounds": [
+	  "bf:item/gun/type96/fire"
+	]
+  },
+  "item.gun.type96.pre": {
+	"sounds": [
+	  "bf:item/gun/type96/pre"
+	]
+  },
+  "item.gun.type96.reload": {
+	"sounds": [
+	  "bf:item/gun/type96/reload"
+	]
+  },
+  "item.gun.type98.reload": {
+	"sounds": [
+	  "bf:item/gun/type98/reload"
+	]
+  },
+  "item.gun.type98.fire": {
+	"sounds": [
+	  "bf:item/gun/type98/fire"
+	]
+  },
+  "item.gun.type99.fire": {
+	"sounds": [
+	  "bf:item/gun/type99/fire"
+	]
+  },
+  "item.gun.type99.reload": {
+	"sounds": [
+	  "bf:item/gun/type99/reload"
+	]
+  },
+  "item.gun.vickersk.fire": {
+	"sounds": [
+	  "bf:item/gun/vickersk/fire"
+	]
+  },
+  "item.gun.vickersk.reload": {
+	"sounds": [
+	  "bf:item/gun/vickersk/reload"
+	]
+  },
+  "item.gun.fbvis.fire": {
+	"sounds": [
+	  "bf:item/gun/fbvis/fire"
+	]
+  },
+  "item.gun.fbvis.reload": {
+	"sounds": [
+	  "bf:item/gun/fbvis/reload"
+	]
+  },
+  "item.gun.fbvis.reload.empty": {
+	"sounds": [
+	  "bf:item/gun/fbvis/reload_empty"
+	]
+  },
+  "item.gun.webley.mk6.fire": {
+	"sounds": [
+	  "bf:item/gun/webleymk6/fire"
+	]
+  },
+  "item.gun.webley.mk6.pre": {
+	"sounds": [
+	  "bf:item/gun/webleymk6/pre"
+	]
+  },
+  "item.gun.webley.mk6.reload": {
+	"sounds": [
+	  "bf:item/gun/webleymk6/reload"
+	]
+  },
+  "item.gun.zb26.fire": {
+	"sounds": [
+	  "bf:item/gun/zb26/fire"
+	]
+  },
+  "item.gun.zb26.reload": {
+	"sounds": [
+	  "bf:item/gun/zb26/reload"
+	]
+  },
+  "item.landmine.bounce": {
+	"sounds": [
+	  "bf:item/landmine/bounce0",
+	  "bf:item/landmine/bounce1"
+	]
+  },
+  "item.landmine.deploy": {
+	"sounds": [
+	  "bf:item/landmine/deploy"
+	]
+  },
+  "item.ammo.box.bounce": {
+	"sounds": [
+	  "bf:item/ammo_box/bounce0",
+	  "bf:item/ammo_box/bounce1",
+	  "bf:item/ammo_box/bounce2"
+	]
+  },
+  "item.ammo.box.use": {
+	"sounds": [
+	  "bf:item/ammo_box/use0",
+	  "bf:item/ammo_box/use1"
+	]
+  },
+  "item.medicalbag.bounce": {
+	"sounds": [
+	  "bf:item/medicalbag/bounce0",
+	  "bf:item/medicalbag/bounce1",
+	  "bf:item/medicalbag/bounce2",
+	  "bf:item/medicalbag/bounce3",
+	  "bf:item/medicalbag/bounce4"
+	]
+  },
+  "item.medicalbag.heal": {
+	"sounds": [
+	  "bf:item/medicalbag/heal0",
+	  "bf:item/medicalbag/heal1",
+	  "bf:item/medicalbag/heal2"
+	]
+  },
+  "item.randomat.activate": {
+	"sounds": [
+	  "bf:item/randomat/activate"
+	]
+  },
+  "item.randomat.activate.all": {
+	"sounds": [
+	  "bf:item/randomat/activate_all"
+	]
+  },
+  "match.tip": {
+	"sounds": [
+	  "bf:match/tip0",
+	  "bf:match/tip1",
+	  "bf:match/tip2"
+	]
+  },
+  "match.respawn": {
+	"sounds": [
+	  "bf:match/respawn0",
+	  "bf:match/respawn1",
+	  "bf:match/respawn2"
+	]
+  },
+  "match.airstrike.fire": {
+	"sounds": [
+	  "bf:match/airstrike/fire0",
+	  "bf:match/airstrike/fire1",
+	  "bf:match/airstrike/fire2"
+	]
+  },
+  "match.ammopoint.refill": {
+	"sounds": [
+	  "bf:match/ammopoint/refill0",
+	  "bf:match/ammopoint/refill1",
+	  "bf:match/ammopoint/refill2"
+	]
+  },
+  "match.capturepoint.captured": {
+	"sounds": [
+	  "bf:match/capturepoint/captured0",
+	  "bf:match/capturepoint/captured1",
+	  "bf:match/capturepoint/captured2",
+	  "bf:match/capturepoint/captured3",
+	  "bf:match/capturepoint/captured4"
+	]
+  },
+  "match.capturepoint.siren": {
+	"sounds": [
+	  "bf:match/capturepoint/siren"
+	]
+  },
+  "match.capturepoint.tick": {
+	"sounds": [
+	  "bf:match/capturepoint/tick"
+	]
+  },
+  "match.classes.change": {
+	"sounds": [
+	  "bf:match/classes/change0",
+	  "bf:match/classes/change1",
+	  "bf:match/classes/change2",
+	  "bf:match/classes/change3",
+	  "bf:match/classes/change4",
+	  "bf:match/classes/change5"
+	]
+  },
+  "match.dominating": {
+	"sounds": [
+	  "bf:match/dominating"
+	]
+  },
+  "match.event.avalanche.rocks": {
+	"sounds": [
+	  "bf:match/event/avalanche_rocks0",
+	  "bf:match/event/avalanche_rocks1",
+	  "bf:match/event/avalanche_rocks2",
+	  "bf:match/event/avalanche_rocks3",
+	  "bf:match/event/avalanche_rocks4",
+	  "bf:match/event/avalanche_rocks5",
+	  "bf:match/event/avalanche_rocks6"
+	]
+  },
+  "match.event.avalanche.rumble": {
+	"sounds": [
+	  "bf:match/event/avalanche_rumble"
+	]
+  },
+  "match.event.flak": {
+	"sounds": [
+	  "bf:match/event/flak"
+	]
+  },
+  "match.event.flak.distant": {
+	"sounds": [
+	  "bf:match/event/flak_distant"
+	]
+  },
+  "match.event.flak.distant.stereo": {
+	"sounds": [
+	  "bf:match/event/flak_distant_stereo0",
+	  "bf:match/event/flak_distant_stereo1",
+	  "bf:match/event/flak_distant_stereo2"
+	]
+  },
+  "match.event.flak.plane": {
+	"sounds": [
+	  "bf:match/event/flak_plane0"
+	]
+  },
+  "match.event.flak.plane.hit": {
+	"sounds": [
+	  "bf:match/event/flak_plane_hit0",
+	  "bf:match/event/flak_plane_hit1",
+	  "bf:match/event/flak_plane_hit2"
+	]
+  },
+  "match.event.flak.plane.stereo": {
+	"sounds": [
+	  "bf:match/event/flak_plane_stereo0",
+	  "bf:match/event/flak_plane_stereo1",
+	  "bf:match/event/flak_plane_stereo2"
+	]
+  },
+  "match.gamemode.boot.horn": {
+	"sounds": [
+	  "bf:match/gamemode/boot/horn"
+	]
+  },
+  "match.gamemode.boot.instructor.congratulations": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_congratulations0",
+	  "bf:match/gamemode/boot/instructor_congratulations1"
+	]
+  },
+  "match.gamemode.boot.instructor.friendlyfire": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_friendlyfire0",
+	  "bf:match/gamemode/boot/instructor_friendlyfire1",
+	  "bf:match/gamemode/boot/instructor_friendlyfire2",
+	  "bf:match/gamemode/boot/instructor_friendlyfire3",
+	  "bf:match/gamemode/boot/instructor_friendlyfire4",
+	  "bf:match/gamemode/boot/instructor_friendlyfire5",
+	  "bf:match/gamemode/boot/instructor_friendlyfire6",
+	  "bf:match/gamemode/boot/instructor_friendlyfire7"
+	]
+  },
+  "match.gamemode.boot.instructor.fulldayahead": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_fulldayahead0",
+	  "bf:match/gamemode/boot/instructor_fulldayahead1",
+	  "bf:match/gamemode/boot/instructor_fulldayahead2"
+	]
+  },
+  "match.gamemode.boot.instructor.gogogo": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_gogogo0",
+	  "bf:match/gamemode/boot/instructor_gogogo1"
+	]
+  },
+  "match.gamemode.boot.instructor.grenade": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_grenade0",
+	  "bf:match/gamemode/boot/instructor_grenade1"
+	]
+  },
+  "match.gamemode.boot.instructor.notend": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_notend0",
+	  "bf:match/gamemode/boot/instructor_notend1"
+	]
+  },
+  "match.gamemode.boot.instructor.obstacle": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_obstacle0",
+	  "bf:match/gamemode/boot/instructor_obstacle1"
+	]
+  },
+  "match.gamemode.boot.instructor.pickupweapon": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_pickupweapon0",
+	  "bf:match/gamemode/boot/instructor_pickupweapon1"
+	]
+  },
+  "match.gamemode.boot.instructor.swim": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_swim0",
+	  "bf:match/gamemode/boot/instructor_swim1"
+	]
+  },
+  "match.gamemode.boot.instructor.target.bad": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_target_bad0",
+	  "bf:match/gamemode/boot/instructor_target_bad1"
+	]
+  },
+  "match.gamemode.boot.instructor.target.best": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_target_best0",
+	  "bf:match/gamemode/boot/instructor_target_best1"
+	]
+  },
+  "match.gamemode.boot.instructor.target.good": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_target_good0",
+	  "bf:match/gamemode/boot/instructor_target_good1"
+	]
+  },
+  "match.gamemode.boot.instructor.target.ok": {
+	"sounds": [
+	  "bf:match/gamemode/boot/instructor_target_ok0",
+	  "bf:match/gamemode/boot/instructor_target_ok1"
+	]
+  },
+  "match.gamemode.boot.jazz": {
+	"sounds": [
+	  "bf:match/gamemode/boot/jazz"
+	]
+  },
+  "match.gamemode.boot.usa": {
+	"sounds": [
+	  "bf:match/gamemode/boot/usa"
+	]
+  },
+  "match.gamemode.boot.usradio": {
+	"sounds": [
+	  "bf:match/gamemode/boot/usradio"
+	]
+  },
+  "match.gamemode.dom.point.captured": {
+	"sounds": [
+	  "bf:match/gamemode/dom/point/captured0",
+	  "bf:match/gamemode/dom/point/captured1",
+	  "bf:match/gamemode/dom/point/captured2",
+	  "bf:match/gamemode/dom/point/captured3"
+	]
+  },
+  "match.gamemode.dom.point.lost": {
+	"sounds": [
+	  "bf:match/gamemode/dom/point/lost0",
+	  "bf:match/gamemode/dom/point/lost1",
+	  "bf:match/gamemode/dom/point/lost2",
+	  "bf:match/gamemode/dom/point/lost3"
+	]
+  },
+  "match.gamemode.inf.doground": {
+	"sounds": [
+	  "bf:match/gamemode/inf/doground"
+	]
+  },
+  "match.gamemode.inf.doground.end": {
+	"sounds": [
+	  "bf:match/gamemode/inf/dogroundend"
+	]
+  },
+  "match.gamemode.inf.endround": {
+	"sounds": [
+	  "bf:match/gamemode/inf/endround"
+	]
+  },
+  "match.gamemode.inf.gameover": {
+	"sounds": [
+	  "bf:match/gamemode/inf/gameover"
+	]
+  },
+  "match.gamemode.inf.hoard": {
+	"sounds": [
+	  "bf:match/gamemode/inf/hoard0",
+	  "bf:match/gamemode/inf/hoard1",
+	  "bf:match/gamemode/inf/hoard2",
+	  "bf:match/gamemode/inf/hoard3",
+	  "bf:match/gamemode/inf/hoard4"
+	]
+  },
+  "match.gamemode.inf.newround": {
+	"sounds": [
+	  "bf:match/gamemode/inf/newround"
+	]
+  },
+  "match.gamemode.sg.cannon": {
+	"sounds": [
+	  "bf:match/gamemode/sg/cannon"
+	]
+  },
+  "match.gamemode.sg.cannon.stereo": {
+	"sounds": [
+	  "bf:match/gamemode/sg/cannon_stereo"
+	]
+  },
+  "match.gamemode.sg.music.end": {
+	"sounds": [
+	  "bf:match/gamemode/sg/music/end"
+	]
+  },
+  "match.gamemode.sg.music.start": {
+	"sounds": [
+	  "bf:match/gamemode/sg/music/start"
+	]
+  },
+  "match.gamemode.tdm.announcer.firstblood": {
+	"sounds": [
+	  "bf:match/gamemode/tdm/announcer/firstblood"
+	]
+  },
+  "match.gamemode.tdm.streak.10": {
+	"sounds": [
+	  "bf:match/gamemode/tdm/streak/10"
+	]
+  },
+  "match.gamemode.tdm.streak.15": {
+	"sounds": [
+	  "bf:match/gamemode/tdm/streak/15"
+	]
+  },
+  "match.gamemode.tdm.streak.20": {
+	"sounds": [
+	  "bf:match/gamemode/tdm/streak/20"
+	]
+  },
+  "match.gamemode.tdm.streak.25": {
+	"sounds": [
+	  "bf:match/gamemode/tdm/streak/25"
+	]
+  },
+  "match.gamemode.tdm.streak.30": {
+	"sounds": [
+	  "bf:match/gamemode/tdm/streak/30"
+	]
+  },
+  "match.gamemode.tdm.streak.5": {
+	"sounds": [
+	  "bf:match/gamemode/tdm/streak/5"
+	]
+  },
+  "match.gamemode.tdm.streak.end": {
+	"sounds": [
+	  "bf:match/gamemode/tdm/streak/end"
+	]
+  },
+  "match.gamemode.tdm.streak.max": {
+	"sounds": [
+	  "bf:match/gamemode/tdm/streak/max"
+	]
+  },
+  "match.gamemode.ttt.randomat.fart": {
+	"sounds": [
+	  "bf:match/gamemode/ttt/randomat/fart"
+	]
+  },
+  "match.gamemode.ttt.role.reveal": {
+	"sounds": [
+	  "bf:match/gamemode/ttt/role/reveal"
+	]
+  },
+  "match.gamemode.ttt.role.detective": {
+	"sounds": [
+	  "bf:match/gamemode/ttt/role/detective"
+	]
+  },
+  "match.gamemode.ttt.role.innocent": {
+	"sounds": [
+	  "bf:match/gamemode/ttt/role/innocent"
+	]
+  },
+  "match.gamemode.ttt.death.traitor": {
+	"sounds": [
+	  "bf:match/gamemode/ttt/death_traitor0",
+	  "bf:match/gamemode/ttt/death_traitor1",
+	  "bf:match/gamemode/ttt/death_traitor2",
+	  "bf:match/gamemode/ttt/death_traitor3",
+	  "bf:match/gamemode/ttt/death_traitor4"
+	]
+  },
+  "match.gamemode.ttt.role.traitor": {
+	"sounds": [
+	  "bf:match/gamemode/ttt/role/traitor"
+	]
+  },
+  "match.gamemode.ttt.win.innocent": {
+	"sounds": [
+	  "bf:match/gamemode/ttt/role/win_innocent"
+	]
+  },
+  "match.gamemode.ttt.win.traitor": {
+	"sounds": [
+	  "bf:match/gamemode/ttt/role/win_traitor"
+	]
+  },
+  "match.mapeffect.plane.flyby": {
+	"sounds": [
+	  "bf:match/mapeffect/plane_flyby0",
+	  "bf:match/mapeffect/plane_flyby1",
+	  "bf:match/mapeffect/plane_flyby2",
+	  "bf:match/mapeffect/plane_flyby3",
+	  "bf:match/mapeffect/plane_flyby4"
+	]
+  },
+  "match.mapeffect.plane.flyby.low": {
+	"sounds": [
+	  "bf:match/mapeffect/plane_flyby_low0",
+	  "bf:match/mapeffect/plane_flyby_low1",
+	  "bf:match/mapeffect/plane_flyby_low2",
+	  "bf:match/mapeffect/plane_flyby_low3",
+	  "bf:match/mapeffect/plane_flyby_low4",
+	  "bf:match/mapeffect/plane_flyby_low5"
+	]
+  },
+  "match.memes.cheese": {
+	"sounds": [
+	  "bf:match/memes/cheese"
+	]
+  },
+  "match.memes.ned": {
+	"sounds": [
+	  "bf:match/memes/ned"
+	]
+  },
+  "match.memes.iaint": {
+	"sounds": [
+	  "bf:match/memes/iaint"
+	]
+  },
+  "match.memes.seasamecake": {
+	"sounds": [
+	  "bf:match/memes/seasamecake"
+	]
+  },
+  "match.memes.kekeke": {
+	"sounds": [
+	  "bf:match/memes/kekeke"
+	]
+  },
+  "match.memes.wth": {
+	"sounds": [
+	  "bf:match/memes/wth"
+	]
+  },
+  "match.memes.omg": {
+	"sounds": [
+	  "bf:match/memes/omg"
+	]
+  },
+  "match.memes.eua": {
+	"sounds": [
+	  "bf:match/memes/eua"
+	]
+  },
+  "match.memes.augh": {
+	"sounds": [
+	  "bf:match/memes/augh"
+	]
+  },
+  "match.memes.stefan": {
+	"sounds": [
+	  "bf:match/memes/stefan0",
+	  "bf:match/memes/stefan1",
+	  "bf:match/memes/stefan2",
+	  "bf:match/memes/stefan3",
+	  "bf:match/memes/stefan4"
+	]
+  },
+  "match.memes.danke": {
+	"sounds": [
+	  "bf:match/memes/danke_stefan0",
+	  "bf:match/memes/danke_stefan1",
+	  "bf:match/memes/danke_stefan2"
+	]
+  },
+  "match.memes.sucka": {
+	"sounds": [
+	  "bf:match/memes/sucka"
+	]
+  },
+  "match.memes.everything": {
+	"sounds": [
+	  "bf:match/memes/everything"
+	]
+  },
+  "match.memes.who": {
+	"sounds": [
+	  "bf:match/memes/who"
+	]
+  },
+  "match.memes.howdareyou": {
+	"sounds": [
+	  "bf:match/memes/howdareyou"
+	]
+  },
+  "match.memes.whoru": {
+	"sounds": [
+	  "bf:match/memes/whoru"
+	]
+  },
+  "match.memes.hush": {
+	"sounds": [
+	  "bf:match/memes/hush"
+	]
+  },
+  "match.memes.notalent": {
+	"sounds": [
+	  "bf:match/memes/notalent"
+	]
+  },
+  "match.memes.norespect": {
+	"sounds": [
+	  "bf:match/memes/norespect"
+	]
+  },
+  "match.memes.skillissue": {
+	"sounds": [
+	  "bf:match/memes/skillissue"
+	]
+  },
+  "match.memes.monke": {
+	"sounds": [
+	  "bf:match/memes/monke"
+	]
+  },
+  "match.memes.puff": {
+	"sounds": [
+	  "bf:match/memes/puff"
+	]
+  },
+  "match.memes.angry": {
+	"sounds": [
+	  "bf:match/memes/angry"
+	]
+  },
+  "match.memes.ayo": {
+	"sounds": [
+	  "bf:match/memes/ayo"
+	]
+  },
+  "match.memes.badum": {
+	"sounds": [
+	  "bf:match/memes/badum"
+	]
+  },
+  "match.memes.balegdah": {
+	"sounds": [
+	  "bf:match/memes/balegdah"
+	]
+  },
+  "match.memes.ball": {
+	"sounds": [
+	  "bf:match/memes/ball"
+	]
+  },
+  "match.memes.befehl": {
+	"sounds": [
+	  "bf:match/memes/befehl"
+	]
+  },
+  "match.memes.blade": {
+	"sounds": [
+	  "bf:match/memes/blade"
+	]
+  },
+  "match.memes.bruh": {
+	"sounds": [
+	  "bf:match/memes/bruh"
+	]
+  },
+  "match.memes.canny": {
+	"sounds": [
+	  "bf:match/memes/canny"
+	]
+  },
+  "match.memes.chicken": {
+	"sounds": [
+	  "bf:match/memes/chicken"
+	]
+  },
+  "match.memes.chocolatecake": {
+	"sounds": [
+	  "bf:match/memes/chocolatecake"
+	]
+  },
+  "match.memes.ciao": {
+	"sounds": [
+	  "bf:match/memes/ciao"
+	]
+  },
+  "match.memes.cloh": {
+	"sounds": [
+	  "bf:match/memes/cloh"
+	]
+  },
+  "match.memes.comeagain": {
+	"sounds": [
+	  "bf:match/memes/comeagain"
+	]
+  },
+  "match.memes.crackbone": {
+	"sounds": [
+	  "bf:match/memes/crackbone"
+	]
+  },
+  "match.memes.crickets": {
+	"sounds": [
+	  "bf:match/memes/crickets"
+	]
+  },
+  "match.memes.cs4kids": {
+	"sounds": [
+	  "bf:match/memes/cs4kids"
+	]
+  },
+  "match.memes.jockey": {
+	"sounds": [
+	  "bf:match/memes/jockey"
+	]
+  },
+  "match.memes.nether": {
+	"sounds": [
+	  "bf:match/memes/nether"
+	]
+  },
+  "match.memes.rules": {
+	"sounds": [
+	  "bf:match/memes/rules"
+	]
+  },
+  "match.memes.cupboard": {
+	"sounds": [
+	  "bf:match/memes/cupboard"
+	]
+  },
+  "match.memes.damn": {
+	"sounds": [
+	  "bf:match/memes/damn"
+	]
+  },
+  "match.memes.dammit": {
+	"sounds": [
+	  "bf:match/memes/dammit"
+	]
+  },
+  "match.memes.dayum": {
+	"sounds": [
+	  "bf:match/memes/dayum"
+	]
+  },
+  "match.memes.debile": {
+	"sounds": [
+	  "bf:match/memes/debile"
+	]
+  },
+  "match.memes.delicious": {
+	"sounds": [
+	  "bf:match/memes/delicious"
+	]
+  },
+  "match.memes.depp": {
+	"sounds": [
+	  "bf:match/memes/depp"
+	]
+  },
+  "match.memes.drink": {
+	"sounds": [
+	  "bf:match/memes/drink"
+	]
+  },
+  "match.memes.eli": {
+	"sounds": [
+	  "bf:match/memes/eli"
+	]
+  },
+  "match.memes.eyebrows": {
+	"sounds": [
+	  "bf:match/memes/eyebrows"
+	]
+  },
+  "match.memes.fart": {
+	"sounds": [
+	  "bf:match/memes/fart"
+	]
+  },
+  "match.memes.fast": {
+	"sounds": [
+	  "bf:match/memes/fast"
+	]
+  },
+  "match.memes.fatass": {
+	"sounds": [
+	  "bf:match/memes/fatass"
+	]
+  },
+  "match.memes.forknife": {
+	"sounds": [
+	  "bf:match/memes/forknife"
+	]
+  },
+  "match.memes.fuc": {
+	"sounds": [
+	  "bf:match/memes/fuc"
+	]
+  },
+  "match.memes.funny": {
+	"sounds": [
+	  "bf:match/memes/funny"
+	]
+  },
+  "match.memes.gaben": {
+	"sounds": [
+	  "bf:match/memes/gaben"
+	]
+  },
+  "match.memes.gman": {
+	"sounds": [
+	  "bf:match/memes/gman"
+	]
+  },
+  "match.memes.gnome": {
+	"sounds": [
+	  "bf:match/memes/gnome"
+	]
+  },
+  "match.memes.guy": {
+	"sounds": [
+	  "bf:match/memes/guy"
+	]
+  },
+  "match.memes.haha": {
+	"sounds": [
+	  "bf:match/memes/haha"
+	]
+  },
+  "match.memes.hamster": {
+	"sounds": [
+	  "bf:match/memes/hamster"
+	]
+  },
+  "match.memes.hb": {
+	"sounds": [
+	  "bf:match/memes/hb"
+	]
+  },
+  "match.memes.headshot": {
+	"sounds": [
+	  "bf:match/memes/headshot"
+	]
+  },
+  "match.memes.hia": {
+	"sounds": [
+	  "bf:match/memes/hia"
+	]
+  },
+  "match.memes.himom": {
+	"sounds": [
+	  "bf:match/memes/himom"
+	]
+  },
+  "match.memes.hoho": {
+	"sounds": [
+	  "bf:match/memes/hoho"
+	]
+  },
+  "match.memes.honk": {
+	"sounds": [
+	  "bf:match/memes/honk"
+	]
+  },
+  "match.memes.howto": {
+	"sounds": [
+	  "bf:match/memes/howto"
+	]
+  },
+  "match.memes.huh": {
+	"sounds": [
+	  "bf:match/memes/huh"
+	]
+  },
+  "match.memes.inception": {
+	"sounds": [
+	  "bf:match/memes/inception"
+	]
+  },
+  "match.memes.jeopardy": {
+	"sounds": [
+	  "bf:match/memes/jeopardy"
+	]
+  },
+  "match.memes.kill": {
+	"sounds": [
+	  "bf:match/memes/kill"
+	]
+  },
+  "match.memes.lala": {
+	"sounds": [
+	  "bf:match/memes/lala"
+	]
+  },
+  "match.memes.leeroy": {
+	"sounds": [
+	  "bf:match/memes/leeroy"
+	]
+  },
+  "match.memes.legitness": {
+	"sounds": [
+	  "bf:match/memes/legitness"
+	]
+  },
+  "match.memes.lol": {
+	"sounds": [
+	  "bf:match/memes/lol"
+	]
+  },
+  "match.memes.lopez": {
+	"sounds": [
+	  "bf:match/memes/lopez"
+	]
+  },
+  "match.memes.lvlup": {
+	"sounds": [
+	  "bf:match/memes/lvlup"
+	]
+  },
+  "match.memes.meeting": {
+	"sounds": [
+	  "bf:match/memes/meeting"
+	]
+  },
+  "match.memes.merkel": {
+	"sounds": [
+	  "bf:match/memes/merkel"
+	]
+  },
+  "match.memes.mew": {
+	"sounds": [
+	  "bf:match/memes/mew"
+	]
+  },
+  "match.memes.milk": {
+	"sounds": [
+	  "bf:match/memes/milk0",
+	  "bf:match/memes/milk1",
+	  "bf:match/memes/milk2",
+	  "bf:match/memes/milk3",
+	  "bf:match/memes/milk4",
+	  "bf:match/memes/milk5",
+	  "bf:match/memes/milk6"
+	]
+  },
+  "match.memes.missed": {
+	"sounds": [
+	  "bf:match/memes/missed"
+	]
+  },
+  "match.memes.mojo": {
+	"sounds": [
+	  "bf:match/memes/mojo0",
+	  "bf:match/memes/mojo1",
+	  "bf:match/memes/mojo2",
+	  "bf:match/memes/mojo3",
+	  "bf:match/memes/mojo4",
+	  "bf:match/memes/mojo5",
+	  "bf:match/memes/mojo6",
+	  "bf:match/memes/mojo7"
+	]
+  },
+  "match.memes.nein": {
+	"sounds": [
+	  "bf:match/memes/nein"
+	]
+  },
+  "match.memes.no": {
+	"sounds": [
+	  "bf:match/memes/no0",
+	  "bf:match/memes/no1",
+	  "bf:match/memes/no2"
+	]
+  },
+  "match.memes.noice": {
+	"sounds": [
+	  "bf:match/memes/noice"
+	]
+  },
+  "match.memes.obamna": {
+	"sounds": [
+	  "bf:match/memes/obamna"
+	]
+  },
+  "match.memes.onball": {
+	"sounds": [
+	  "bf:match/memes/onball"
+	]
+  },
+  "match.memes.overthere": {
+	"sounds": [
+	  "bf:match/memes/overthere"
+	]
+  },
+  "match.memes.pizza": {
+	"sounds": [
+	  "bf:match/memes/pizza"
+	]
+  },
+  "match.memes.ppp": {
+	"sounds": [
+	  "bf:match/memes/ppp"
+	]
+  },
+  "match.memes.quack": {
+	"sounds": [
+	  "bf:match/memes/quack"
+	]
+  },
+  "match.memes.quandale": {
+	"sounds": [
+	  "bf:match/memes/quandale"
+	]
+  },
+  "match.memes.racist": {
+	"sounds": [
+	  "bf:match/memes/racist"
+	]
+  },
+  "match.memes.raw": {
+	"sounds": [
+	  "bf:match/memes/raw"
+	]
+  },
+  "match.memes.salami": {
+	"sounds": [
+	  "bf:match/memes/salami"
+	]
+  },
+  "match.memes.scared": {
+	"sounds": [
+	  "bf:match/memes/scared"
+	]
+  },
+  "match.memes.scott": {
+	"sounds": [
+	  "bf:match/memes/scott0",
+	  "bf:match/memes/scott1",
+	  "bf:match/memes/scott2",
+	  "bf:match/memes/scott3",
+	  "bf:match/memes/scott4",
+	  "bf:match/memes/scott5",
+	  "bf:match/memes/scott6",
+	  "bf:match/memes/scott7",
+	  "bf:match/memes/scott8",
+	  "bf:match/memes/scott9",
+	  "bf:match/memes/scott10"
+	]
+  },
+  "match.memes.shamwow": {
+	"sounds": [
+	  "bf:match/memes/shamwow"
+	]
+  },
+  "match.memes.sheee": {
+	"sounds": [
+	  "bf:match/memes/sheee"
+	]
+  },
+  "match.memes.sheet": {
+	"sounds": [
+	  "bf:match/memes/sheet"
+	]
+  },
+  "match.memes.slap": {
+	"sounds": [
+	  "bf:match/memes/slap"
+	]
+  },
+  "match.memes.smooch": {
+	"sounds": [
+	  "bf:match/memes/smooch"
+	]
+  },
+  "match.memes.snooping": {
+	"sounds": [
+	  "bf:match/memes/snooping"
+	]
+  },
+  "match.memes.splodged": {
+	"sounds": [
+	  "bf:match/memes/splodged"
+	]
+  },
+  "match.memes.spongebub": {
+	"sounds": [
+	  "bf:match/memes/spongebub"
+	]
+  },
+  "match.memes.spoon": {
+	"sounds": [
+	  "bf:match/memes/spoon"
+	]
+  },
+  "match.memes.squeak": {
+	"sounds": [
+	  "bf:match/memes/squeak"
+	]
+  },
+  "match.memes.squeaky": {
+	"sounds": [
+	  "bf:match/memes/squeaky"
+	]
+  },
+  "match.memes.survival": {
+	"sounds": [
+	  "bf:match/memes/survival"
+	]
+  },
+  "match.memes.sus": {
+	"sounds": [
+	  "bf:match/memes/sus"
+	]
+  },
+  "match.memes.suspense": {
+	"sounds": [
+	  "bf:match/memes/suspense"
+	]
+  },
+  "match.memes.toothpaste": {
+	"sounds": [
+	  "bf:match/memes/toothpaste"
+	]
+  },
+  "match.memes.wam": {
+	"sounds": [
+	  "bf:match/memes/wam"
+	]
+  },
+  "match.memes.wassup": {
+	"sounds": [
+	  "bf:match/memes/wassup"
+	]
+  },
+  "match.memes.weed": {
+	"sounds": [
+	  "bf:match/memes/weed"
+	]
+  },
+  "match.memes.what": {
+	"sounds": [
+	  "bf:match/memes/what"
+	]
+  },
+  "match.memes.whatiswrong": {
+	"sounds": [
+	  "bf:match/memes/whatiswrong"
+	]
+  },
+  "match.memes.whoasked": {
+	"sounds": [
+	  "bf:match/memes/whoasked"
+	]
+  },
+  "match.memes.woaw": {
+	"sounds": [
+	  "bf:match/memes/woaw"
+	]
+  },
+  "match.memes.wololo": {
+	"sounds": [
+	  "bf:match/memes/wololo"
+	]
+  },
+  "match.memes.woohoo": {
+	"sounds": [
+	  "bf:match/memes/woohoo"
+	]
+  },
+  "match.memes.wow": {
+	"sounds": [
+	  "bf:match/memes/wow"
+	]
+  },
+  "match.memes.wrong": {
+	"sounds": [
+	  "bf:match/memes/wrong"
+	]
+  },
+  "match.memes.wyd": {
+	"sounds": [
+	  "bf:match/memes/wyd"
+	]
+  },
+  "match.memes.yay": {
+	"sounds": [
+	  "bf:match/memes/yay"
+	]
+  },
+  "match.memes.yeehaw": {
+	"sounds": [
+	  "bf:match/memes/yeehaw"
+	]
+  },
+  "match.memes.zonk": {
+	"sounds": [
+	  "bf:match/memes/zonk"
+	]
+  },
+  "match.popup.kills": {
+	"sounds": [
+	  "bf:match/popup/kills0",
+	  "bf:match/popup/kills1",
+	  "bf:match/popup/kills2",
+	  "bf:match/popup/kills3",
+	  "bf:match/popup/kills4"
+	]
+  },
+  "match.revenge": {
+	"sounds": [
+	  "bf:match/revenge"
+	]
+  },
+  "match.tick": {
+	"sounds": [
+	  "bf:match/tick"
+	]
+  },
+  "match.tock": {
+	"sounds": [
+	  "bf:match/tock"
+	]
+  },
+  "misc.vc.start": {
+	"sounds": [
+	  "bf:misc/vc/start"
+	]
+  },
+  "misc.vc.stop": {
+	"sounds": [
+	  "bf:misc/vc/stop"
+	]
+  },
+  "misc.gore": {
+	"sounds": [
+	  "bf:misc/gore0",
+	  "bf:misc/gore1",
+	  "bf:misc/gore2",
+	  "bf:misc/gore3",
+	  "bf:misc/gore4",
+	  "bf:misc/gore5",
+	  "bf:misc/gore6"
+	]
+  },
+  "misc.gore.nose": {
+	"sounds": [
+	  "bf:misc/gore_nose"
+	]
+  },
+  "misc.heartbeat": {
+	"sounds": [
+	  "bf:misc/heartbeat"
+	]
+  },
+  "misc.hitmarker": {
+	"sounds": [
+	  "bf:misc/hitmarker"
+	]
+  },
+  "misc.morsecode": {
+	"sounds": [
+	  "bf:misc/morsecode"
+	]
+  },
+  "misc.radio.transmission": {
+	"sounds": [
+	  "bf:misc/radio_transmission"
+	]
+  },
+  "misc.rank.up": {
+	"sounds": [
+	  "bf:misc/rankup"
+	]
+  },
+  "misc.patreon.link": {
+	"sounds": [
+	  "bf:misc/patreon_link"
+	]
+  },
+  "music.bootcamp": {
+	"sounds": [
+	  {
+		"name": "bf:music/bootcamp",
+		"stream": true
+	  }
+	]
+  },
+  "music.sets.europe.conclude.generic": {
+	"sounds": [
+	  {
+		"name": "bf:music/sets/europe/conclude_generic",
+		"stream": true
+	  }
+	]
+  },
+  "music.sets.europe.conclude": {
+	"sounds": [
+	  {
+		"name": "bf:music/sets/europe/conclude",
+		"stream": true
+	  }
+	]
+  },
+  "music.sets.europe.suspense.one": {
+	"sounds": [
+	  {
+		"name": "bf:music/sets/europe/suspense_one",
+		"stream": true
+	  }
+	]
+  },
+  "music.sets.europe.suspense.two": {
+	"sounds": [
+	  {
+		"name": "bf:music/sets/europe/suspense_two",
+		"stream": true
+	  }
+	]
+  },
+  "music.sets.europe.suspense.three": {
+	"sounds": [
+	  {
+		"name": "bf:music/sets/europe/suspense_three",
+		"stream": true
+	  }
+	]
+  },
+  "music.sets.europe.start": {
+	"sounds": [
+	  {
+		"name": "bf:music/sets/europe/start",
+		"stream": true
+	  }
+	]
+  },
+  "music.sets.europe.start.generic": {
+	"sounds": [
+	  {
+		"name": "bf:music/sets/europe/start_generic",
+		"stream": true
+	  }
+	]
+  },
+  "music.sets.europe.warmup": {
+	"sounds": [
+	  {
+		"name": "bf:music/sets/europe/warmup",
+		"stream": true
+	  }
+	]
+  },
+  "music.menu": {
+	"sounds": [
+	  {
+		"name": "bf:music/menu",
+		"stream": true
+	  }
+	]
+  },
+  "music.menu.searching": {
+	"sounds": [
+	  {
+		"name": "bf:music/menu_searching",
+		"stream": true
+	  }
+	]
+  },
+  "particle.surrenderpaper.fall": {
+	"sounds": [
+	  "bf:particle/surrenderpaper/fall0",
+	  "bf:particle/surrenderpaper/fall1",
+	  "bf:particle/surrenderpaper/fall2",
+	  "bf:particle/surrenderpaper/fall3",
+	  "bf:particle/surrenderpaper/fall4",
+	  "bf:particle/surrenderpaper/fall5",
+	  "bf:particle/surrenderpaper/fall6"
+	]
+  },
+  "team.fr.bot.go": {
+	"sounds": [
+	  "bf:team/fr/bot_go0",
+	  "bf:team/fr/bot_go1",
+	  "bf:team/fr/bot_go2",
+	  "bf:team/fr/bot_go3",
+	  "bf:team/fr/bot_go4",
+	  "bf:team/fr/bot_go5",
+	  "bf:team/fr/bot_go6",
+	  "bf:team/fr/bot_go7",
+	  "bf:team/fr/bot_go8",
+	  "bf:team/fr/bot_go9",
+	  "bf:team/fr/bot_go10",
+	  "bf:team/fr/bot_go11",
+	  "bf:team/fr/bot_go12",
+	  "bf:team/fr/bot_go13"
+	]
+  },
+  "team.fr.bot.grenade": {
+	"sounds": [
+	  "bf:team/fr/bot_grenade0",
+	  "bf:team/fr/bot_grenade1",
+	  "bf:team/fr/bot_grenade2",
+	  "bf:team/fr/bot_grenade3",
+	  "bf:team/fr/bot_grenade4",
+	  "bf:team/fr/bot_grenade5"
+	]
+  },
+  "team.fr.bot.hurt": {
+	"sounds": [
+	  "bf:team/fr/bot_hurt0",
+	  "bf:team/fr/bot_hurt1",
+	  "bf:team/fr/bot_hurt2",
+	  "bf:team/fr/bot_hurt3",
+	  "bf:team/fr/bot_hurt4",
+	  "bf:team/fr/bot_hurt5",
+	  "bf:team/fr/bot_hurt6",
+	  "bf:team/fr/bot_hurt7",
+	  "bf:team/fr/bot_hurt8",
+	  "bf:team/fr/bot_hurt9"
+	]
+  },
+  "team.fr.bot.intro": {
+	"sounds": [
+	  "bf:team/fr/bot_intro0",
+	  "bf:team/fr/bot_intro1",
+	  "bf:team/fr/bot_intro2",
+	  "bf:team/fr/bot_intro3"
+	]
+  },
+  "team.fr.bot.reloading": {
+	"sounds": [
+	  "bf:team/fr/bot_reloading0",
+	  "bf:team/fr/bot_reloading1",
+	  "bf:team/fr/bot_reloading2",
+	  "bf:team/fr/bot_reloading3",
+	  "bf:team/fr/bot_reloading4",
+	  "bf:team/fr/bot_reloading5"
+	]
+  },
+  "team.fr.bot.spotted": {
+	"sounds": [
+	  "bf:team/fr/bot_spotted0",
+	  "bf:team/fr/bot_spotted1",
+	  "bf:team/fr/bot_spotted2",
+	  "bf:team/fr/bot_spotted3",
+	  "bf:team/fr/bot_spotted4",
+	  "bf:team/fr/bot_spotted5",
+	  "bf:team/fr/bot_spotted6",
+	  "bf:team/fr/bot_spotted7",
+	  "bf:team/fr/bot_spotted8"
+	]
+  },
+  "team.fr.bot.taunt": {
+	"sounds": [
+	  "bf:team/fr/bot_taunt0",
+	  "bf:team/fr/bot_taunt1",
+	  "bf:team/fr/bot_taunt2",
+	  "bf:team/fr/bot_taunt3",
+	  "bf:team/fr/bot_taunt4",
+	  "bf:team/fr/bot_taunt5",
+	  "bf:team/fr/bot_taunt6",
+	  "bf:team/fr/bot_taunt7",
+	  "bf:team/fr/bot_taunt8",
+	  "bf:team/fr/bot_taunt9"
+	]
+  },
+  "team.gb.scot.bot.go": {
+	"sounds": [
+	  "bf:team/gb/scot/bot_go0",
+	  "bf:team/gb/scot/bot_go1",
+	  "bf:team/gb/scot/bot_go2",
+	  "bf:team/gb/scot/bot_go3",
+	  "bf:team/gb/scot/bot_go4",
+	  "bf:team/gb/scot/bot_go5",
+	  "bf:team/gb/scot/bot_go6",
+	  "bf:team/gb/scot/bot_go7",
+	  "bf:team/gb/scot/bot_go8",
+	  "bf:team/gb/scot/bot_go9",
+	  "bf:team/gb/scot/bot_go10",
+	  "bf:team/gb/scot/bot_go11",
+	  "bf:team/gb/scot/bot_go12",
+	  "bf:team/gb/scot/bot_go13",
+	  "bf:team/gb/scot/bot_go14",
+	  "bf:team/gb/scot/bot_go15"
+	]
+  },
+  "team.gb.scot.bot.grenade": {
+	"sounds": [
+	  "bf:team/gb/scot/bot_grenade0",
+	  "bf:team/gb/scot/bot_grenade1",
+	  "bf:team/gb/scot/bot_grenade2",
+	  "bf:team/gb/scot/bot_grenade3",
+	  "bf:team/gb/scot/bot_grenade4",
+	  "bf:team/gb/scot/bot_grenade5",
+	  "bf:team/gb/scot/bot_grenade6"
+	]
+  },
+  "team.gb.scot.bot.hurt": {
+	"sounds": [
+	  "bf:team/gb/scot/bot_hurt0",
+	  "bf:team/gb/scot/bot_hurt1",
+	  "bf:team/gb/scot/bot_hurt2",
+	  "bf:team/gb/scot/bot_hurt3",
+	  "bf:team/gb/scot/bot_hurt4",
+	  "bf:team/gb/scot/bot_hurt5",
+	  "bf:team/gb/scot/bot_hurt6",
+	  "bf:team/gb/scot/bot_hurt7",
+	  "bf:team/gb/scot/bot_hurt8",
+	  "bf:team/gb/scot/bot_hurt9",
+	  "bf:team/gb/scot/bot_hurt10"
+	]
+  },
+  "team.gb.scot.bot.intro": {
+	"sounds": [
+	  "bf:team/gb/scot/bot_intro0",
+	  "bf:team/gb/scot/bot_intro1",
+	  "bf:team/gb/scot/bot_intro2",
+	  "bf:team/gb/scot/bot_intro3"
+	]
+  },
+  "team.gb.scot.bot.reloading": {
+	"sounds": [
+	  "bf:team/gb/scot/bot_reloading0",
+	  "bf:team/gb/scot/bot_reloading1",
+	  "bf:team/gb/scot/bot_reloading2",
+	  "bf:team/gb/scot/bot_reloading3",
+	  "bf:team/gb/scot/bot_reloading4",
+	  "bf:team/gb/scot/bot_reloading5",
+	  "bf:team/gb/scot/bot_reloading6",
+	  "bf:team/gb/scot/bot_reloading7",
+	  "bf:team/gb/scot/bot_reloading8"
+	]
+  },
+  "team.gb.scot.bot.spotted": {
+	"sounds": [
+	  "bf:team/gb/scot/bot_spotted0",
+	  "bf:team/gb/scot/bot_spotted1",
+	  "bf:team/gb/scot/bot_spotted2",
+	  "bf:team/gb/scot/bot_spotted3",
+	  "bf:team/gb/scot/bot_spotted4",
+	  "bf:team/gb/scot/bot_spotted5",
+	  "bf:team/gb/scot/bot_spotted6",
+	  "bf:team/gb/scot/bot_spotted7",
+	  "bf:team/gb/scot/bot_spotted8"
+	]
+  },
+  "team.gb.scot.bot.taunt": {
+	"sounds": [
+	  "bf:team/gb/scot/bot_taunt0",
+	  "bf:team/gb/scot/bot_taunt1",
+	  "bf:team/gb/scot/bot_taunt2",
+	  "bf:team/gb/scot/bot_taunt3",
+	  "bf:team/gb/scot/bot_taunt4",
+	  "bf:team/gb/scot/bot_taunt5",
+	  "bf:team/gb/scot/bot_taunt6",
+	  "bf:team/gb/scot/bot_taunt7",
+	  "bf:team/gb/scot/bot_taunt8",
+	  "bf:team/gb/scot/bot_taunt9",
+	  "bf:team/gb/scot/bot_taunt10"
+	]
+  },
+  "team.gb.bot.go": {
+	"sounds": [
+	  "bf:team/gb/bot_go0",
+	  "bf:team/gb/bot_go1",
+	  "bf:team/gb/bot_go2",
+	  "bf:team/gb/bot_go3",
+	  "bf:team/gb/bot_go4",
+	  "bf:team/gb/bot_go5",
+	  "bf:team/gb/bot_go6",
+	  "bf:team/gb/bot_go7",
+	  "bf:team/gb/bot_go8",
+	  "bf:team/gb/bot_go9",
+	  "bf:team/gb/bot_go10",
+	  "bf:team/gb/bot_go11",
+	  "bf:team/gb/bot_go12",
+	  "bf:team/gb/bot_go13",
+	  "bf:team/gb/bot_go14",
+	  "bf:team/gb/bot_go15"
+	]
+  },
+  "team.gb.bot.grenade": {
+	"sounds": [
+	  "bf:team/gb/bot_grenade0",
+	  "bf:team/gb/bot_grenade1",
+	  "bf:team/gb/bot_grenade2",
+	  "bf:team/gb/bot_grenade3",
+	  "bf:team/gb/bot_grenade4",
+	  "bf:team/gb/bot_grenade5",
+	  "bf:team/gb/bot_grenade6",
+	  "bf:team/gb/bot_grenade7",
+	  "bf:team/gb/bot_grenade8"
+	]
+  },
+  "team.gb.bot.hurt": {
+	"sounds": [
+	  "bf:team/gb/bot_hurt0",
+	  "bf:team/gb/bot_hurt1",
+	  "bf:team/gb/bot_hurt2",
+	  "bf:team/gb/bot_hurt3",
+	  "bf:team/gb/bot_hurt4",
+	  "bf:team/gb/bot_hurt5",
+	  "bf:team/gb/bot_hurt6",
+	  "bf:team/gb/bot_hurt7",
+	  "bf:team/gb/bot_hurt8",
+	  "bf:team/gb/bot_hurt9",
+	  "bf:team/gb/bot_hurt10",
+	  "bf:team/gb/bot_hurt11"
+	]
+  },
+  "team.gb.bot.intro": {
+	"sounds": [
+	  "bf:team/gb/bot_intro0",
+	  "bf:team/gb/bot_intro1",
+	  "bf:team/gb/bot_intro2"
+	]
+  },
+  "team.gb.bot.reloading": {
+	"sounds": [
+	  "bf:team/gb/bot_reloading0",
+	  "bf:team/gb/bot_reloading1",
+	  "bf:team/gb/bot_reloading2",
+	  "bf:team/gb/bot_reloading3",
+	  "bf:team/gb/bot_reloading4",
+	  "bf:team/gb/bot_reloading5"
+	]
+  },
+  "team.gb.bot.spotted": {
+	"sounds": [
+	  "bf:team/gb/bot_spotted0",
+	  "bf:team/gb/bot_spotted1",
+	  "bf:team/gb/bot_spotted2",
+	  "bf:team/gb/bot_spotted3",
+	  "bf:team/gb/bot_spotted4",
+	  "bf:team/gb/bot_spotted5",
+	  "bf:team/gb/bot_spotted6",
+	  "bf:team/gb/bot_spotted7",
+	  "bf:team/gb/bot_spotted8"
+	]
+  },
+  "team.gb.bot.taunt": {
+	"sounds": [
+	  "bf:team/gb/bot_taunt0",
+	  "bf:team/gb/bot_taunt1",
+	  "bf:team/gb/bot_taunt2",
+	  "bf:team/gb/bot_taunt3",
+	  "bf:team/gb/bot_taunt4",
+	  "bf:team/gb/bot_taunt5",
+	  "bf:team/gb/bot_taunt6",
+	  "bf:team/gb/bot_taunt7",
+	  "bf:team/gb/bot_taunt8",
+	  "bf:team/gb/bot_taunt9"
+	]
+  },
+  "team.ger.bot.go": {
+	"sounds": [
+	  "bf:team/ger/bot_go0",
+	  "bf:team/ger/bot_go1",
+	  "bf:team/ger/bot_go2",
+	  "bf:team/ger/bot_go3",
+	  "bf:team/ger/bot_go4",
+	  "bf:team/ger/bot_go5",
+	  "bf:team/ger/bot_go6",
+	  "bf:team/ger/bot_go7",
+	  "bf:team/ger/bot_go8",
+	  "bf:team/ger/bot_go9",
+	  "bf:team/ger/bot_go10",
+	  "bf:team/ger/bot_go11",
+	  "bf:team/ger/bot_go12",
+	  "bf:team/ger/bot_go13",
+	  "bf:team/ger/bot_go14",
+	  "bf:team/ger/bot_go15",
+	  "bf:team/ger/bot_go16"
+	]
+  },
+  "team.ger.bot.grenade": {
+	"sounds": [
+	  "bf:team/ger/bot_grenade0",
+	  "bf:team/ger/bot_grenade1",
+	  "bf:team/ger/bot_grenade2",
+	  "bf:team/ger/bot_grenade3",
+	  "bf:team/ger/bot_grenade4",
+	  "bf:team/ger/bot_grenade5",
+	  "bf:team/ger/bot_grenade6",
+	  "bf:team/ger/bot_grenade7"
+	]
+  },
+  "team.ger.bot.hurt": {
+	"sounds": [
+	  "bf:team/ger/bot_hurt0",
+	  "bf:team/ger/bot_hurt1",
+	  "bf:team/ger/bot_hurt2",
+	  "bf:team/ger/bot_hurt3",
+	  "bf:team/ger/bot_hurt4",
+	  "bf:team/ger/bot_hurt5",
+	  "bf:team/ger/bot_hurt6",
+	  "bf:team/ger/bot_hurt7",
+	  "bf:team/ger/bot_hurt8",
+	  "bf:team/ger/bot_hurt9",
+	  "bf:team/ger/bot_hurt10",
+	  "bf:team/ger/bot_hurt11",
+	  "bf:team/ger/bot_hurt12"
+	]
+  },
+  "team.ger.bot.intro": {
+	"sounds": [
+	  "bf:team/ger/bot_intro0",
+	  "bf:team/ger/bot_intro1",
+	  "bf:team/ger/bot_intro2",
+	  "bf:team/ger/bot_intro3",
+	  "bf:team/ger/bot_intro4"
+	]
+  },
+  "team.ger.bot.reloading": {
+	"sounds": [
+	  "bf:team/ger/bot_reloading0",
+	  "bf:team/ger/bot_reloading1",
+	  "bf:team/ger/bot_reloading2",
+	  "bf:team/ger/bot_reloading3",
+	  "bf:team/ger/bot_reloading4",
+	  "bf:team/ger/bot_reloading5"
+	]
+  },
+  "team.ger.bot.spotted": {
+	"sounds": [
+	  "bf:team/ger/bot_spotted0",
+	  "bf:team/ger/bot_spotted1",
+	  "bf:team/ger/bot_spotted2",
+	  "bf:team/ger/bot_spotted3",
+	  "bf:team/ger/bot_spotted4",
+	  "bf:team/ger/bot_spotted5",
+	  "bf:team/ger/bot_spotted6",
+	  "bf:team/ger/bot_spotted7"
+	]
+  },
+  "team.ger.bot.taunt": {
+	"sounds": [
+	  "bf:team/ger/bot_taunt0",
+	  "bf:team/ger/bot_taunt1",
+	  "bf:team/ger/bot_taunt2",
+	  "bf:team/ger/bot_taunt3",
+	  "bf:team/ger/bot_taunt4",
+	  "bf:team/ger/bot_taunt5",
+	  "bf:team/ger/bot_taunt6",
+	  "bf:team/ger/bot_taunt7",
+	  "bf:team/ger/bot_taunt8",
+	  "bf:team/ger/bot_taunt9",
+	  "bf:team/ger/bot_taunt10",
+	  "bf:team/ger/bot_taunt11"
+	]
+  },
+  "team.it.bot.go": {
+	"sounds": [
+	  "bf:team/it/bot_go0",
+	  "bf:team/it/bot_go1",
+	  "bf:team/it/bot_go2",
+	  "bf:team/it/bot_go3",
+	  "bf:team/it/bot_go4",
+	  "bf:team/it/bot_go5",
+	  "bf:team/it/bot_go6",
+	  "bf:team/it/bot_go7",
+	  "bf:team/it/bot_go8",
+	  "bf:team/it/bot_go9",
+	  "bf:team/it/bot_go10",
+	  "bf:team/it/bot_go11",
+	  "bf:team/it/bot_go12"
+	]
+  },
+  "team.it.bot.grenade": {
+	"sounds": [
+	  "bf:team/it/bot_grenade0",
+	  "bf:team/it/bot_grenade1",
+	  "bf:team/it/bot_grenade2",
+	  "bf:team/it/bot_grenade3",
+	  "bf:team/it/bot_grenade4",
+	  "bf:team/it/bot_grenade5"
+	]
+  },
+  "team.it.bot.hurt": {
+	"sounds": [
+	  "bf:team/it/bot_hurt0",
+	  "bf:team/it/bot_hurt1",
+	  "bf:team/it/bot_hurt2",
+	  "bf:team/it/bot_hurt3",
+	  "bf:team/it/bot_hurt4",
+	  "bf:team/it/bot_hurt5",
+	  "bf:team/it/bot_hurt6",
+	  "bf:team/it/bot_hurt7",
+	  "bf:team/it/bot_hurt8",
+	  "bf:team/it/bot_hurt9",
+	  "bf:team/it/bot_hurt10",
+	  "bf:team/it/bot_hurt11"
+	]
+  },
+  "team.it.bot.intro": {
+	"sounds": [
+	  "bf:team/it/bot_intro0",
+	  "bf:team/it/bot_intro1",
+	  "bf:team/it/bot_intro2",
+	  "bf:team/it/bot_intro3"
+	]
+  },
+  "team.it.bot.reloading": {
+	"sounds": [
+	  "bf:team/it/bot_reloading0",
+	  "bf:team/it/bot_reloading1",
+	  "bf:team/it/bot_reloading2",
+	  "bf:team/it/bot_reloading3",
+	  "bf:team/it/bot_reloading4",
+	  "bf:team/it/bot_reloading5"
+	]
+  },
+  "team.it.bot.spotted": {
+	"sounds": [
+	  "bf:team/it/bot_spotted0",
+	  "bf:team/it/bot_spotted1",
+	  "bf:team/it/bot_spotted2",
+	  "bf:team/it/bot_spotted3",
+	  "bf:team/it/bot_spotted4",
+	  "bf:team/it/bot_spotted5",
+	  "bf:team/it/bot_spotted6",
+	  "bf:team/it/bot_spotted7",
+	  "bf:team/it/bot_spotted8"
+	]
+  },
+  "team.it.bot.taunt": {
+	"sounds": [
+	  "bf:team/it/bot_taunt0",
+	  "bf:team/it/bot_taunt1",
+	  "bf:team/it/bot_taunt2",
+	  "bf:team/it/bot_taunt3",
+	  "bf:team/it/bot_taunt4",
+	  "bf:team/it/bot_taunt5",
+	  "bf:team/it/bot_taunt6",
+	  "bf:team/it/bot_taunt7",
+	  "bf:team/it/bot_taunt8",
+	  "bf:team/it/bot_taunt9",
+	  "bf:team/it/bot_taunt10"
+	]
+  },
+  "team.jpn.banzai": {
+	"sounds": [
+	  "bf:team/jpn/banzai0",
+	  "bf:team/jpn/banzai1",
+	  "bf:team/jpn/banzai2",
+	  "bf:team/jpn/banzai3",
+	  "bf:team/jpn/banzai4",
+	  "bf:team/jpn/banzai5",
+	  "bf:team/jpn/banzai6",
+	  "bf:team/jpn/banzai7",
+	  "bf:team/jpn/banzai8",
+	  "bf:team/jpn/banzai9",
+	  "bf:team/jpn/banzai10"
+	]
+  },
+  "team.jpn.banzai.distant": {
+	"sounds": [
+	  "bf:team/jpn/banzai_distant0",
+	  "bf:team/jpn/banzai_distant1",
+	  "bf:team/jpn/banzai_distant2",
+	  "bf:team/jpn/banzai_distant3",
+	  "bf:team/jpn/banzai_distant4",
+	  "bf:team/jpn/banzai_distant5",
+	  "bf:team/jpn/banzai_distant6",
+	  "bf:team/jpn/banzai_distant7",
+	  "bf:team/jpn/banzai_distant8",
+	  "bf:team/jpn/banzai_distant9",
+	  "bf:team/jpn/banzai_distant10"
+	]
+  },
+  "team.jpn.banzai.commander": {
+	"sounds": [
+	  "bf:team/jpn/banzai_commander"
+	]
+  },
+  "team.jpn.bot.go": {
+	"sounds": [
+	  "bf:team/jpn/bot_go0",
+	  "bf:team/jpn/bot_go1",
+	  "bf:team/jpn/bot_go2",
+	  "bf:team/jpn/bot_go3",
+	  "bf:team/jpn/bot_go4",
+	  "bf:team/jpn/bot_go5",
+	  "bf:team/jpn/bot_go6",
+	  "bf:team/jpn/bot_go7",
+	  "bf:team/jpn/bot_go8",
+	  "bf:team/jpn/bot_go9",
+	  "bf:team/jpn/bot_go10",
+	  "bf:team/jpn/bot_go11",
+	  "bf:team/jpn/bot_go12"
+	]
+  },
+  "team.jpn.bot.grenade": {
+	"sounds": [
+	  "bf:team/jpn/bot_grenade0",
+	  "bf:team/jpn/bot_grenade1",
+	  "bf:team/jpn/bot_grenade2",
+	  "bf:team/jpn/bot_grenade3",
+	  "bf:team/jpn/bot_grenade4",
+	  "bf:team/jpn/bot_grenade5",
+	  "bf:team/jpn/bot_grenade6"
+	]
+  },
+  "team.jpn.bot.hurt": {
+	"sounds": [
+	  "bf:team/jpn/bot_hurt0",
+	  "bf:team/jpn/bot_hurt1",
+	  "bf:team/jpn/bot_hurt2",
+	  "bf:team/jpn/bot_hurt3",
+	  "bf:team/jpn/bot_hurt4",
+	  "bf:team/jpn/bot_hurt5",
+	  "bf:team/jpn/bot_hurt6",
+	  "bf:team/jpn/bot_hurt7"
+	]
+  },
+  "team.jpn.bot.intro": {
+	"sounds": [
+	  "bf:team/jpn/bot_intro0",
+	  "bf:team/jpn/bot_intro1",
+	  "bf:team/jpn/bot_intro2",
+	  "bf:team/jpn/bot_intro3"
+	]
+  },
+  "team.jpn.bot.reloading": {
+	"sounds": [
+	  "bf:team/jpn/bot_reloading0",
+	  "bf:team/jpn/bot_reloading1",
+	  "bf:team/jpn/bot_reloading2",
+	  "bf:team/jpn/bot_reloading3",
+	  "bf:team/jpn/bot_reloading4",
+	  "bf:team/jpn/bot_reloading5",
+	  "bf:team/jpn/bot_reloading6",
+	  "bf:team/jpn/bot_reloading7",
+	  "bf:team/jpn/bot_reloading8"
+	]
+  },
+  "team.jpn.bot.spotted": {
+	"sounds": [
+	  "bf:team/jpn/bot_spotted0",
+	  "bf:team/jpn/bot_spotted1",
+	  "bf:team/jpn/bot_spotted2",
+	  "bf:team/jpn/bot_spotted3",
+	  "bf:team/jpn/bot_spotted4"
+	]
+  },
+  "team.jpn.bot.taunt": {
+	"sounds": [
+	  "bf:team/jpn/bot_taunt0",
+	  "bf:team/jpn/bot_taunt1",
+	  "bf:team/jpn/bot_taunt2",
+	  "bf:team/jpn/bot_taunt3",
+	  "bf:team/jpn/bot_taunt4",
+	  "bf:team/jpn/bot_taunt5",
+	  "bf:team/jpn/bot_taunt6",
+	  "bf:team/jpn/bot_taunt7",
+	  "bf:team/jpn/bot_taunt8",
+	  "bf:team/jpn/bot_taunt9"
+	]
+  },
+  "team.rus.bot.go": {
+	"sounds": [
+	  "bf:team/rus/bot_go0",
+	  "bf:team/rus/bot_go1",
+	  "bf:team/rus/bot_go2",
+	  "bf:team/rus/bot_go3",
+	  "bf:team/rus/bot_go4",
+	  "bf:team/rus/bot_go5",
+	  "bf:team/rus/bot_go6",
+	  "bf:team/rus/bot_go7",
+	  "bf:team/rus/bot_go8",
+	  "bf:team/rus/bot_go9",
+	  "bf:team/rus/bot_go10",
+	  "bf:team/rus/bot_go11",
+	  "bf:team/rus/bot_go12",
+	  "bf:team/rus/bot_go13"
+	]
+  },
+  "team.rus.bot.grenade": {
+	"sounds": [
+	  "bf:team/rus/bot_grenade0",
+	  "bf:team/rus/bot_grenade1",
+	  "bf:team/rus/bot_grenade2",
+	  "bf:team/rus/bot_grenade3",
+	  "bf:team/rus/bot_grenade4",
+	  "bf:team/rus/bot_grenade5"
+	]
+  },
+  "team.rus.bot.hurt": {
+	"sounds": [
+	  "bf:team/rus/bot_hurt0",
+	  "bf:team/rus/bot_hurt1",
+	  "bf:team/rus/bot_hurt2",
+	  "bf:team/rus/bot_hurt3",
+	  "bf:team/rus/bot_hurt4",
+	  "bf:team/rus/bot_hurt5",
+	  "bf:team/rus/bot_hurt6",
+	  "bf:team/rus/bot_hurt7",
+	  "bf:team/rus/bot_hurt8"
+	]
+  },
+  "team.rus.bot.intro": {
+	"sounds": [
+	  "bf:team/rus/bot_intro0",
+	  "bf:team/rus/bot_intro1",
+	  "bf:team/rus/bot_intro2",
+	  "bf:team/rus/bot_intro3"
+	]
+  },
+  "team.rus.bot.reloading": {
+	"sounds": [
+	  "bf:team/rus/bot_reloading0",
+	  "bf:team/rus/bot_reloading1",
+	  "bf:team/rus/bot_reloading2",
+	  "bf:team/rus/bot_reloading3",
+	  "bf:team/rus/bot_reloading4",
+	  "bf:team/rus/bot_reloading5",
+	  "bf:team/rus/bot_reloading6",
+	  "bf:team/rus/bot_reloading7"
+	]
+  },
+  "team.rus.bot.spotted": {
+	"sounds": [
+	  "bf:team/rus/bot_spotted0",
+	  "bf:team/rus/bot_spotted1",
+	  "bf:team/rus/bot_spotted2",
+	  "bf:team/rus/bot_spotted3",
+	  "bf:team/rus/bot_spotted4",
+	  "bf:team/rus/bot_spotted5",
+	  "bf:team/rus/bot_spotted6",
+	  "bf:team/rus/bot_spotted7"
+	]
+  },
+  "team.rus.bot.taunt": {
+	"sounds": [
+	  "bf:team/rus/bot_taunt0",
+	  "bf:team/rus/bot_taunt1",
+	  "bf:team/rus/bot_taunt2",
+	  "bf:team/rus/bot_taunt3",
+	  "bf:team/rus/bot_taunt4",
+	  "bf:team/rus/bot_taunt5",
+	  "bf:team/rus/bot_taunt6",
+	  "bf:team/rus/bot_taunt7",
+	  "bf:team/rus/bot_taunt8",
+	  "bf:team/rus/bot_taunt9",
+	  "bf:team/rus/bot_taunt10"
+	]
+  },
+  "team.shared.ignite": {
+	"sounds": [
+	  "bf:team/shared/ignite0",
+	  "bf:team/shared/ignite1",
+	  "bf:team/shared/ignite2",
+	  "bf:team/shared/ignite3"
+	]
+  },
+  "team.shared.warcry.crowd": {
+	"sounds": [
+	  "bf:team/shared/warcry_crowd0",
+	  "bf:team/shared/warcry_crowd1"
+	]
+  },
+  "team.shared.warcry": {
+	"sounds": [
+	  "bf:team/shared/warcry0",
+	  "bf:team/shared/warcry1",
+	  "bf:team/shared/warcry2",
+	  "bf:team/shared/warcry3",
+	  "bf:team/shared/warcry4",
+	  "bf:team/shared/warcry5",
+	  "bf:team/shared/warcry6",
+	  "bf:team/shared/warcry7",
+	  "bf:team/shared/warcry8",
+	  "bf:team/shared/warcry9"
+	]
+  },
+  "team.shared.warcry.distant": {
+	"sounds": [
+	  "bf:team/shared/warcry_distant0",
+	  "bf:team/shared/warcry_distant1",
+	  "bf:team/shared/warcry_distant2",
+	  "bf:team/shared/warcry_distant3",
+	  "bf:team/shared/warcry_distant4",
+	  "bf:team/shared/warcry_distant5",
+	  "bf:team/shared/warcry_distant6",
+	  "bf:team/shared/warcry_distant7",
+	  "bf:team/shared/warcry_distant8",
+	  "bf:team/shared/warcry_distant9"
+	]
+  },
+  "team.shared.scream": {
+	"sounds": [
+	  "bf:team/shared/scream0",
+	  "bf:team/shared/scream1",
+	  "bf:team/shared/scream2",
+	  "bf:team/shared/scream3",
+	  "bf:team/shared/scream4",
+	  "bf:team/shared/scream5",
+	  "bf:team/shared/scream6",
+	  "bf:team/shared/scream7",
+	  "bf:team/shared/scream8",
+	  "bf:team/shared/scream9",
+	  "bf:team/shared/scream10",
+	  "bf:team/shared/scream11",
+	  "bf:team/shared/scream12",
+	  "bf:team/shared/scream13",
+	  "bf:team/shared/scream14",
+	  "bf:team/shared/scream15",
+	  "bf:team/shared/scream16",
+	  "bf:team/shared/scream17",
+	  "bf:team/shared/scream18",
+	  "bf:team/shared/scream19",
+	  "bf:team/shared/scream20",
+	  "bf:team/shared/scream21",
+	  "bf:team/shared/scream22",
+	  "bf:team/shared/scream23",
+	  "bf:team/shared/scream24",
+	  "bf:team/shared/scream25",
+	  "bf:team/shared/scream26",
+	  "bf:team/shared/scream27",
+	  "bf:team/shared/scream28",
+	  "bf:team/shared/scream29",
+	  "bf:team/shared/scream30",
+	  "bf:team/shared/scream31",
+	  "bf:team/shared/scream32",
+	  "bf:team/shared/scream33",
+	  "bf:team/shared/scream34",
+	  "bf:team/shared/scream35"
+	]
+  },
+  "team.shared.scream.wilhelm": {
+	"sounds": [
+	  "bf:team/shared/wilhelm"
+	]
+  },
+  "team.shared.scream.explosion": {
+	"sounds": [
+	  "bf:team/shared/scream_explosion0",
+	  "bf:team/shared/scream_explosion1",
+	  "bf:team/shared/scream_explosion2",
+	  "bf:team/shared/scream_explosion3",
+	  "bf:team/shared/scream_explosion4",
+	  "bf:team/shared/scream_explosion5",
+	  "bf:team/shared/scream_explosion6",
+	  "bf:team/shared/scream_explosion7",
+	  "bf:team/shared/scream_explosion8"
+	]
+  },
+  "team.us.bot.go": {
+	"sounds": [
+	  "bf:team/us/bot_go0",
+	  "bf:team/us/bot_go1",
+	  "bf:team/us/bot_go2",
+	  "bf:team/us/bot_go3",
+	  "bf:team/us/bot_go4",
+	  "bf:team/us/bot_go5",
+	  "bf:team/us/bot_go6",
+	  "bf:team/us/bot_go7",
+	  "bf:team/us/bot_go8",
+	  "bf:team/us/bot_go9",
+	  "bf:team/us/bot_go10",
+	  "bf:team/us/bot_go11",
+	  "bf:team/us/bot_go12"
+	]
+  },
+  "team.us.bot.grenade": {
+	"sounds": [
+	  "bf:team/us/bot_grenade0",
+	  "bf:team/us/bot_grenade1",
+	  "bf:team/us/bot_grenade2",
+	  "bf:team/us/bot_grenade3",
+	  "bf:team/us/bot_grenade4",
+	  "bf:team/us/bot_grenade5",
+	  "bf:team/us/bot_grenade6",
+	  "bf:team/us/bot_grenade7"
+	]
+  },
+  "team.us.bot.hurt": {
+	"sounds": [
+	  "bf:team/us/bot_hurt0",
+	  "bf:team/us/bot_hurt1",
+	  "bf:team/us/bot_hurt2",
+	  "bf:team/us/bot_hurt3",
+	  "bf:team/us/bot_hurt4",
+	  "bf:team/us/bot_hurt5",
+	  "bf:team/us/bot_hurt6"
+	]
+  },
+  "team.us.bot.intro": {
+	"sounds": [
+	  "bf:team/us/bot_intro0",
+	  "bf:team/us/bot_intro1",
+	  "bf:team/us/bot_intro2",
+	  "bf:team/us/bot_intro3"
+	]
+  },
+  "team.us.bot.reloading": {
+	"sounds": [
+	  "bf:team/us/bot_reloading0",
+	  "bf:team/us/bot_reloading1",
+	  "bf:team/us/bot_reloading2",
+	  "bf:team/us/bot_reloading3",
+	  "bf:team/us/bot_reloading4",
+	  "bf:team/us/bot_reloading5",
+	  "bf:team/us/bot_reloading6"
+	]
+  },
+  "team.us.bot.spotted": {
+	"sounds": [
+	  "bf:team/us/bot_spotted0",
+	  "bf:team/us/bot_spotted1",
+	  "bf:team/us/bot_spotted2",
+	  "bf:team/us/bot_spotted3",
+	  "bf:team/us/bot_spotted4",
+	  "bf:team/us/bot_spotted5",
+	  "bf:team/us/bot_spotted6",
+	  "bf:team/us/bot_spotted7",
+	  "bf:team/us/bot_spotted8"
+	]
+  },
+  "team.us.bot.taunt": {
+	"sounds": [
+	  "bf:team/us/bot_taunt0",
+	  "bf:team/us/bot_taunt1",
+	  "bf:team/us/bot_taunt2",
+	  "bf:team/us/bot_taunt3",
+	  "bf:team/us/bot_taunt4",
+	  "bf:team/us/bot_taunt5",
+	  "bf:team/us/bot_taunt6",
+	  "bf:team/us/bot_taunt7",
+	  "bf:team/us/bot_taunt8",
+	  "bf:team/us/bot_taunt9"
+	]
+  },
+  "team.pol.bot.go": {
+	"sounds": [
+	  "bf:team/pol/bot_go0",
+	  "bf:team/pol/bot_go1",
+	  "bf:team/pol/bot_go2",
+	  "bf:team/pol/bot_go3",
+	  "bf:team/pol/bot_go4",
+	  "bf:team/pol/bot_go5",
+	  "bf:team/pol/bot_go6",
+	  "bf:team/pol/bot_go7",
+	  "bf:team/pol/bot_go8",
+	  "bf:team/pol/bot_go9",
+	  "bf:team/pol/bot_go10"
+	]
+  },
+  "team.pol.bot.grenade": {
+	"sounds": [
+	  "bf:team/pol/bot_grenade0",
+	  "bf:team/pol/bot_grenade1",
+	  "bf:team/pol/bot_grenade2",
+	  "bf:team/pol/bot_grenade3",
+	  "bf:team/pol/bot_grenade4",
+	  "bf:team/pol/bot_grenade5",
+	  "bf:team/pol/bot_grenade6",
+	  "bf:team/pol/bot_grenade7",
+	  "bf:team/pol/bot_grenade8"
+	]
+  },
+  "team.pol.bot.hurt": {
+	"sounds": [
+	  "bf:team/pol/bot_hurt0",
+	  "bf:team/pol/bot_hurt1",
+	  "bf:team/pol/bot_hurt2",
+	  "bf:team/pol/bot_hurt3",
+	  "bf:team/pol/bot_hurt4",
+	  "bf:team/pol/bot_hurt5",
+	  "bf:team/pol/bot_hurt6",
+	  "bf:team/pol/bot_hurt7",
+	  "bf:team/pol/bot_hurt8",
+	  "bf:team/pol/bot_hurt9"
+	]
+  },
+  "team.pol.bot.intro": {
+	"sounds": [
+	  "bf:team/pol/bot_intro0",
+	  "bf:team/pol/bot_intro1",
+	  "bf:team/pol/bot_intro2",
+	  "bf:team/pol/bot_intro3"
+	]
+  },
+  "team.pol.bot.reloading": {
+	"sounds": [
+	  "bf:team/pol/bot_reloading0",
+	  "bf:team/pol/bot_reloading1",
+	  "bf:team/pol/bot_reloading2",
+	  "bf:team/pol/bot_reloading3",
+	  "bf:team/pol/bot_reloading4"
+	]
+  },
+  "team.pol.bot.spotted": {
+	"sounds": [
+	  "bf:team/pol/bot_spotted0",
+	  "bf:team/pol/bot_spotted1",
+	  "bf:team/pol/bot_spotted2",
+	  "bf:team/pol/bot_spotted3",
+	  "bf:team/pol/bot_spotted4",
+	  "bf:team/pol/bot_spotted5",
+	  "bf:team/pol/bot_spotted6"
+	]
+  },
+  "team.pol.bot.taunt": {
+	"sounds": [
+	  "bf:team/pol/bot_taunt0",
+	  "bf:team/pol/bot_taunt1",
+	  "bf:team/pol/bot_taunt2",
+	  "bf:team/pol/bot_taunt3",
+	  "bf:team/pol/bot_taunt4",
+	  "bf:team/pol/bot_taunt5",
+	  "bf:team/pol/bot_taunt6"
+	]
+  }
+}

@@ -58,6 +58,14 @@ public final class LoadoutCompat {
 	@SuppressWarnings("unchecked")
 	public static List<ItemStack> getExtra(Loadout loadout) {
 		try {
+			List<ItemStack> direct = loadout.getExtra();
+			if (direct != null) {
+				return direct;
+			}
+		} catch (Throwable ignored) {
+			// Fall back to reflective access for compatibility with mismatched runtime mappings.
+		}
+		try {
 			Object result = EXTRA.invoke(loadout);
 			if (result instanceof List<?> list) {
 				return (List<ItemStack>) list;

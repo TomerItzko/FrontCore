@@ -68,8 +68,13 @@ public record LoadoutsPacket(Map<LoadoutIndex.Identifier, List<Loadout>> loadout
 
         LoadoutIndex.apply(packet.loadouts);
         PacketDistributor.sendToAllPlayers(packet);
-        LoadoutEditorStore.getInstance().saveCurrent(player.getServer());
-        player.sendMessage(Text.translatable("mercfrontcore.message.packet.loadouts.success"));
+        boolean saved = LoadoutEditorStore.getInstance().save(player.getServer(), packet.loadouts);
+        if (saved) {
+            player.sendMessage(Text.translatable("mercfrontcore.message.packet.loadouts.success"));
+            return;
+        }
+
+        player.sendMessage(Text.literal("Failed to persist loadouts to disk. Check server logs.").formatted(Formatting.RED));
     }
 
     private static boolean anyGamesActive() {

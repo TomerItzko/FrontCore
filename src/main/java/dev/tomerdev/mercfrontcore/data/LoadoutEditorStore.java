@@ -3,6 +3,7 @@ package dev.tomerdev.mercfrontcore.data;
 import com.boehmod.blockfront.common.match.BFCountry;
 import com.boehmod.blockfront.common.match.Loadout;
 import com.boehmod.blockfront.common.match.MatchClass;
+import com.boehmod.blockfront.common.item.GunItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -34,6 +35,7 @@ public final class LoadoutEditorStore {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final String DATA_DIR = "mercfrontcore";
     private static final String FILE_NAME = "bf_loadout_editor.json";
+    private Map<LoadoutIndex.Identifier, List<Loadout>> persistedSnapshot = new Object2ObjectOpenHashMap<>();
 
     private LoadoutEditorStore() {
     }
@@ -49,6 +51,7 @@ public final class LoadoutEditorStore {
     public int loadAndApply(MinecraftServer server) {
         Path path = getPath(server);
         if (Files.notExists(path)) {
+            MercFrontCore.LOGGER.info("BF loadout-editor file not found at {}.", path.toAbsolutePath());
             return 0;
         }
 
@@ -76,7 +79,13 @@ public final class LoadoutEditorStore {
 
             if (!parsed.isEmpty()) {
                 LoadoutIndex.apply(parsed);
+                persistedSnapshot = LoadoutIndex.copyFlat(parsed);
             }
+            MercFrontCore.LOGGER.info(
+                "Loaded {} BF loadout-editor entries from {}.",
+                parsed.size(),
+                path.toAbsolutePath()
+            );
             return parsed.size();
         } catch (Exception e) {
             MercFrontCore.LOGGER.error("Failed to load BF loadout editor data from {}", path, e);
@@ -85,13 +94,26 @@ public final class LoadoutEditorStore {
     }
 
     public boolean saveCurrent(MinecraftServer server) {
+        return save(server, LoadoutIndex.currentFlat());
+    }
+
+    public boolean saveCachedOrCurrent(MinecraftServer server) {
+        if (!persistedSnapshot.isEmpty()) {
+            return save(server, persistedSnapshot);
+        }
+        return saveCurrent(server);
+    }
+
+    public boolean save(MinecraftServer server, Map<LoadoutIndex.Identifier, List<Loadout>> loadouts) {
         Path path = getPath(server);
         try {
             Files.createDirectories(path.getParent());
+            Map<LoadoutIndex.Identifier, List<Loadout>> snapshot = LoadoutIndex.copyFlat(loadouts);
+            persistedSnapshot = snapshot;
             JsonObject root = new JsonObject();
             JsonArray entries = new JsonArray();
 
-            LoadoutIndex.currentFlat().entrySet().stream()
+            snapshot.entrySet().stream()
                 .sorted(Comparator.comparing((Map.Entry<LoadoutIndex.Identifier, List<Loadout>> e) ->
                     e.getKey().country().name())
                     .thenComparing(e -> e.getKey().skin())
@@ -102,6 +124,11 @@ public final class LoadoutEditorStore {
             try (Writer writer = Files.newBufferedWriter(path)) {
                 GSON.toJson(root, writer);
             }
+            MercFrontCore.LOGGER.info(
+                "Saved {} BF loadout-editor entries to {}.",
+                snapshot.size(),
+                path.toAbsolutePath()
+            );
             return true;
         } catch (IOException e) {
             MercFrontCore.LOGGER.error("Failed to save BF loadout editor data to {}", path, e);
@@ -118,19 +145,19 @@ public final class LoadoutEditorStore {
         JsonArray levels = new JsonArray();
         for (Loadout loadout : loadouts) {
             JsonObject level = new JsonObject();
-            level.addProperty("primary", itemId(LoadoutCompat.getPrimary(loadout)));
-            level.addProperty("secondary", itemId(LoadoutCompat.getSecondary(loadout)));
-            level.addProperty("melee", itemId(LoadoutCompat.getMelee(loadout)));
-            level.addProperty("offHand", itemId(LoadoutCompat.getOffHand(loadout)));
-            level.addProperty("head", itemId(LoadoutCompat.getHead(loadout)));
-            level.addProperty("chest", itemId(LoadoutCompat.getChest(loadout)));
-            level.addProperty("legs", itemId(LoadoutCompat.getLegs(loadout)));
-            level.addProperty("feet", itemId(LoadoutCompat.getFeet(loadout)));
+            level.add("primary", stackJson(LoadoutCompat.getPrimary(loadout)));
+            level.add("secondary", stackJson(LoadoutCompat.getSecondary(loadout)));
+            level.add("melee", stackJson(LoadoutCompat.getMelee(loadout)));
+            level.add("offHand", stackJson(LoadoutCompat.getOffHand(loadout)));
+            level.add("head", stackJson(LoadoutCompat.getHead(loadout)));
+            level.add("chest", stackJson(LoadoutCompat.getChest(loadout)));
+            level.add("legs", stackJson(LoadoutCompat.getLegs(loadout)));
+            level.add("feet", stackJson(LoadoutCompat.getFeet(loadout)));
             level.addProperty("minimumXp", LoadoutCompat.getMinimumXp(loadout));
 
             JsonArray extra = new JsonArray();
             for (ItemStack extraStack : LoadoutCompat.getExtra(loadout)) {
-                extra.add(itemId(extraStack));
+                extra.add(stackJson(extraStack));
             }
             level.add("extra", extra);
             levels.add(level);
@@ -152,21 +179,19 @@ public final class LoadoutEditorStore {
             JsonObject level = levelElement.getAsJsonObject();
 
             Loadout loadout = new Loadout(
-                stack(getString(level, "primary", "minecraft:air")),
-                stack(getString(level, "secondary", "minecraft:air")),
-                stack(getString(level, "melee", "minecraft:air")),
-                stack(getString(level, "offHand", "minecraft:air")),
-                stack(getString(level, "head", "minecraft:air")),
-                stack(getString(level, "chest", "minecraft:air")),
-                stack(getString(level, "legs", "minecraft:air")),
-                stack(getString(level, "feet", "minecraft:air"))
+                stack(level.get("primary")),
+                stack(level.get("secondary")),
+                stack(level.get("melee")),
+                stack(level.get("offHand")),
+                stack(level.get("head")),
+                stack(level.get("chest")),
+                stack(level.get("legs")),
+                stack(level.get("feet"))
             );
 
             if (level.has("extra") && level.get("extra").isJsonArray()) {
                 for (JsonElement extraElement : level.getAsJsonArray("extra")) {
-                    if (extraElement.isJsonPrimitive()) {
-                        loadout.addExtra(stack(extraElement.getAsString()));
-                    }
+                    loadout.addExtra(stack(extraElement));
                 }
             }
 
@@ -209,12 +234,60 @@ public final class LoadoutEditorStore {
         return Registries.ITEM.getId(stack.getItem()).toString();
     }
 
-    private static ItemStack stack(String itemId) {
+    private static JsonElement stackJson(ItemStack stack) {
+        JsonObject out = new JsonObject();
+        if (stack == null || stack.isEmpty()) {
+            out.addProperty("id", "minecraft:air");
+            out.addProperty("count", 1);
+            return out;
+        }
+
+        out.addProperty("id", itemId(stack));
+        out.addProperty("count", Math.max(1, stack.getCount()));
+        if (stack.getItem() instanceof GunItem) {
+            WeaponExtraSettings settings = new WeaponExtraSettings();
+            settings.getComponents(stack);
+            out.addProperty("scope", settings.scope);
+            out.addProperty("magType", settings.magType);
+            out.addProperty("barrelType", settings.barrelType);
+            if (settings.skin != null && !settings.skin.isBlank()) {
+                out.addProperty("skin", settings.skin);
+            }
+        }
+        return out;
+    }
+
+    private static ItemStack stack(JsonElement element) {
+        if (element != null && element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
+            return stackFromId(element.getAsString(), 1, null);
+        }
+        if (!(element instanceof JsonObject obj)) {
+            return new ItemStack(Items.AIR);
+        }
+
+        String id = getString(obj, "id", getString(obj, "item", "minecraft:air"));
+        int count = obj.has("count") && obj.get("count").isJsonPrimitive() ? obj.get("count").getAsInt() : 1;
+        WeaponExtraSettings settings = null;
+        if (obj.has("scope") || obj.has("magType") || obj.has("barrelType") || obj.has("skin")) {
+            boolean scope = obj.has("scope") && obj.get("scope").isJsonPrimitive() && obj.get("scope").getAsBoolean();
+            String magType = getString(obj, "magType", "default");
+            String barrelType = getString(obj, "barrelType", "default");
+            String skin = getString(obj, "skin", null);
+            settings = new WeaponExtraSettings(scope, magType, barrelType, skin);
+        }
+        return stackFromId(id, count, settings);
+    }
+
+    private static ItemStack stackFromId(String itemId, int count, WeaponExtraSettings settings) {
         Identifier id = Identifier.tryParse(itemId);
         Item item = id == null ? Items.AIR : Registries.ITEM.get(id);
         if (item == null) {
             item = Items.AIR;
         }
-        return new ItemStack(item);
+        ItemStack stack = new ItemStack(item, Math.max(1, count));
+        if (settings != null) {
+            stack = settings.setComponents(stack);
+        }
+        return stack;
     }
 }

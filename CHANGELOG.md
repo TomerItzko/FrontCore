@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.1.2b-hotfix2] - 2026-03-08
+
+### Fixed
+- Loadout editor sync now sends a stable snapshot to server before local reload, preventing sync-time loss.
+- Loadout persistence now survives restarts more reliably:
+  - load/apply moved to server started phase,
+  - sync path saves explicit snapshot payload,
+  - shutdown save path hardened with cached snapshot fallback.
+- Loadout editor JSON now stores gun component data (`scope`, `magType`, `barrelType`, `skin`) instead of only item ids.
+- Fixed editor extra-slot save behavior (`ItemStack` emptiness checks + copy-on-save).
+- Infected vendor persistence hardened:
+  - vendor is marked persistent,
+  - vendor chunk is force-loaded,
+  - forced chunk now follows relocation (unforce old chunk, force new chunk).
+- Gun sound slider now also scales hit-confirm sounds (hitmarker/headshot/kill patterns).
+- AFK false triggers during matches addressed with server-tick keepalive that marks active in-game players as moved each tick.
+
 ## [0.7.1.2b-hotfix1] - 2026-03-08
 
 ### Fixed

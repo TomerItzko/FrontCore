@@ -5,6 +5,8 @@
   "mixins": [
     "BFServerManagerMixin",
     "InfectedGameVendorMixin",
+    "PacketListenerInteractionMixin",
+    "PlayerAfkTrackerMixin",
     "PacketListenerPlayerActionMixin",
     "PacketListenerPlayerMoveMixin"
   ],

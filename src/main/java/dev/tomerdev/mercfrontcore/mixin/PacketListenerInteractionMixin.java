@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(targets = "com.boehmod.blockfront.server.net.PacketListenerPlayerMove")
-public abstract class PacketListenerPlayerMoveMixin {
+@Mixin(targets = "com.boehmod.blockfront.server.net.PacketListenerInteraction")
+public abstract class PacketListenerInteractionMixin {
     @Inject(
         method = "channelRead0(Lio/netty/channel/ChannelHandlerContext;Ljava/lang/Object;)V",
         at = @At("HEAD"),
@@ -18,7 +18,7 @@ public abstract class PacketListenerPlayerMoveMixin {
         require = 0,
         remap = false
     )
-    private void mercfrontcore$handleMovePacketBridge(
+    private void mercfrontcore$handleInteractionPacketBridge(
         ChannelHandlerContext ctx,
         Object packet,
         CallbackInfo ci
@@ -29,6 +29,6 @@ public abstract class PacketListenerPlayerMoveMixin {
             ci.cancel();
             return;
         }
-        AfkCompat.markPlayerMoved(player, "move_packet");
+        AfkCompat.markPlayerMoved(player, "interaction_packet");
     }
 }
