@@ -3,12 +3,14 @@
   "package": "dev.tomerdev.mercfrontcore.mixin",
   "plugin": "dev.tomerdev.mercfrontcore.mixin.MercFrontCoreMixinPlugin",
   "mixins": [
+    "BFServerManagerMixin",
     "InfectedGameVendorMixin",
     "PacketListenerPlayerActionMixin",
     "PacketListenerPlayerMoveMixin"
   ],
   "client": [
     "client.AbstractSoundInstanceMixin",
+    "client.BFPlayerNetworkSubscriberMixin",
     "client.BFIntroRouteMixin",
     "client.BFWeaponItemRendererMixin",
     "client.BFClientScreenSubscriberMixin",

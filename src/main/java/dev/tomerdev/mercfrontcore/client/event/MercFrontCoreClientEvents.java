@@ -1,11 +1,13 @@
 package dev.tomerdev.mercfrontcore.client.event;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Supplier;
 import com.boehmod.blockfront.client.BFClient;
 import com.boehmod.blockfront.client.BFClientManager;
 import com.boehmod.blockfront.client.net.ConnectionMode;
+import io.netty.channel.ChannelPipeline;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.util.Identifier;
@@ -19,6 +21,7 @@ import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.sound.PlaySoundEvent;
 import net.neoforged.neoforge.client.event.sound.PlaySoundSourceEvent;
 import net.neoforged.neoforge.client.event.sound.PlayStreamingSourceEvent;
@@ -46,6 +49,15 @@ public final class MercFrontCoreClientEvents {
     @SubscribeEvent
     public static void onRegisterClientCommands(RegisterClientCommandsEvent event) {
         MercFrontCoreClientCommand.register(event.getDispatcher());
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onClientLoggingIn(ClientPlayerNetworkEvent.LoggingIn event) {
+        ChannelPipeline pipeline = event.getConnection().channel().pipeline();
+        removeHandlerIfPresent(pipeline, "mod_packet_handler_time");
+        removeHandlerIfPresent(pipeline, "mod_packet_handler_custom_payload");
+        removeHandlerIfPresent(pipeline, "mod_packet_handler_system_chat");
+        removeHandlerIfPresent(pipeline, "mod_packet_handler_set_chunk_cache_center");
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -161,5 +173,14 @@ public final class MercFrontCoreClientEvents {
         } catch (Throwable ignored) {
         }
         return false;
+    }
+
+    private static void removeHandlerIfPresent(ChannelPipeline pipeline, String handlerName) {
+        try {
+            if (pipeline.get(handlerName) != null) {
+                pipeline.remove(handlerName);
+            }
+        } catch (NoSuchElementException ignored) {
+        }
     }
 }

@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.1.2b-hotfix1] - 2026-03-08
+
+### Fixed
+- Prevented duplicate BlockFront Netty handler injection on Velocity server switches and reconnect paths.
+- Added idempotent server-side pipeline insertion handling for BlockFront player join packet handlers.
+- Added client login-time pipeline cleanup for stale BlockFront handlers:
+  - `mod_packet_handler_time`
+  - `mod_packet_handler_custom_payload`
+  - `mod_packet_handler_system_chat`
+  - `mod_packet_handler_set_chunk_cache_center`
+- Added runtime mixin target guard for `BFServerManagerMixin` to avoid missing-target warnings on obfuscated production jars.
+
 ## [0.7.1.2b] - 2026-03-08
 
 ### Added

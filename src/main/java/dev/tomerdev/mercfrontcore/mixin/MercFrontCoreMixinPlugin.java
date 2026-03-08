@@ -34,6 +34,11 @@ public final class MercFrontCoreMixinPlugin implements IMixinConfigPlugin {
                 "com.boehmod.blockfront.client.event.BFClientScreenSubscriber"
             );
         }
+        if (mixinClassName.endsWith(".client.BFPlayerNetworkSubscriberMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.client.event.BFPlayerNetworkSubscriber"
+            );
+        }
         if (mixinClassName.endsWith(".client.TitleSidebarScreenMixin")) {
             return hasAll(
                 "com.boehmod.blockfront.client.gui.widget.BFButton",
@@ -52,6 +57,11 @@ public final class MercFrontCoreMixinPlugin implements IMixinConfigPlugin {
             return hasAll(
                 "com.boehmod.blockfront.game.impl.inf.InfectedGame",
                 "com.boehmod.blockfront.common.entity.VendorEntity"
+            );
+        }
+        if (mixinClassName.endsWith(".BFServerManagerMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.server.BFServerManager"
             );
         }
         return true;
