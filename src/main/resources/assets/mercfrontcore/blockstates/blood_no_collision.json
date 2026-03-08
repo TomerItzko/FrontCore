@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "bf:block/blood_1"
+      },
+      {
+        "model": "bf:block/blood_2"
+      },
+      {
+        "model": "bf:block/blood_3"
+      },
+      {
+        "model": "bf:block/blood_4"
+      },
+      {
+        "model": "bf:block/blood_5"
+      }
+    ]
+  }
+}

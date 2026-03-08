@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "dev.tomerdev.mercfrontcore.mixin",
+  "plugin": "dev.tomerdev.mercfrontcore.mixin.MercFrontCoreMixinPlugin",
+  "mixins": [
+    "InfectedGameVendorMixin",
+    "PacketListenerPlayerActionMixin",
+    "PacketListenerPlayerMoveMixin"
+  ],
+  "client": [
+    "client.BFIntroRouteMixin",
+    "client.BFWeaponItemRendererMixin",
+    "client.BFClientScreenSubscriberMixin",
+    "client.BFIntroScreenMixin",
+    "client.ModeIntroScreenMixin",
+    "client.MinecraftClientScreenRedirectMixin",
+    "client.MatchPauseScreenMixin",
+    "client.SoundOptionsScreenMixin",
+    "client.TitleScreenMixin",
+    "client.TitleSidebarScreenMixin"
+  ]
+}

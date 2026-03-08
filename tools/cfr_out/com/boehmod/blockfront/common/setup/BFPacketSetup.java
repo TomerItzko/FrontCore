@@ -1,0 +1,151 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
+ *  net.neoforged.neoforge.network.registration.PayloadRegistrar
+ *  org.jetbrains.annotations.NotNull
+ */
+package com.boehmod.blockfront.common.setup;
+
+import com.boehmod.blockfront.BlockFront;
+import com.boehmod.blockfront.common.net.packet.BFAimingPacket;
+import com.boehmod.blockfront.common.net.packet.BFBulletCollisionBlockClientPacket;
+import com.boehmod.blockfront.common.net.packet.BFBulletCollisionBlockPacket;
+import com.boehmod.blockfront.common.net.packet.BFBulletCollisionLivingClientPacket;
+import com.boehmod.blockfront.common.net.packet.BFBulletCollisionLivingPacket;
+import com.boehmod.blockfront.common.net.packet.BFBulletDamageEffectsPacket;
+import com.boehmod.blockfront.common.net.packet.BFBulletTracerToClientPacket;
+import com.boehmod.blockfront.common.net.packet.BFCalloutWaypointPacket;
+import com.boehmod.blockfront.common.net.packet.BFCapturePointSpawnErrorPacket;
+import com.boehmod.blockfront.common.net.packet.BFCapturePointSpawnPacket;
+import com.boehmod.blockfront.common.net.packet.BFChatGraphicPacket;
+import com.boehmod.blockfront.common.net.packet.BFCinematicEffectFlashPcket;
+import com.boehmod.blockfront.common.net.packet.BFClearRagdollsPacket;
+import com.boehmod.blockfront.common.net.packet.BFClientNotificationPacket;
+import com.boehmod.blockfront.common.net.packet.BFCrateEntityPacket;
+import com.boehmod.blockfront.common.net.packet.BFDamageIndicatorPacket;
+import com.boehmod.blockfront.common.net.packet.BFDebugBoxPacket;
+import com.boehmod.blockfront.common.net.packet.BFDebugLinePacket;
+import com.boehmod.blockfront.common.net.packet.BFEntitySoundPacket;
+import com.boehmod.blockfront.common.net.packet.BFExplosionPacket;
+import com.boehmod.blockfront.common.net.packet.BFFrozenPacket;
+import com.boehmod.blockfront.common.net.packet.BFGameBuyItemRequestPacket;
+import com.boehmod.blockfront.common.net.packet.BFGameCalloutPacket;
+import com.boehmod.blockfront.common.net.packet.BFGameChangeClassRequestPacket;
+import com.boehmod.blockfront.common.net.packet.BFGameKillFeedPacket;
+import com.boehmod.blockfront.common.net.packet.BFGameKilledMessagePacket;
+import com.boehmod.blockfront.common.net.packet.BFGameMapVoteInfoPacket;
+import com.boehmod.blockfront.common.net.packet.BFGamePacket;
+import com.boehmod.blockfront.common.net.packet.BFGameVoteMapPacket;
+import com.boehmod.blockfront.common.net.packet.BFGrenadeFlashPacket;
+import com.boehmod.blockfront.common.net.packet.BFGrenadeThrowPacket;
+import com.boehmod.blockfront.common.net.packet.BFGunReloadClientPacket;
+import com.boehmod.blockfront.common.net.packet.BFGunReloadPacket;
+import com.boehmod.blockfront.common.net.packet.BFGunSoundPacket;
+import com.boehmod.blockfront.common.net.packet.BFGunStoreBuyPacket;
+import com.boehmod.blockfront.common.net.packet.BFGunTriggerPacket;
+import com.boehmod.blockfront.common.net.packet.BFHitMarkerPacket;
+import com.boehmod.blockfront.common.net.packet.BFHitTargetPacket;
+import com.boehmod.blockfront.common.net.packet.BFHornPacket;
+import com.boehmod.blockfront.common.net.packet.BFPlayerDataPacket;
+import com.boehmod.blockfront.common.net.packet.BFPopupMessagePacket;
+import com.boehmod.blockfront.common.net.packet.BFPositionedShakeNodePacket;
+import com.boehmod.blockfront.common.net.packet.BFQueueMusicPacket;
+import com.boehmod.blockfront.common.net.packet.BFRadioCommandPacket;
+import com.boehmod.blockfront.common.net.packet.BFRadioPointPacket;
+import com.boehmod.blockfront.common.net.packet.BFRocketLauncherPacket;
+import com.boehmod.blockfront.common.net.packet.BFScreenshotDisplayPacket;
+import com.boehmod.blockfront.common.net.packet.BFScreenshotRequestPacket;
+import com.boehmod.blockfront.common.net.packet.BFScreenshotResponsePacket;
+import com.boehmod.blockfront.common.net.packet.BFSequencePacket;
+import com.boehmod.blockfront.common.net.packet.BFSequencePositionPacket;
+import com.boehmod.blockfront.common.net.packet.BFSequencePositionUpdatedPacket;
+import com.boehmod.blockfront.common.net.packet.BFShakeNodePacket;
+import com.boehmod.blockfront.common.net.packet.BFSoundPacket;
+import com.boehmod.blockfront.common.net.packet.BFSoundPositionPacket;
+import com.boehmod.blockfront.common.net.packet.BFSpawnCorpsePacket;
+import com.boehmod.blockfront.common.net.packet.BFSwitchTeamPacket;
+import com.boehmod.blockfront.common.net.packet.BFUseItemPacket;
+import com.boehmod.blockfront.common.net.packet.BFVehicleControlPacket;
+import com.boehmod.blockfront.common.net.packet.BFVehicleFireBulletPacket;
+import com.boehmod.blockfront.common.net.packet.BFVehicleFireEffectPacket;
+import com.boehmod.blockfront.common.net.packet.BFVehicleFireShellPacket;
+import com.boehmod.blockfront.common.net.packet.BFVictoryPacket;
+import com.boehmod.blockfront.common.net.packet.BFWarCryPacket;
+import com.boehmod.blockfront.common.net.packet.BFWorldFlashPacket;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import org.jetbrains.annotations.NotNull;
+
+public class BFPacketSetup {
+    public static void register(@NotNull RegisterPayloadHandlersEvent event) {
+        PayloadRegistrar payloadRegistrar = event.registrar("bf").versioned(BlockFront.VERSION).optional();
+        payloadRegistrar.playToClient(BFFrozenPacket.TYPE, BFFrozenPacket.CODEC, BFFrozenPacket::method_4377);
+        payloadRegistrar.playToClient(BFGamePacket.TYPE, BFGamePacket.CODEC, BFGamePacket::method_4317);
+        payloadRegistrar.playToClient(BFGameKillFeedPacket.TYPE, BFGameKillFeedPacket.CODEC, BFGameKillFeedPacket::method_4326);
+        payloadRegistrar.playToClient(BFGameKilledMessagePacket.TYPE, BFGameKilledMessagePacket.CODEC, BFGameKilledMessagePacket::method_4330);
+        payloadRegistrar.playToClient(BFPlayerDataPacket.TYPE, BFPlayerDataPacket.CODEC, BFPlayerDataPacket::method_4392);
+        payloadRegistrar.playToClient(BFGunReloadClientPacket.TYPE, BFGunReloadClientPacket.CODEC, BFGunReloadClientPacket::method_4358);
+        payloadRegistrar.playToClient(BFGunSoundPacket.TYPE, BFGunSoundPacket.CODEC, BFGunSoundPacket::method_4360);
+        payloadRegistrar.playToClient(BFBulletCollisionLivingClientPacket.TYPE, BFBulletCollisionLivingClientPacket.CODEC, BFBulletCollisionLivingClientPacket::method_4301);
+        payloadRegistrar.playToClient(BFBulletCollisionBlockClientPacket.TYPE, BFBulletCollisionBlockClientPacket.CODEC, BFBulletCollisionBlockClientPacket::method_4294);
+        payloadRegistrar.playToClient(BFGrenadeFlashPacket.TYPE, BFGrenadeFlashPacket.CODEC, BFGrenadeFlashPacket::method_4351);
+        payloadRegistrar.playToClient(BFSoundPacket.TYPE, BFSoundPacket.CODEC, BFSoundPacket::method_4435);
+        payloadRegistrar.playToClient(BFSoundPositionPacket.TYPE, BFSoundPositionPacket.CODEC, BFSoundPositionPacket::method_4441);
+        payloadRegistrar.playToClient(BFClientNotificationPacket.TYPE, BFClientNotificationPacket.CODEC, BFClientNotificationPacket::method_4043);
+        payloadRegistrar.playToClient(BFPopupMessagePacket.TYPE, BFPopupMessagePacket.CODEC, BFPopupMessagePacket::method_4395);
+        payloadRegistrar.playToClient(BFBulletTracerToClientPacket.TYPE, BFBulletTracerToClientPacket.CODEC, BFBulletTracerToClientPacket::method_4309);
+        payloadRegistrar.playToClient(BFSpawnCorpsePacket.TYPE, BFSpawnCorpsePacket.CODEC, BFSpawnCorpsePacket::method_4446);
+        payloadRegistrar.playToClient(BFWorldFlashPacket.TYPE, BFWorldFlashPacket.CODEC, BFWorldFlashPacket::method_4287);
+        payloadRegistrar.playToClient(BFRadioPointPacket.TYPE, BFRadioPointPacket.CODEC, BFRadioPointPacket::method_4412);
+        payloadRegistrar.playToClient(BFEntitySoundPacket.TYPE, BFEntitySoundPacket.CODEC, BFEntitySoundPacket::method_4069);
+        payloadRegistrar.playToClient(BFExplosionPacket.TYPE, BFExplosionPacket.CODEC, BFExplosionPacket::method_4374);
+        payloadRegistrar.playToClient(BFCrateEntityPacket.TYPE, BFCrateEntityPacket.CODEC, BFCrateEntityPacket::method_4048);
+        payloadRegistrar.playToClient(BFCalloutWaypointPacket.TYPE, BFCalloutWaypointPacket.CODEC, BFCalloutWaypointPacket::method_4034);
+        payloadRegistrar.playToClient(BFClearRagdollsPacket.TYPE, BFClearRagdollsPacket.CODEC, BFClearRagdollsPacket::method_4040);
+        payloadRegistrar.playToClient(BFChatGraphicPacket.TYPE, BFChatGraphicPacket.CODEC, BFChatGraphicPacket::method_4037);
+        payloadRegistrar.playToClient(BFShakeNodePacket.TYPE, BFShakeNodePacket.CODEC, BFShakeNodePacket::method_4430);
+        payloadRegistrar.playToClient(BFPositionedShakeNodePacket.TYPE, BFPositionedShakeNodePacket.CODEC, BFPositionedShakeNodePacket::method_4399);
+        payloadRegistrar.playToClient(BFVehicleFireEffectPacket.TYPE, BFVehicleFireEffectPacket.CODEC, BFVehicleFireEffectPacket::method_4468);
+        payloadRegistrar.playToClient(BFHitMarkerPacket.TYPE, BFHitMarkerPacket.CODEC, BFHitMarkerPacket::method_4384);
+        payloadRegistrar.playToClient(BFDebugLinePacket.TYPE, BFDebugLinePacket.CODEC, BFDebugLinePacket::method_4056);
+        payloadRegistrar.playToClient(BFDebugBoxPacket.TYPE, BFDebugBoxPacket.CODEC, BFDebugBoxPacket::method_5786);
+        payloadRegistrar.playToClient(BFDamageIndicatorPacket.TYPE, BFDamageIndicatorPacket.CODEC, BFDamageIndicatorPacket::method_4052);
+        payloadRegistrar.playToClient(BFBulletDamageEffectsPacket.TYPE, BFBulletDamageEffectsPacket.CODEC, BFBulletDamageEffectsPacket::method_4303);
+        payloadRegistrar.playToClient(BFCapturePointSpawnErrorPacket.TYPE, BFCapturePointSpawnErrorPacket.CODEC, BFCapturePointSpawnErrorPacket::method_4312);
+        payloadRegistrar.playToClient(BFQueueMusicPacket.TYPE, BFQueueMusicPacket.CODEC, BFQueueMusicPacket::method_4404);
+        payloadRegistrar.playToClient(BFSequencePacket.TYPE, BFSequencePacket.CODEC, BFSequencePacket::method_4420);
+        payloadRegistrar.playToClient(BFSequencePositionUpdatedPacket.TYPE, BFSequencePositionUpdatedPacket.CODEC, BFSequencePositionUpdatedPacket::method_4427);
+        payloadRegistrar.playToClient(BFVictoryPacket.TYPE, BFVictoryPacket.CODEC, BFVictoryPacket::method_4283);
+        payloadRegistrar.playToClient(BFGameMapVoteInfoPacket.TYPE, BFGameMapVoteInfoPacket.CODEC, BFGameMapVoteInfoPacket::method_5539);
+        payloadRegistrar.playToClient(BFCinematicEffectFlashPcket.TYPE, BFCinematicEffectFlashPcket.CODEC, BFCinematicEffectFlashPcket::method_5731);
+        payloadRegistrar.playToServer(BFGunReloadPacket.TYPE, BFGunReloadPacket.CODEC, BFGunReloadPacket::method_4356);
+        payloadRegistrar.playToServer(BFBulletCollisionLivingPacket.TYPE, BFBulletCollisionLivingPacket.CODEC, BFBulletCollisionLivingPacket::method_4298);
+        payloadRegistrar.playToServer(BFBulletCollisionBlockPacket.TYPE, BFBulletCollisionBlockPacket.CODEC, BFBulletCollisionBlockPacket::method_4291);
+        payloadRegistrar.playToServer(BFGunTriggerPacket.TYPE, BFGunTriggerPacket.CODEC, BFGunTriggerPacket::method_4371);
+        payloadRegistrar.playToServer(BFGameChangeClassRequestPacket.TYPE, BFGameChangeClassRequestPacket.CODEC, BFGameChangeClassRequestPacket::method_4339);
+        payloadRegistrar.playToServer(BFGrenadeThrowPacket.TYPE, BFGrenadeThrowPacket.CODEC, BFGrenadeThrowPacket::method_4353);
+        payloadRegistrar.playToServer(BFRocketLauncherPacket.TYPE, BFRocketLauncherPacket.CODEC, BFRocketLauncherPacket::method_4416);
+        payloadRegistrar.playToServer(BFUseItemPacket.TYPE, BFUseItemPacket.CODEC, BFUseItemPacket::method_4454);
+        payloadRegistrar.playToServer(BFSwitchTeamPacket.TYPE, BFSwitchTeamPacket.CODEC, BFSwitchTeamPacket::method_4380);
+        payloadRegistrar.playToServer(BFRadioCommandPacket.TYPE, BFRadioCommandPacket.CODEC, BFRadioCommandPacket::method_4408);
+        payloadRegistrar.playToServer(BFGameVoteMapPacket.TYPE, BFGameVoteMapPacket.CODEC, BFGameVoteMapPacket::method_4348);
+        payloadRegistrar.playToServer(BFHitTargetPacket.TYPE, BFHitTargetPacket.CODEC, BFHitTargetPacket::method_4387);
+        payloadRegistrar.playToServer(BFAimingPacket.TYPE, BFAimingPacket.CODEC, BFAimingPacket::method_4029);
+        payloadRegistrar.playToServer(BFGunStoreBuyPacket.TYPE, BFGunStoreBuyPacket.CODEC, BFGunStoreBuyPacket::method_4368);
+        payloadRegistrar.playToServer(BFVehicleControlPacket.TYPE, BFVehicleControlPacket.CODEC, BFVehicleControlPacket::method_4456);
+        payloadRegistrar.playToServer(BFVehicleFireShellPacket.TYPE, BFVehicleFireShellPacket.CODEC, BFVehicleFireShellPacket::method_4471);
+        payloadRegistrar.playToServer(BFVehicleFireBulletPacket.TYPE, BFVehicleFireBulletPacket.CODEC, BFVehicleFireBulletPacket::method_4465);
+        payloadRegistrar.playToServer(BFGameCalloutPacket.TYPE, BFGameCalloutPacket.CODEC, BFGameCalloutPacket::method_4322);
+        payloadRegistrar.playToServer(BFGameBuyItemRequestPacket.TYPE, BFGameBuyItemRequestPacket.CODEC, BFGameBuyItemRequestPacket::method_4336);
+        payloadRegistrar.playToServer(BFWarCryPacket.TYPE, BFWarCryPacket.CODEC, BFWarCryPacket::method_4382);
+        payloadRegistrar.playToServer(BFCapturePointSpawnPacket.TYPE, BFCapturePointSpawnPacket.CODEC, BFCapturePointSpawnPacket::method_4343);
+        payloadRegistrar.playToServer(BFHornPacket.TYPE, BFHornPacket.CODEC, BFHornPacket::method_4389);
+        payloadRegistrar.playToServer(BFSequencePositionPacket.TYPE, BFSequencePositionPacket.CODEC, BFSequencePositionPacket::method_4424);
+        payloadRegistrar.playToClient(BFScreenshotRequestPacket.TYPE, BFScreenshotRequestPacket.CODEC, BFScreenshotRequestPacket::method_1592);
+        payloadRegistrar.playToClient(BFScreenshotDisplayPacket.TYPE, BFScreenshotDisplayPacket.CODEC, BFScreenshotDisplayPacket::method_1589);
+        payloadRegistrar.playToServer(BFScreenshotResponsePacket.TYPE, BFScreenshotResponsePacket.CODEC, BFScreenshotResponsePacket::method_1594);
+    }
+}
+

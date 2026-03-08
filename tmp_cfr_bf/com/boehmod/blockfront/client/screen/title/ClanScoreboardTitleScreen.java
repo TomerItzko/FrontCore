@@ -1,0 +1,27 @@
+/*
+ * Decompiled with CFR.
+ */
+package com.boehmod.blockfront.client.screen.title;
+
+import com.boehmod.blockfront.client.screen.title.ScoreboardTitleScreen;
+import com.boehmod.blockfront.client.settings.BFClientSettings;
+import com.boehmod.blockfront.unnamed.BF_216;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
+
+public final class ClanScoreboardTitleScreen
+extends ScoreboardTitleScreen {
+    @Override
+    @NotNull
+    public Object2IntMap<UUID> method_1036() {
+        return BFClientSettings.CLAN_SCORES;
+    }
+
+    @Override
+    @NotNull
+    public BF_216.Type getType() {
+        return BF_216.Type.CLAN;
+    }
+}
+

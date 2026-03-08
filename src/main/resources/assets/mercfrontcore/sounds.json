@@ -1,0 +1,10 @@
+{
+  "ambient.lsp.radio.bienvenida": {
+    "sounds": [
+      {
+        "name": "mercfrontcore:ambient/lsp/radio/bienvenida",
+        "stream": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,1406 @@
+{
+    "bf:gun_ak74":  {
+                        "skins":  [
+                                      "gold"
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_bar":  {
+                       "skins":  [
+                                     "aqua",
+                                     "berry",
+                                     "black",
+                                     "gold",
+                                     "green",
+                                     "raven",
+                                     "silver",
+                                     "white"
+                                 ],
+                       "magTypes":  [
+
+                                    ],
+                       "barrelTypes":  [
+
+                                       ]
+                   },
+    "bf:gun_batr":  {
+                        "skins":  [
+                                      "gold",
+                                      "raven",
+                                      "silver"
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_bazooka":  {
+                           "skins":  [
+                                         "black",
+                                         "gold",
+                                         "raven",
+                                         "silver"
+                                     ],
+                           "magTypes":  [
+
+                                        ],
+                           "barrelTypes":  [
+
+                                           ]
+                       },
+    "bf:gun_becker":  {
+                          "skins":  [
+                                        "hell",
+                                        "schatten",
+                                        "teuer"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_beretta_m1934":  {
+                                 "skins":  [
+                                               "gold",
+                                               "raven",
+                                               "silver"
+                                           ],
+                                 "magTypes":  [
+
+                                              ],
+                                 "barrelTypes":  [
+
+                                                 ]
+                             },
+    "bf:gun_blyskawica":  {
+                              "skins":  [
+                                            "cenny",
+                                            "kruk",
+                                            "swieci"
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_breda_safat":  {
+                               "skins":  [
+                                             "argento",
+                                             "corvo",
+                                             "dorata"
+                                         ],
+                               "magTypes":  [
+
+                                            ],
+                               "barrelTypes":  [
+
+                                               ]
+                           },
+    "bf:gun_bren_mk2":  {
+                            "skins":  [
+                                          "opulance",
+                                          "raven",
+                                          "silver"
+                                      ],
+                            "magTypes":  [
+                                             "pan"
+                                         ],
+                            "barrelTypes":  [
+
+                                            ]
+                        },
+    "bf:gun_brownbess":  {
+                             "skins":  [
+
+                                       ],
+                             "magTypes":  [
+
+                                          ],
+                             "barrelTypes":  [
+
+                                             ]
+                         },
+    "bf:gun_browning_a5":  {
+                               "skins":  [
+                                             "crown_and_king",
+                                             "raven",
+                                             "silver"
+                                         ],
+                               "magTypes":  [
+
+                                            ],
+                               "barrelTypes":  [
+
+                                               ]
+                           },
+    "bf:gun_browning_hipower":  {
+                                    "skins":  [
+                                                  "opulence",
+                                                  "raven",
+                                                  "shine"
+                                              ],
+                                    "magTypes":  [
+
+                                                 ],
+                                    "barrelTypes":  [
+
+                                                    ]
+                                },
+    "bf:gun_browning30":  {
+                              "skins":  [
+                                            "black",
+                                            "gold",
+                                            "green",
+                                            "obsidian",
+                                            "silver",
+                                            "white"
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_carcano_m38":  {
+                               "skins":  [
+                                             "argento",
+                                             "berry",
+                                             "black",
+                                             "classica",
+                                             "corvo",
+                                             "dark_oak",
+                                             "dorata",
+                                             "forest",
+                                             "navy"
+                                         ],
+                               "magTypes":  [
+
+                                            ],
+                               "barrelTypes":  [
+
+                                               ]
+                           },
+    "bf:gun_carcano_m91ts_carbine":  {
+                                         "skins":  [
+                                                       "arbusto",
+                                                       "argento",
+                                                       "berry",
+                                                       "black",
+                                                       "bruciare",
+                                                       "corvo",
+                                                       "dark_oak",
+                                                       "deformato",
+                                                       "dorata",
+                                                       "forest",
+                                                       "navy"
+                                                   ],
+                                         "magTypes":  [
+
+                                                      ],
+                                         "barrelTypes":  [
+
+                                                         ]
+                                     },
+    "bf:gun_colt":  {
+                        "skins":  [
+                                      "army",
+                                      "black",
+                                      "gold",
+                                      "saints"
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_de_lisle_carbine":  {
+                                    "skins":  [
+                                                  "assassin",
+                                                  "highroller",
+                                                  "hitman",
+                                                  "liquidator",
+                                                  "payday",
+                                                  "stealth"
+                                              ],
+                                    "magTypes":  [
+
+                                                 ],
+                                    "barrelTypes":  [
+
+                                                    ]
+                                },
+    "bf:gun_dp28":  {
+                        "skins":  [
+
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_fb_vis":  {
+                          "skins":  [
+                                        "cenny",
+                                        "kruk",
+                                        "sweieci"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_fg42":  {
+                        "skins":  [
+                                      "berry",
+                                      "dark_oak",
+                                      "forest",
+                                      "gelb",
+                                      "nacht",
+                                      "navy"
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_fiat_revelli":  {
+                                "skins":  [
+                                              "argento",
+                                              "corvo",
+                                              "dorata"
+                                          ],
+                                "magTypes":  [
+
+                                             ],
+                                "barrelTypes":  [
+
+                                                ]
+                            },
+    "bf:gun_flammenwerfer_34":  {
+                                    "skins":  [
+
+                                              ],
+                                    "magTypes":  [
+
+                                                 ],
+                                    "barrelTypes":  [
+
+                                                    ]
+                                },
+    "bf:gun_fn_model_1910":  {
+                                 "skins":  [
+                                               "rabe",
+                                               "stahl",
+                                               "teuer"
+                                           ],
+                                 "magTypes":  [
+
+                                              ],
+                                 "barrelTypes":  [
+
+                                                 ]
+                             },
+    "bf:gun_fusil_1917":  {
+                              "skins":  [
+                                            "briller",
+                                            "corbeau",
+                                            "opulence"
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_gewehr_43":  {
+                             "skins":  [
+                                           "black",
+                                           "green",
+                                           "navy",
+                                           "schatten",
+                                           "silver",
+                                           "teuer"
+                                       ],
+                             "magTypes":  [
+
+                                          ],
+                             "barrelTypes":  [
+
+                                             ]
+                         },
+    "bf:gun_glisenti_model_1910":  {
+                                       "skins":  [
+                                                     "argento",
+                                                     "corvo",
+                                                     "dorata"
+                                                 ],
+                                       "magTypes":  [
+
+                                                    ],
+                                       "barrelTypes":  [
+
+                                                       ]
+                                   },
+    "bf:gun_greasegun":  {
+                             "skins":  [
+                                           "black",
+                                           "gold",
+                                           "silver"
+                                       ],
+                             "magTypes":  [
+
+                                          ],
+                             "barrelTypes":  [
+                                                 "suppressor"
+                                             ]
+                         },
+    "bf:gun_howell":  {
+                          "skins":  [
+                                        "berry",
+                                        "night",
+                                        "opulence",
+                                        "raven",
+                                        "royal",
+                                        "shine",
+                                        "shine_alt",
+                                        "shrub",
+                                        "smolder",
+                                        "warped",
+                                        "whiteout"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_kar98k":  {
+                          "skins":  [
+                                        "black",
+                                        "dark_oak",
+                                        "green",
+                                        "hell",
+                                        "schatten",
+                                        "teuer",
+                                        "white"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_kbk_wz_29":  {
+                             "skins":  [
+                                           "cenny",
+                                           "kruk",
+                                           "swieci"
+                                       ],
+                             "magTypes":  [
+
+                                          ],
+                             "barrelTypes":  [
+
+                                             ]
+                         },
+    "bf:gun_kis":  {
+                       "skins":  [
+                                     "bagno",
+                                     "jagoda",
+                                     "kruk",
+                                     "srebro",
+                                     "zolotoy"
+                                 ],
+                       "magTypes":  [
+
+                                    ],
+                       "barrelTypes":  [
+
+                                       ]
+                   },
+    "bf:gun_kop_pal":  {
+                           "skins":  [
+                                         "cenny",
+                                         "kruk",
+                                         "swieci"
+                                     ],
+                           "magTypes":  [
+
+                                        ],
+                           "barrelTypes":  [
+
+                                           ]
+                       },
+    "bf:gun_lebel_1886":  {
+                              "skins":  [
+                                            "briller",
+                                            "corbeau",
+                                            "opulence",
+                                            "sombre"
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_lee_enfield_mk1":  {
+                                   "skins":  [
+                                                 "aqua",
+                                                 "berry",
+                                                 "blaze",
+                                                 "cherry",
+                                                 "forest",
+                                                 "king",
+                                                 "night",
+                                                 "royal"
+                                             ],
+                                   "magTypes":  [
+
+                                                ],
+                                   "barrelTypes":  [
+
+                                                   ]
+                               },
+    "bf:gun_lee_enfield_turner":  {
+                                      "skins":  [
+                                                    "berry",
+                                                    "dark_oak",
+                                                    "forest",
+                                                    "navy",
+                                                    "night"
+                                                ],
+                                      "magTypes":  [
+
+                                                   ],
+                                      "barrelTypes":  [
+
+                                                      ]
+                                  },
+    "bf:gun_lewisgun":  {
+                            "skins":  [
+                                          "gold",
+                                          "raven",
+                                          "silver"
+                                      ],
+                            "magTypes":  [
+
+                                         ],
+                            "barrelTypes":  [
+
+                                            ]
+                        },
+    "bf:gun_luger":  {
+                         "skins":  [
+                                       "black",
+                                       "green",
+                                       "hell",
+                                       "schatten",
+                                       "teuer",
+                                       "white"
+                                   ],
+                         "magTypes":  [
+
+                                      ],
+                         "barrelTypes":  [
+
+                                         ]
+                     },
+    "bf:gun_m1_carbine":  {
+                              "skins":  [
+                                            "aqua",
+                                            "berry",
+                                            "black",
+                                            "cherry",
+                                            "dark_oak",
+                                            "desert",
+                                            "forest",
+                                            "green",
+                                            "red_fury",
+                                            "urban_blue",
+                                            "wealth",
+                                            "white"
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_m1_garand":  {
+                             "skins":  [
+                                           "black",
+                                           "dark_oak",
+                                           "gold",
+                                           "green",
+                                           "mahogany",
+                                           "obsidian",
+                                           "silver",
+                                           "white"
+                                       ],
+                             "magTypes":  [
+
+                                          ],
+                             "barrelTypes":  [
+
+                                             ]
+                         },
+    "bf:gun_m1928a1_thompson":  {
+                                    "skins":  [
+                                                  "black",
+                                                  "gold",
+                                                  "green",
+                                                  "obsidian",
+                                                  "silver",
+                                                  "white"
+                                              ],
+                                    "magTypes":  [
+                                                     "drum"
+                                                 ],
+                                    "barrelTypes":  [
+
+                                                    ]
+                                },
+    "bf:gun_m1a1_thompson":  {
+                                 "skins":  [
+                                               "black",
+                                               "gold",
+                                               "green",
+                                               "obsidian",
+                                               "silver",
+                                               "white"
+                                           ],
+                                 "magTypes":  [
+
+                                              ],
+                                 "barrelTypes":  [
+
+                                                 ]
+                             },
+    "bf:gun_m2_carbine":  {
+                              "skins":  [
+                                            "aqua",
+                                            "berry",
+                                            "black",
+                                            "cherry",
+                                            "dark_oak",
+                                            "desert",
+                                            "forest",
+                                            "green",
+                                            "red_fury",
+                                            "urban_blue",
+                                            "wealth",
+                                            "white"
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_m2_flamethrower":  {
+                                   "skins":  [
+
+                                             ],
+                                   "magTypes":  [
+
+                                                ],
+                                   "barrelTypes":  [
+
+                                                   ]
+                               },
+    "bf:gun_m30":  {
+                       "skins":  [
+                                     "abgesaagt_template",
+                                     "abgesagt",
+                                     "berry",
+                                     "black",
+                                     "dark_oak",
+                                     "dekadent",
+                                     "dynasty",
+                                     "forest",
+                                     "fury",
+                                     "hell",
+                                     "navy",
+                                     "schatten"
+                                 ],
+                       "magTypes":  [
+
+                                    ],
+                       "barrelTypes":  [
+
+                                       ]
+                   },
+    "bf:gun_m4a4":  {
+                        "skins":  [
+
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_mac_mle_1931":  {
+                                "skins":  [
+                                              "briller",
+                                              "corbeau",
+                                              "opulence"
+                                          ],
+                                "magTypes":  [
+
+                                             ],
+                                "barrelTypes":  [
+
+                                                ]
+                            },
+    "bf:gun_mas_38":  {
+                          "skins":  [
+                                        "briller",
+                                        "corbeau",
+                                        "opulence"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_mauser_c96":  {
+                              "skins":  [
+                                            "black",
+                                            "green",
+                                            "hell",
+                                            "schatten",
+                                            "teuer",
+                                            "white"
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_mauser_m712":  {
+                               "skins":  [
+                                             "black",
+                                             "green",
+                                             "hell",
+                                             "schatten",
+                                             "teuer",
+                                             "white"
+                                         ],
+                               "magTypes":  [
+
+                                            ],
+                               "barrelTypes":  [
+
+                                               ]
+                           },
+    "bf:gun_melon_cannon":  {
+                                "skins":  [
+
+                                          ],
+                                "magTypes":  [
+
+                                             ],
+                                "barrelTypes":  [
+
+                                                ]
+                            },
+    "bf:gun_mg34":  {
+                        "skins":  [
+                                      "hell",
+                                      "schatten",
+                                      "teuer"
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_mg42":  {
+                        "skins":  [
+                                      "black",
+                                      "green",
+                                      "hell",
+                                      "schatten",
+                                      "teuer",
+                                      "white"
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_model_1930":  {
+                              "skins":  [
+                                            "black"
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_model_1935":  {
+                              "skins":  [
+
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_model_38":  {
+                            "skins":  [
+                                          "argento",
+                                          "corvo",
+                                          "dorata"
+                                      ],
+                            "magTypes":  [
+                                             "extended"
+                                         ],
+                            "barrelTypes":  [
+
+                                            ]
+                        },
+    "bf:gun_modele_1892_revolver":  {
+                                        "skins":  [
+                                                      "briller",
+                                                      "corbeau",
+                                                      "opulence"
+                                                  ],
+                                        "magTypes":  [
+
+                                                     ],
+                                        "barrelTypes":  [
+
+                                                        ]
+                                    },
+    "bf:gun_mosin_nagant":  {
+                                "skins":  [
+                                              "les",
+                                              "okean",
+                                              "sneg",
+                                              "temnota",
+                                              "vishnya",
+                                              "yarkiy",
+                                              "zolotoy"
+                                          ],
+                                "magTypes":  [
+
+                                             ],
+                                "barrelTypes":  [
+
+                                                ]
+                            },
+    "bf:gun_mp_3008":  {
+                           "skins":  [
+                                         "eisen",
+                                         "kobalt",
+                                         "rabe",
+                                         "scheinen",
+                                         "verzweiflung"
+                                     ],
+                           "magTypes":  [
+
+                                        ],
+                           "barrelTypes":  [
+
+                                           ]
+                       },
+    "bf:gun_mp40":  {
+                        "skins":  [
+                                      "black",
+                                      "blue",
+                                      "cherry",
+                                      "green",
+                                      "hell",
+                                      "mp38",
+                                      "schatten",
+                                      "teuer"
+                                  ],
+                        "magTypes":  [
+                                         "double"
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_mp41":  {
+                        "skins":  [
+                                      "hell",
+                                      "schatten",
+                                      "zahltag"
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_panzerbuchse39":  {
+                                  "skins":  [
+                                                "hell",
+                                                "schatten",
+                                                "teuer"
+                                            ],
+                                  "magTypes":  [
+
+                                               ],
+                                  "barrelTypes":  [
+
+                                                  ]
+                              },
+    "bf:gun_panzerfaust":  {
+                               "skins":  [
+                                             "hell",
+                                             "schatten",
+                                             "teuer"
+                                         ],
+                               "magTypes":  [
+
+                                            ],
+                               "barrelTypes":  [
+
+                                               ]
+                           },
+    "bf:gun_panzerschreck":  {
+                                 "skins":  [
+                                               "black",
+                                               "green"
+                                           ],
+                                 "magTypes":  [
+
+                                              ],
+                                 "barrelTypes":  [
+
+                                                 ]
+                             },
+    "bf:gun_piat":  {
+                        "skins":  [
+                                      "gold",
+                                      "raven",
+                                      "silver"
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_pistolet_automatique_modele_1935a":  {
+                                                     "skins":  [
+                                                                   "briller",
+                                                                   "corbeau",
+                                                                   "opulence"
+                                                               ],
+                                                     "magTypes":  [
+
+                                                                  ],
+                                                     "barrelTypes":  [
+
+                                                                     ]
+                                                 },
+    "bf:gun_pps43":  {
+                         "skins":  [
+                                       "list",
+                                       "okean",
+                                       "pustynya",
+                                       "voron",
+                                       "yarkiy",
+                                       "yarost",
+                                       "zelenyy",
+                                       "zolotoy"
+                                   ],
+                         "magTypes":  [
+
+                                      ],
+                         "barrelTypes":  [
+
+                                         ]
+                     },
+    "bf:gun_ppsh":  {
+                        "skins":  [
+                                      "bogatstvo",
+                                      "boloto",
+                                      "dark_oak",
+                                      "krov",
+                                      "mahogany",
+                                      "pesok",
+                                      "svetit",
+                                      "temnota",
+                                      "voron",
+                                      "zima"
+                                  ],
+                        "magTypes":  [
+                                         "drum"
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_ptrs":  {
+                        "skins":  [
+                                      "berry",
+                                      "forest",
+                                      "navy",
+                                      "night"
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    },
+    "bf:gun_springfield":  {
+                               "skins":  [
+                                             "black",
+                                             "dark_oak",
+                                             "gold",
+                                             "green",
+                                             "mahogany",
+                                             "mint",
+                                             "night",
+                                             "silver",
+                                             "white"
+                                         ],
+                               "magTypes":  [
+
+                                            ],
+                               "barrelTypes":  [
+
+                                               ]
+                           },
+    "bf:gun_sten_mk2":  {
+                            "skins":  [
+                                          "berry",
+                                          "green",
+                                          "highroller",
+                                          "navy",
+                                          "raven",
+                                          "royalty",
+                                          "scarlet",
+                                          "winter"
+                                      ],
+                            "magTypes":  [
+                                             "lanchester"
+                                         ],
+                            "barrelTypes":  [
+                                                "suppressor"
+                                            ]
+                        },
+    "bf:gun_stg44":  {
+                         "skins":  [
+                                       "black",
+                                       "green",
+                                       "hell",
+                                       "schatten",
+                                       "teuer",
+                                       "white"
+                                   ],
+                         "magTypes":  [
+
+                                      ],
+                         "barrelTypes":  [
+
+                                         ]
+                     },
+    "bf:gun_tokarev_avt40":  {
+                                 "skins":  [
+                                               "dark_oak",
+                                               "forest",
+                                               "navy",
+                                               "night",
+                                               "silver",
+                                               "zolotoy"
+                                           ],
+                                 "magTypes":  [
+
+                                              ],
+                                 "barrelTypes":  [
+
+                                                 ]
+                             },
+    "bf:gun_tokarev_svt40":  {
+                                 "skins":  [
+                                               "dark_oak",
+                                               "forest",
+                                               "navy",
+                                               "night",
+                                               "silver",
+                                               "zolotoy"
+                                           ],
+                                 "magTypes":  [
+
+                                              ],
+                                 "barrelTypes":  [
+
+                                                 ]
+                             },
+    "bf:gun_tokarev_tt33":  {
+                                "skins":  [
+                                              "bogatyy",
+                                              "kobalt",
+                                              "svevit"
+                                          ],
+                                "magTypes":  [
+
+                                             ],
+                                "barrelTypes":  [
+
+                                                ]
+                            },
+    "bf:gun_trenchgun":  {
+                             "skins":  [
+                                           "berry",
+                                           "black",
+                                           "cherry",
+                                           "frontier",
+                                           "gold",
+                                           "green",
+                                           "nightmare",
+                                           "nova",
+                                           "obsidian",
+                                           "shine",
+                                           "silver",
+                                           "white"
+                                       ],
+                             "magTypes":  [
+
+                                          ],
+                             "barrelTypes":  [
+
+                                             ]
+                         },
+    "bf:gun_type100":  {
+                           "skins":  [
+
+                                     ],
+                           "magTypes":  [
+
+                                        ],
+                           "barrelTypes":  [
+
+                                           ]
+                       },
+    "bf:gun_type11":  {
+                          "skins":  [
+                                        "black",
+                                        "desert",
+                                        "green",
+                                        "navy",
+                                        "night"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_type14":  {
+                          "skins":  [
+                                        "kagayaku",
+                                        "karasu",
+                                        "zeitaku"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_type18_shotgun":  {
+                                  "skins":  [
+                                                "howaitoauto",
+                                                "kagayaku",
+                                                "karasu",
+                                                "kusuburu",
+                                                "yoru",
+                                                "yuganda",
+                                                "zeitaku"
+                                            ],
+                                  "magTypes":  [
+
+                                               ],
+                                  "barrelTypes":  [
+
+                                                  ]
+                              },
+    "bf:gun_type26":  {
+                          "skins":  [
+                                        "kagayaku",
+                                        "karasu",
+                                        "zeitaku"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_type38":  {
+                          "skins":  [
+                                        "black",
+                                        "desert",
+                                        "swamp",
+                                        "winter"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_type4":  {
+                         "skins":  [
+                                       "70mm",
+                                       "dark_oak",
+                                       "fuyu",
+                                       "kaiyo",
+                                       "kurai",
+                                       "oak",
+                                       "sakura",
+                                       "swamp",
+                                       "teikoku"
+                                   ],
+                         "magTypes":  [
+
+                                      ],
+                         "barrelTypes":  [
+
+                                         ]
+                     },
+    "bf:gun_type4_70mm":  {
+                              "skins":  [
+                                            "bahaburasuta",
+                                            "eiko",
+                                            "genshitekina",
+                                            "karasu",
+                                            "retoro",
+                                            "sabi"
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_type92":  {
+                          "skins":  [
+
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_type94":  {
+                          "skins":  [
+                                        "kagayaku",
+                                        "karasu",
+                                        "zeitaku"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_type96":  {
+                          "skins":  [
+                                        "berry",
+                                        "black",
+                                        "dark_oak",
+                                        "forest",
+                                        "fury",
+                                        "navy"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_type98":  {
+                          "skins":  [
+                                        "kagayaku",
+                                        "karasu",
+                                        "zeitaku"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_type99":  {
+                          "skins":  [
+                                        "kagayaku",
+                                        "karasu",
+                                        "zeitaku"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_vickers_k":  {
+                             "skins":  [
+                                           "green",
+                                           "navy",
+                                           "sandy",
+                                           "stealth"
+                                       ],
+                             "magTypes":  [
+
+                                          ],
+                             "barrelTypes":  [
+
+                                             ]
+                         },
+    "bf:gun_walther_p38":  {
+                               "skins":  [
+                                             "black",
+                                             "green",
+                                             "hell",
+                                             "schatten",
+                                             "teuer",
+                                             "white"
+                                         ],
+                               "magTypes":  [
+
+                                            ],
+                               "barrelTypes":  [
+
+                                               ]
+                           },
+    "bf:gun_webley_mk6":  {
+                              "skins":  [
+                                            "classic",
+                                            "royal",
+                                            "shine"
+                                        ],
+                              "magTypes":  [
+
+                                           ],
+                              "barrelTypes":  [
+
+                                              ]
+                          },
+    "bf:gun_welrod":  {
+                          "skins":  [
+                                        "assassin",
+                                        "headsmen",
+                                        "highroller",
+                                        "honor",
+                                        "liquidator",
+                                        "payday",
+                                        "plant",
+                                        "whalerod"
+                                    ],
+                          "magTypes":  [
+
+                                       ],
+                          "barrelTypes":  [
+
+                                          ]
+                      },
+    "bf:gun_winchester_1895":  {
+                                   "skins":  [
+                                                 "berry",
+                                                 "blackout",
+                                                 "cherry",
+                                                 "coachman",
+                                                 "lawbringer",
+                                                 "nightmare",
+                                                 "opulence",
+                                                 "whiteout"
+                                             ],
+                                   "magTypes":  [
+
+                                                ],
+                                   "barrelTypes":  [
+
+                                                   ]
+                               },
+    "bf:gun_wz_35":  {
+                         "skins":  [
+                                       "cenny",
+                                       "kruk",
+                                       "swieci"
+                                   ],
+                         "magTypes":  [
+
+                                      ],
+                         "barrelTypes":  [
+
+                                         ]
+                     },
+    "bf:gun_zb26":  {
+                        "skins":  [
+                                      "dark_oak",
+                                      "forest",
+                                      "navy",
+                                      "night"
+                                  ],
+                        "magTypes":  [
+
+                                     ],
+                        "barrelTypes":  [
+
+                                        ]
+                    }
+}

@@ -1,0 +1,9 @@
+Summary for bf/0.7.1.2b-named.jar
+Decompiled with CFR 0.152
+
+
+com.boehmod.blockfront.client.net.BFClientPacketHandlers
+----------------------------
+
+game(com.boehmod.blockfront.common.net.packet.BFGamePacket net.neoforged.neoforge.network.handling.IPayloadContext )
+  Unable to fully structure code

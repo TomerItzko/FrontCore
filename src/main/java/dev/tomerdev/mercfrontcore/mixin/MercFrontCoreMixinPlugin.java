@@ -1,0 +1,94 @@
+package dev.tomerdev.mercfrontcore.mixin;
+
+import java.util.List;
+import java.util.Set;
+import org.objectweb.asm.tree.ClassNode;
+import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
+import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+
+public final class MercFrontCoreMixinPlugin implements IMixinConfigPlugin {
+    @Override
+    public void onLoad(String mixinPackage) {
+    }
+
+    @Override
+    public String getRefMapperConfig() {
+        return null;
+    }
+
+    @Override
+    public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        if (mixinClassName.endsWith(".client.TitleScreenMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.BlockFront",
+                "com.boehmod.blockfront.client.screen.title.LobbyTitleScreen"
+            );
+        }
+        if (mixinClassName.endsWith(".client.BFIntroScreenMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.client.screen.intro.BFIntroScreen"
+            );
+        }
+        if (mixinClassName.endsWith(".client.BFClientScreenSubscriberMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.client.event.BFClientScreenSubscriber"
+            );
+        }
+        if (mixinClassName.endsWith(".client.TitleSidebarScreenMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.client.gui.widget.BFButton",
+                "com.boehmod.blockfront.client.screen.title.sidebar.TitleSidebarScreen",
+                "com.boehmod.blockfront.client.screen.SidebarScreen"
+            );
+        }
+        if (mixinClassName.endsWith(".client.MatchPauseScreenMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.client.gui.widget.BFButton",
+                "com.boehmod.blockfront.client.screen.match.MatchPauseScreen",
+                "com.boehmod.blockfront.client.screen.BFMenuScreen"
+            );
+        }
+        if (mixinClassName.endsWith(".InfectedGameVendorMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.game.impl.inf.InfectedGame",
+                "com.boehmod.blockfront.common.entity.VendorEntity"
+            );
+        }
+        return true;
+    }
+
+    @Override
+    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
+    }
+
+    @Override
+    public List<String> getMixins() {
+        return null;
+    }
+
+    @Override
+    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+    }
+
+    @Override
+    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+    }
+
+    private static boolean hasAll(String... classNames) {
+        for (String className : classNames) {
+            if (!hasClass(className)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean hasClass(String className) {
+        try {
+            Class.forName(className, false, MercFrontCoreMixinPlugin.class.getClassLoader());
+            return true;
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+}
