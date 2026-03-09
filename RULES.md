@@ -46,7 +46,23 @@ Rules:
 - Keep a visible startup marker log when debugging deployment mismatches.
 - Verify server is running expected jar before diagnosing gameplay logic.
 
-## 5) Release Discipline
+## 5) Infected Vendor Spawn/Tracking (High Risk)
+
+Do not change these without proving vendor spawn + visibility are stable:
+
+- `src/main/java/dev/tomerdev/mercfrontcore/mixin/InfectedGameVendorMixin.java` (if present)
+- `src/main/java/dev/tomerdev/mercfrontcore/server/event/MercFrontCoreServerEvents.java`
+- `src/main/resources/mercfrontcore.mixins.json`
+
+Rules:
+- Prefer BlockFront-native vendor spawn/relocate logic unless there is a proven regression.
+- If server has vendor but client cannot see vendor, treat it as tracking/pairing first.
+- Validate low and high ping before shipping.
+- Validate re-track scenario (leave chunk/render range, then re-enter).
+- Verify both sides during tests: server vendor exists and client can see + interact.
+- Update `CHANGELOG.md` with only the final shipped approach.
+
+## 6) Release Discipline
 
 Before shipping any packet/drop/gameplay change:
 
