@@ -71,3 +71,8 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 - Follow setup notes in `bf/README.md`.
 - Build with:
 `gradlew.bat build`
+
+## 7) Safety Rules
+
+- Before touching packet routing, drop handling, or match gating logic, read:
+`RULES.md`
