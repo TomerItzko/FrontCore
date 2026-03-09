@@ -53,12 +53,6 @@ public final class MercFrontCoreMixinPlugin implements IMixinConfigPlugin {
                 "com.boehmod.blockfront.client.screen.BFMenuScreen"
             );
         }
-        if (mixinClassName.endsWith(".InfectedGameVendorMixin")) {
-            return hasAll(
-                "com.boehmod.blockfront.game.impl.inf.InfectedGame",
-                "com.boehmod.blockfront.common.entity.VendorEntity"
-            );
-        }
         if (mixinClassName.endsWith(".BFServerManagerMixin")) {
             return hasAll(
                 "com.boehmod.blockfront.server.BFServerManager"

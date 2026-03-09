@@ -7,10 +7,10 @@ config = "mercfrontcore.mixins.json"
 
 [[mods]]
 modId = "mercfrontcore"
-version = "0.7.1.2b"
+version = "0.7.1.2b-hotfix4"
 displayName = "FrontCore"
 authors = "TomerDev (credit to OG author: forteus19)"
-description = '''Helper stuff for BlockFront. Credit to the OG author: forteus19 (https://github.com/forteus19/Front-Utilities).'''
+description = '''Helper stuff for BlockFront with proxy compatibility. Credit to the OG author: forteus19 (https://github.com/forteus19/Front-Utilities).'''
 logoFile = "logo.png"
 
 [[dependencies.mercfrontcore]]

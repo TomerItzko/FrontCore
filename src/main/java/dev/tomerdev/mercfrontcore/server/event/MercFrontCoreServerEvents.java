@@ -2,13 +2,17 @@ package dev.tomerdev.mercfrontcore.server.event;
 
 import com.boehmod.blockfront.BlockFront;
 import com.boehmod.blockfront.common.BFAbstractManager;
+import com.boehmod.blockfront.common.entity.VendorEntity;
 import com.boehmod.blockfront.game.AbstractGame;
+import com.boehmod.blockfront.game.impl.inf.InfectedGame;
 import com.boehmod.blockfront.server.BFServerManager;
 import com.boehmod.blockfront.server.player.BFServerPlayerData;
 import com.boehmod.blockfront.server.player.ServerPlayerDataHandler;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -42,6 +46,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class MercFrontCoreServerEvents {
     private static final Set<UUID> PENDING_LOADOUT_SYNC = ConcurrentHashMap.newKeySet();
     private static final Set<UUID> PENDING_BF_ROUTER_ATTACH = ConcurrentHashMap.newKeySet();
+    private static final Map<UUID, Integer> PENDING_VENDOR_TRACK_SYNC = new ConcurrentHashMap<>();
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
@@ -119,6 +124,7 @@ public final class MercFrontCoreServerEvents {
         // Defer initial sync to server tick; login event can fire during configuration transition.
         PENDING_LOADOUT_SYNC.add(player.getUuid());
         PENDING_BF_ROUTER_ATTACH.add(player.getUuid());
+        PENDING_VENDOR_TRACK_SYNC.put(player.getUuid(), 100);
     }
 
     @SubscribeEvent
@@ -154,6 +160,7 @@ public final class MercFrontCoreServerEvents {
                 }
             }
         }
+        pulseVendorTrackSync(event.getServer());
 
     }
 
@@ -162,6 +169,7 @@ public final class MercFrontCoreServerEvents {
         if (event.getEntity() instanceof ServerPlayerEntity player) {
             PENDING_LOADOUT_SYNC.remove(player.getUuid());
             PENDING_BF_ROUTER_ATTACH.remove(player.getUuid());
+            PENDING_VENDOR_TRACK_SYNC.remove(player.getUuid());
         }
     }
 
@@ -216,6 +224,84 @@ public final class MercFrontCoreServerEvents {
         } catch (Throwable t) {
             MercFrontCore.LOGGER.debug("AFK tick keepalive hook failed: {}", t.toString());
         }
+    }
+
+    private static void pulseVendorTrackSync(net.minecraft.server.MinecraftServer server) {
+        if (PENDING_VENDOR_TRACK_SYNC.isEmpty()) {
+            return;
+        }
+
+        var iterator = PENDING_VENDOR_TRACK_SYNC.entrySet().iterator();
+        while (iterator.hasNext()) {
+            var entry = iterator.next();
+            UUID uuid = entry.getKey();
+            int remaining = entry.getValue();
+            if (remaining <= 0) {
+                iterator.remove();
+                continue;
+            }
+
+            ServerPlayerEntity player = server.getPlayerManager().getPlayer(uuid);
+            if (player == null || player.isDisconnected()) {
+                iterator.remove();
+                continue;
+            }
+
+            entry.setValue(remaining - 1);
+            if ((remaining % 10) != 0) {
+                continue;
+            }
+
+            try {
+                BFServerManager manager = getServerManager();
+                if (manager == null) {
+                    continue;
+                }
+                AbstractGame<?, ?, ?> game = manager.getGameWithPlayer(player.getUuid());
+                if (!(game instanceof InfectedGame infectedGame)) {
+                    continue;
+                }
+                VendorEntity vendor = infectedGame.vendorEntity;
+                if (vendor == null || vendor.isRemoved()) {
+                    continue;
+                }
+                if (!(vendor.getWorld() instanceof ServerWorld vendorWorld) || player.getServerWorld() != vendorWorld) {
+                    continue;
+                }
+
+                forceStartTrackingVendor(vendorWorld, vendor, player);
+            } catch (Throwable t) {
+                MercFrontCore.LOGGER.debug("Vendor track sync pulse failed: {}", t.toString());
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void forceStartTrackingVendor(ServerWorld world, VendorEntity vendor, ServerPlayerEntity player) {
+        try {
+            EntityTrackerEntry entry = new EntityTrackerEntry(
+                world,
+                vendor,
+                vendor.getType().getTrackTickInterval(),
+                vendor.getType().alwaysUpdateVelocity(),
+                packet -> player.networkHandler.send(packet)
+            );
+            entry.startTracking(player);
+        } catch (Throwable t) {
+            MercFrontCore.LOGGER.debug("Failed to force vendor tracking sync: {}", t.toString());
+        }
+    }
+
+    private static BFServerManager getServerManager() {
+        BlockFront blockFront = BlockFront.getInstance();
+        if (blockFront == null) {
+            return null;
+        }
+        BFAbstractManager<?, ?, ?> manager = blockFront.getManager();
+        if (manager instanceof BFServerManager serverManager) {
+            return serverManager;
+        }
+        return null;
     }
 
 }

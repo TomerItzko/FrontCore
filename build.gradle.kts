@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "red.vuis"
-version = "0.7.1.2b"
+version = "0.7.1.2b-hotfix4"
 description = "FrontCore companion utility mod for BlockFront. Credit to the OG author: forteus19 (https://github.com/forteus19/Front-Utilities)."
 
 base {

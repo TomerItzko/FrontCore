@@ -12,11 +12,9 @@ import dev.tomerdev.mercfrontcore.server.MercFrontCoreServer;
 @Mod(AddonConstants.MOD_ID)
 public final class MercFrontCore {
     public static final Logger LOGGER = LogUtils.getLogger();
-    private static final String BUILD_MARKER = "MFC-BUILD-2026-03-09-DROPRESET-01";
 
     public MercFrontCore(IEventBus modBus) {
         LOGGER.info("Initializing {} ({})", AddonConstants.MOD_NAME, AddonConstants.MOD_VERSION);
-        LOGGER.error("MERCFRONTCORE BUILD MARKER {}", BUILD_MARKER);
         MercFrontCoreConfigManager.load();
         modBus.addListener(MercFrontCoreModEvents::onRegisterPayloadHandlers);
         MercFrontCoreClient.bootstrap();

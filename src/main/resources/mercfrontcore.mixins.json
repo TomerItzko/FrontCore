@@ -3,10 +3,12 @@
   "package": "dev.tomerdev.mercfrontcore.mixin",
   "plugin": "dev.tomerdev.mercfrontcore.mixin.MercFrontCoreMixinPlugin",
   "mixins": [
-    "InfectedGameVendorMixin",
     "PacketListenerInteractionMixin",
     "PacketListenerPlayerMoveMixin",
     "ServerPlayNetworkHandlerMixin"
   ],
-  "client": []
+  "client": [
+    "client.AbstractSoundInstanceMixin",
+    "client.SoundOptionsScreenMixin"
+  ]
 }
