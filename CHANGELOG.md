@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 ### Fixed
 - Removed FrontCore infected-vendor relocate mixin overrides so vendor behavior remains BlockFront-native.
 - Added server-side vendor tracking sync pulses for infected match players after login, forcing vendor pairing packets to players who missed initial tracking.
+- Vendor relocation now also re-queues the same server-side tracking sync window for players in the infected match.
 - Tuned vendor tracking sync window to 100 ticks to reduce packet noise while preserving reliability.
 - Restored custom gun/grenade sound sliders by registering missing client mixins (`SoundOptionsScreenMixin`, `AbstractSoundInstanceMixin`).
 - Removed temporary startup build-marker error log (`MFC-BUILD-2026-03-09-DROPRESET-01`).

@@ -5,7 +5,8 @@
   "mixins": [
     "PacketListenerInteractionMixin",
     "PacketListenerPlayerMoveMixin",
-    "ServerPlayNetworkHandlerMixin"
+    "ServerPlayNetworkHandlerMixin",
+    "InfectedGameVendorRelocateMixin"
   ],
   "client": [
     "client.AbstractSoundInstanceMixin",

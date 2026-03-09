@@ -276,6 +276,31 @@ public final class MercFrontCoreServerEvents {
         }
     }
 
+    public static void queueVendorTrackSyncForGame(ServerWorld world, InfectedGame infectedGame, int ticks) {
+        if (ticks <= 0) {
+            return;
+        }
+
+        try {
+            BFServerManager manager = getServerManager();
+            if (manager == null || world.getServer() == null) {
+                return;
+            }
+
+            for (ServerPlayerEntity player : world.getServer().getPlayerManager().getPlayerList()) {
+                if (player.isDisconnected()) {
+                    continue;
+                }
+                AbstractGame<?, ?, ?> game = manager.getGameWithPlayer(player.getUuid());
+                if (game == infectedGame) {
+                    PENDING_VENDOR_TRACK_SYNC.put(player.getUuid(), Math.max(PENDING_VENDOR_TRACK_SYNC.getOrDefault(player.getUuid(), 0), ticks));
+                }
+            }
+        } catch (Throwable t) {
+            MercFrontCore.LOGGER.debug("Failed to queue vendor tracking sync for relocate: {}", t.toString());
+        }
+    }
+
     @SuppressWarnings("unchecked")
     private static void forceStartTrackingVendor(ServerWorld world, VendorEntity vendor, ServerPlayerEntity player) {
         try {
