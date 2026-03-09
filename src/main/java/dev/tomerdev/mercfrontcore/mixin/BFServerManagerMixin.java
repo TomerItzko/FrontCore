@@ -1,5 +1,6 @@
 package dev.tomerdev.mercfrontcore.mixin;
 
+import dev.tomerdev.mercfrontcore.MercFrontCore;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelPipeline;
 import java.util.NoSuchElementException;
@@ -28,6 +29,19 @@ public abstract class BFServerManagerMixin {
             }
         } catch (NoSuchElementException ignored) {
         }
-        return pipeline.addBefore(baseName, name, handler);
+        try {
+            if (pipeline.get(baseName) != null) {
+                return pipeline.addBefore(baseName, name, handler);
+            }
+            MercFrontCore.LOGGER.warn(
+                "BF packet router base '{}' missing; attaching '{}' at end of pipeline",
+                baseName,
+                name
+            );
+            return pipeline.addLast(name, handler);
+        } catch (Throwable t) {
+            MercFrontCore.LOGGER.error("Failed attaching BF packet router '{}': {}", name, t.toString());
+            return pipeline;
+        }
     }
 }

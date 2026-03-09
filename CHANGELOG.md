@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.1.2b-hotfix3] - 2026-03-09
+
+### Changed
+- Added explicit BF packet router attach on player login/tick to stabilize server-side packet listener presence.
+- Router now keeps BF move/interaction handlers attached and removes BF action handler to allow vanilla action packet flow.
+- Reworked server-side drop prevention scope for BF sessions (waiting/active) to reduce packet-level desync risk.
+
+### Fixed
+- Addressed missing BF packet routing attachment visibility by adding explicit server log lines for router attach.
+- Reduced ghost/desync side effects from direct action-packet interception in current hotfix path.
+
 ## [0.7.1.2b-hotfix2] - 2026-03-08
 
 ### Fixed

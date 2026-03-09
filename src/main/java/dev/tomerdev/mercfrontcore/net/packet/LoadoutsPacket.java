@@ -1,6 +1,11 @@
 package dev.tomerdev.mercfrontcore.net.packet;
 
 import com.boehmod.blockfront.common.match.Loadout;
+import com.boehmod.blockfront.common.match.MatchClass;
+import com.boehmod.blockfront.common.stat.BFStats;
+import com.boehmod.blockfront.game.AbstractGame;
+import com.boehmod.blockfront.game.GameTeam;
+import com.boehmod.blockfront.util.BFUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.util.List;
@@ -11,6 +16,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -67,6 +73,7 @@ public record LoadoutsPacket(Map<LoadoutIndex.Identifier, List<Loadout>> loadout
         }
 
         LoadoutIndex.apply(packet.loadouts);
+        refreshActivePlayersLoadouts(player);
         PacketDistributor.sendToAllPlayers(packet);
         boolean saved = LoadoutEditorStore.getInstance().save(player.getServer(), packet.loadouts);
         if (saved) {
@@ -116,5 +123,56 @@ public record LoadoutsPacket(Map<LoadoutIndex.Identifier, List<Loadout>> loadout
             return false;
         }
         return false;
+    }
+
+    private static void refreshActivePlayersLoadouts(ServerPlayerEntity source) {
+        try {
+            Class<?> blockFrontClass = Class.forName("com.boehmod.blockfront.BlockFront");
+            Object blockFront = blockFrontClass.getMethod("getInstance").invoke(null);
+            if (blockFront == null || source.getServer() == null) {
+                return;
+            }
+            Object manager = blockFrontClass.getMethod("getManager").invoke(blockFront);
+            if (manager == null) {
+                return;
+            }
+
+            for (ServerPlayerEntity online : source.getServer().getPlayerManager().getPlayerList()) {
+                if (online.isDisconnected() || online.isSpectator()) {
+                    continue;
+                }
+                Object gameObj = manager.getClass().getMethod("getGameWithPlayer", java.util.UUID.class).invoke(manager, online.getUuid());
+                if (!(gameObj instanceof AbstractGame<?, ?, ?> game)) {
+                    continue;
+                }
+                Object playerManagerObj = game.getPlayerManager();
+                if (playerManagerObj == null) {
+                    continue;
+                }
+
+                Object teamObj = playerManagerObj.getClass().getMethod("getPlayerTeam", java.util.UUID.class).invoke(playerManagerObj, online.getUuid());
+                if (!(teamObj instanceof GameTeam team)) {
+                    continue;
+                }
+
+                var stats = game.getPlayerStatData(online.getUuid());
+                int classOrdinal = stats.getInteger(BFStats.CLASS.getKey(), -1);
+                int classLevel = stats.getInteger(BFStats.CLASS_INDEX.getKey(), 0);
+                if (classOrdinal < 0 || classOrdinal >= MatchClass.values().length) {
+                    continue;
+                }
+
+                MatchClass matchClass = MatchClass.values()[classOrdinal];
+                Loadout loadout = team.getDivisionData(game).getLoadout(matchClass, classLevel);
+                if (loadout == null) {
+                    continue;
+                }
+
+                if (online.getWorld() instanceof ServerWorld serverWorld) {
+                    BFUtils.giveLoadout(serverWorld, online, loadout);
+                }
+            }
+        } catch (Throwable ignored) {
+        }
     }
 }

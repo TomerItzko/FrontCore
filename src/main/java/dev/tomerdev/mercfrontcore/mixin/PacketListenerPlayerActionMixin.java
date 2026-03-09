@@ -1,9 +1,7 @@
 package dev.tomerdev.mercfrontcore.mixin;
 
-import com.boehmod.blockfront.util.NettyUtils;
-import dev.tomerdev.mercfrontcore.util.AfkCompat;
 import io.netty.channel.ChannelHandlerContext;
-import net.minecraft.server.network.ServerPlayerEntity;
+import java.util.Locale;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -12,23 +10,33 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(targets = "com.boehmod.blockfront.server.net.PacketListenerPlayerAction")
 public abstract class PacketListenerPlayerActionMixin {
     @Inject(
-        method = "channelRead0(Lio/netty/channel/ChannelHandlerContext;Ljava/lang/Object;)V",
+        method = "channelRead0",
         at = @At("HEAD"),
         cancellable = true,
         require = 0,
         remap = false
     )
-    private void mercfrontcore$handleActionPacketBridge(
-        ChannelHandlerContext ctx,
-        Object packet,
-        CallbackInfo ci
-    ) {
-        ServerPlayerEntity player = NettyUtils.getServerPlayerFromConnection(ctx.channel());
-        if (player == null) {
-            ctx.fireChannelRead(packet);
-            ci.cancel();
+    private void mercfrontcore$bridgeActionPacket(ChannelHandlerContext ctx, Object packet, CallbackInfo ci) {
+        if (packet == null) {
             return;
         }
-        AfkCompat.markPlayerMoved(player, "action_packet");
+        Object action = mercfrontcore$invokeNoArg(packet, "getAction");
+        String actionName = action == null ? "" : action.toString().toUpperCase(Locale.ROOT);
+        boolean isDestroyAction = actionName.contains("START_DESTROY_BLOCK")
+            || actionName.contains("ABORT_DESTROY_BLOCK")
+            || actionName.contains("STOP_DESTROY_BLOCK");
+        if (isDestroyAction) {
+            // Force break packets to vanilla packet_handler so they cannot be swallowed by BF channel resolver mismatch.
+            ctx.fireChannelRead(packet);
+            ci.cancel();
+        }
+    }
+
+    private static Object mercfrontcore$invokeNoArg(Object target, String methodName) {
+        try {
+            return target.getClass().getMethod(methodName).invoke(target);
+        } catch (Throwable ignored) {
+            return null;
+        }
     }
 }

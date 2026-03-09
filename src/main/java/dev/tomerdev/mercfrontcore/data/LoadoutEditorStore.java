@@ -15,8 +15,11 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -121,9 +124,7 @@ public final class LoadoutEditorStore {
                 .forEach(entry -> entries.add(toJson(entry.getKey(), entry.getValue())));
 
             root.add("entries", entries);
-            try (Writer writer = Files.newBufferedWriter(path)) {
-                GSON.toJson(root, writer);
-            }
+            writeJsonAtomically(path, root);
             MercFrontCore.LOGGER.info(
                 "Saved {} BF loadout-editor entries to {}.",
                 snapshot.size(),
@@ -133,6 +134,31 @@ public final class LoadoutEditorStore {
         } catch (IOException e) {
             MercFrontCore.LOGGER.error("Failed to save BF loadout editor data to {}", path, e);
             return false;
+        }
+    }
+
+    private static void writeJsonAtomically(Path path, JsonObject root) throws IOException {
+        Path parent = path.getParent();
+        String fileName = path.getFileName().toString();
+        Path temp = Files.createTempFile(parent, fileName + ".", ".tmp");
+        try {
+            try (FileChannel channel = FileChannel.open(
+                temp,
+                StandardOpenOption.WRITE,
+                StandardOpenOption.TRUNCATE_EXISTING
+            ); Writer writer = java.nio.channels.Channels.newWriter(channel, java.nio.charset.StandardCharsets.UTF_8)) {
+                GSON.toJson(root, writer);
+                writer.flush();
+                channel.force(true);
+            }
+
+            try {
+                Files.move(temp, path, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+            } catch (IOException atomicMoveFailure) {
+                Files.move(temp, path, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } finally {
+            Files.deleteIfExists(temp);
         }
     }
 
