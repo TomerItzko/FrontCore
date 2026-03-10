@@ -1,6 +1,6 @@
 # FrontCore
 
-`FrontCore` is a companion utility mod for BlockFront focused on offline flow control, loadout editing, and advanced admin/setup helpers.
+`FrontCore` is a companion utility mod for BlockFront focused on offline flow control, loadout editing, persistent gun skins, lobby helpers, and advanced admin/setup tools.
 
 Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilities).
 
@@ -17,39 +17,54 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 - Base command: `/frontcore`
 - Alias: `/fc`
 
-- Status:
-`/frontcore status` or `/fc status`
+- Player commands:
+`/frontcore gun skins`
+`/frontcore lobby random|ffa|tdm|dom|conq|inf|gg|ttt|boot`
 
-- Profile overrides:
+- Admin-only server commands:
+`/frontcore status`
 `/frontcore profile show|save|reload`
 `/frontcore profile set <target> <displayName> <level> <prestige>`
 `/frontcore profile clear <target>`
-
-- Gun tools:
 `/frontcore gun giveWithSkin <id> <skin>`
+`/frontcore gun skinPlayer <player> <gun id> <skin>`
+`/frontcore gun removeSkinPlayer <player> <gun id> [skin]`
 `/frontcore gun modifier list`
-
-- Loadouts:
 `/frontcore loadout list|save|reload`
 `/frontcore loadout set <name> <primary> <secondary>`
 `/frontcore loadout remove <name>`
 `/frontcore loadout give <target> <name>`
-
-- Admin:
 `/frontcore admin proxy show|reload|save`
 `/frontcore admin proxy set compatibility <true|false>`
 `/frontcore admin proxy set directOnly <true|false>`
 `/frontcore admin proxy set trustForwardedIdentity <true|false>`
+`/frontcore admin lobby debug|random|ffa|tdm|dom|conq|inf|gg|ttt|boot`
 `/frontcore admin randomDrop <players> [count]`
 `/frontcore admin spawnView enable <game>`
+
+- Admin-only client commands:
+`/frontcore gun giveMenu <item>`
+`/frontcore admin gun debugOptions <item>`
+`/frontcore admin spawnView disable`
+
+- Operator restrictions:
+`/frontcore status`, admin subcommands, and the client `gun giveMenu` flow are operator-only.
 
 ## 3) Typical Workflow
 
 - Start BlockFront and enter offline mode.
-- Use loadout/profile commands to apply your setup.
-- Use admin subcommands for proxy compatibility and spawn/debug utilities.
+- Use `/frontcore gun skins` to choose a permanent skin for supported guns.
+- Use `/frontcore lobby ...` to join an active BlockFront match by mode.
+- Use loadout/profile commands and admin subcommands for setup, proxy compatibility, and debugging.
 
-## 4) Sound Sliders (Client-Side)
+## 4) Gun Skins
+
+- Permanent player gun skins apply to matching guns in BlockFront matches.
+- If a gun is given through `gun giveMenu` with its own explicit skin, that explicit skin is kept.
+- The gun skin selector always includes `default`, which clears the permanent override for that gun.
+- A `Gun Skins` button is also added to the vanilla pause menu.
+
+## 5) Sound Sliders (Client-Side)
 
 - Sound sliders are in Minecraft sound options:
 `Gun SFX Volume` and `Grenade SFX Volume`.
@@ -60,19 +75,26 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 `1-100%` scales target category volume.
 - The rest of game audio is not changed.
 
-## 5) Requirements
+## 6) Versioning
+
+- Version format is:
+`<frontcore>-<BF>`
+- Example:
+`1.0.5-0.7.1.2b`
+
+## 7) Requirements
 
 - Minecraft `1.21.1`
 - NeoForge `21.1.x`
 - BlockFront `0.7.1.2b`
 
-## 6) Build (for local development)
+## 8) Build (for local development)
 
 - Follow setup notes in `bf/README.md`.
 - Build with:
 `gradlew.bat build`
 
-## 7) Safety Rules
+## 9) Safety Rules
 
 - Before touching packet routing, drop handling, or match gating logic, read:
 `RULES.md`
