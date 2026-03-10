@@ -8,13 +8,20 @@ All notable changes to this project are documented in this file.
 - Profile overrides now apply directly to BlockFront live profile data, reapply on login/reload and after BF profile refreshes, and restore the previous live state when cleared.
 - Permanent player gun skins now stay active in matches, while guns given with an explicit skin from the gun menu keep that explicit skin.
 - Gun skin commands now fully support namespaced gun ids and per-gun skin tab completion.
+- The player gun skin selector now always includes `default` as a selectable option and applies it immediately by clearing the permanent skin override for that gun.
+- Lobby commands now discover and join live BlockFront matches more reliably on runtime jars instead of failing with false "no active joinable game" results.
+- `/fc lobby ...` is now available to non-op players, while admin-only server commands, `status`, and the client gun give menu stay restricted to operators.
+- FrontCore versioning is now presented consistently as `<frontcore>-<BF>`.
 
 ### Added
 - `/frontcore gun skinPlayer <player> <gun id> <skin>` and `/fc gun skinPlayer ...` for persistent per-player gun skins stored in `player_gun_skins.json`.
 - `/frontcore gun removeSkinPlayer <player> <gun id> [skin]` and `/fc gun removeSkinPlayer ...` for removing a player's permanent gun skins, with tab completion limited to the guns and skins that player actually owns.
 - `/fc gun skins` and `/frontcore gun skins` so players can browse owned guns, preview skins, and choose their active skin from an in-game GUI.
+- `/fc lobby random` plus `/fc lobby dom|ffa|tdm|conq|inf|gg|ttt|boot` and matching `/frontcore lobby ...` aliases to join an active in-progress BlockFront match by mode.
+- `/fc admin lobby debug` and per-mode variants to print exactly which BlockFront games the lobby command can currently see and how they are classified on the live server.
 - Player-facing polish for the skin GUI, including live preview, aligned navigation controls, and a clearer selected-skin marker.
 - A `Gun Skins` button in the vanilla pause menu under `Back to Game`, anchored to the live vanilla layout so it stays on its own row.
+
 ## [1.0.4-0.7.1.2b] - 2026-03-09
 
 ### Fixed

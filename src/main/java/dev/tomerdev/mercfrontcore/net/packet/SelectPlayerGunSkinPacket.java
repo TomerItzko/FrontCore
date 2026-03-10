@@ -34,13 +34,15 @@ public record SelectPlayerGunSkinPacket(Identifier gunId, String skin) implement
             return;
         }
         PlayerGunSkinStore store = PlayerGunSkinStore.getInstance();
+        PlayerGunSkinStore.OwnedGunSkins previous = store.getPlayerSkins(player.getUuid()).get(packet.gunId().toString());
         if (!store.selectPlayerSkin(player.getUuid(), packet.gunId().toString(), packet.skin())) {
             return;
         }
         if (!store.save(player.getServer())) {
             return;
         }
-        store.applyToPlayer(player);
+        PlayerGunSkinStore.OwnedGunSkins current = store.getPlayerSkins(player.getUuid()).get(packet.gunId().toString());
+        store.reconcilePlayerGun(player, packet.gunId().toString(), previous, current);
         PacketDistributor.sendToPlayer(player, store.toPacket(player.getUuid()));
     }
 }

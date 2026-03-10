@@ -3,6 +3,7 @@ package dev.tomerdev.mercfrontcore.client.screen;
 import com.boehmod.blockfront.registry.BFDataComponents;
 import dev.tomerdev.mercfrontcore.client.widget.ItemPreview;
 import dev.tomerdev.mercfrontcore.client.data.AddonClientData;
+import dev.tomerdev.mercfrontcore.data.PlayerGunSkinStore;
 import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
 import dev.tomerdev.mercfrontcore.net.packet.SelectPlayerGunSkinPacket;
 import dev.tomerdev.mercfrontcore.setup.GunSkinIndex;
@@ -39,7 +40,12 @@ public final class OwnedGunSkinSelectScreen extends AddonScreen {
         super.init();
         visibleSkinEntries.clear();
         List<String> skins = new ArrayList<>(state.ownedSkins());
+        if (skins.stream().noneMatch(skin -> PlayerGunSkinStore.DEFAULT_SKIN.equalsIgnoreCase(skin))) {
+            skins.addFirst(PlayerGunSkinStore.DEFAULT_SKIN);
+        }
         skins.sort(String.CASE_INSENSITIVE_ORDER);
+        skins.removeIf(skin -> PlayerGunSkinStore.DEFAULT_SKIN.equalsIgnoreCase(skin));
+        skins.addFirst(PlayerGunSkinStore.DEFAULT_SKIN);
         preview = new ItemPreview(width / 2 + 70, 52, 96)
             .setItemStack(createPreviewStack(state.selectedSkin()));
         addDrawable(preview);
@@ -114,6 +120,9 @@ public final class OwnedGunSkinSelectScreen extends AddonScreen {
         }
 
         ItemStack stack = new ItemStack(item);
+        if (skin == null || skin.isBlank() || PlayerGunSkinStore.DEFAULT_SKIN.equalsIgnoreCase(skin)) {
+            return stack;
+        }
         GunSkinIndex.ensureInitialized();
         GunSkinIndex.getSkinId(item, skin).ifPresent(id -> stack.set(BFDataComponents.SKIN_ID, id));
         return stack;

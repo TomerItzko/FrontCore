@@ -7,9 +7,11 @@
     "PacketListenerPlayerMoveMixin",
     "ServerPlayNetworkHandlerMixin",
     "InfectedGameVendorRelocateMixin",
-    "BFCommonCloudPacketHandlersMixin"
+    "BFCommonCloudPacketHandlersMixin",
+    "BFUtilsLoadoutSkinMixin"
   ],
   "client": [
+    "client.BFWeaponItemRendererMixin",
     "client.AbstractSoundInstanceMixin",
     "client.GameMenuScreenMixin",
     "client.SoundOptionsScreenMixin"

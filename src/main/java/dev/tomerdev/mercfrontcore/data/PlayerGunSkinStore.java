@@ -7,6 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import dev.tomerdev.mercfrontcore.AddonConstants;
 import dev.tomerdev.mercfrontcore.MercFrontCore;
 import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
 import dev.tomerdev.mercfrontcore.setup.GunSkinIndex;
@@ -22,6 +23,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.MinecraftServer;
@@ -31,6 +34,8 @@ import net.minecraft.util.Identifier;
 public final class PlayerGunSkinStore {
     private static final PlayerGunSkinStore INSTANCE = new PlayerGunSkinStore();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    public static final String DEFAULT_SKIN = "default";
+    private static final String GIVE_MENU_SKIN_MARKER = AddonConstants.MOD_ID + ":give_menu_skin";
     private static final String DATA_DIR = "mercfrontcore";
     private static final String FILE_NAME = "player_gun_skins.json";
 
@@ -136,10 +141,14 @@ public final class PlayerGunSkinStore {
             return false;
         }
         OwnedGunSkins current = skinsByGun.get(gunId);
-        if (current == null || !current.ownedSkins().contains(skin)) {
+        if (current == null) {
             return false;
         }
-        skinsByGun.put(gunId, new OwnedGunSkins(skin, current.ownedSkins()));
+        String normalizedSkin = normalizeSelectedSkin(skin);
+        if (!DEFAULT_SKIN.equalsIgnoreCase(normalizedSkin) && !current.ownedSkins().contains(normalizedSkin)) {
+            return false;
+        }
+        skinsByGun.put(gunId, new OwnedGunSkins(normalizedSkin, current.ownedSkins()));
         return true;
     }
 
@@ -194,7 +203,10 @@ public final class PlayerGunSkinStore {
         getPlayerSkins(uuid).forEach((gunId, owned) -> {
             Identifier id = Identifier.tryParse(gunId);
             if (id != null) {
-                states.put(id, new PlayerGunSkinStatePacket.GunSkinState(owned.selectedSkin(), owned.ownedSkins()));
+                states.put(id, new PlayerGunSkinStatePacket.GunSkinState(
+                    normalizeSelectedSkin(owned.selectedSkin()),
+                    withDefaultSkin(owned.ownedSkins())
+                ));
             }
         });
         return new PlayerGunSkinStatePacket(states);
@@ -238,11 +250,10 @@ public final class PlayerGunSkinStore {
             if (!gunId.equals(itemId.toString())) {
                 continue;
             }
-            String explicitPattern = stack.get(BFDataComponents.PATTERN_NAME);
-            if (explicitPattern != null && !explicitPattern.isBlank()) {
+            if (hasGiveMenuSkinMarker(stack)) {
                 continue;
             }
-            if (current != null && !current.selectedSkin().isBlank()) {
+            if (current != null && !isDefaultSelected(current.selectedSkin())) {
                 if (applyToStack(stack, Map.of(gunId, current))) {
                     changed++;
                 }
@@ -263,6 +274,10 @@ public final class PlayerGunSkinStore {
             }
             if (matchesRemoved) {
                 stack.remove(BFDataComponents.SKIN_ID);
+                stack.remove(BFDataComponents.PATTERN_NAME);
+                stack.remove(BFDataComponents.PATTERN_WIDTH);
+                stack.remove(BFDataComponents.PATTERN_HEIGHT);
+                stack.set(BFDataComponents.HAS_PATTERN, false);
                 changed++;
             }
         }
@@ -281,25 +296,30 @@ public final class PlayerGunSkinStore {
 
         Identifier itemId = Registries.ITEM.getId(stack.getItem());
         OwnedGunSkins owned = skinsByGun.get(itemId.toString());
-        if (owned == null || owned.selectedSkin().isBlank()) {
+        if (owned == null || isDefaultSelected(owned.selectedSkin())) {
+            return false;
+        }
+        if (hasGiveMenuSkinMarker(stack)) {
             return false;
         }
         String explicitPattern = stack.get(BFDataComponents.PATTERN_NAME);
-        if (explicitPattern != null && !explicitPattern.isBlank()) {
-            return false;
-        }
-
         Optional<Float> skinId = GunSkinIndex.getSkinId(stack.getItem(), owned.selectedSkin());
-        if (skinId.isEmpty()) {
-            return false;
-        }
-
         Float currentSkin = stack.get(BFDataComponents.SKIN_ID);
-        if (currentSkin != null && Float.compare(currentSkin, skinId.get()) == 0) {
+        if (skinId.isPresent()
+            && currentSkin != null
+            && Float.compare(currentSkin, skinId.get()) == 0
+            && owned.selectedSkin().equalsIgnoreCase(explicitPattern)) {
             return false;
         }
-
-        stack.set(BFDataComponents.SKIN_ID, skinId.get());
+        if (skinId.isPresent()) {
+            stack.set(BFDataComponents.SKIN_ID, skinId.get());
+        } else {
+            stack.remove(BFDataComponents.SKIN_ID);
+        }
+        stack.set(BFDataComponents.HAS_PATTERN, false);
+        stack.remove(BFDataComponents.PATTERN_WIDTH);
+        stack.remove(BFDataComponents.PATTERN_HEIGHT);
+        stack.set(BFDataComponents.PATTERN_NAME, owned.selectedSkin());
         return true;
     }
 
@@ -339,7 +359,30 @@ public final class PlayerGunSkinStore {
         if (selected.isBlank()) {
             selected = owned.iterator().next();
         }
-        return new OwnedGunSkins(selected, new ArrayList<>(owned));
+        return new OwnedGunSkins(normalizeSelectedSkin(selected), new ArrayList<>(owned));
+    }
+
+    private static List<String> withDefaultSkin(List<String> ownedSkins) {
+        LinkedHashSet<String> out = new LinkedHashSet<>();
+        out.add(DEFAULT_SKIN);
+        out.addAll(ownedSkins);
+        return List.copyOf(out);
+    }
+
+    private static boolean isDefaultSelected(String skin) {
+        return normalizeSelectedSkin(skin).equalsIgnoreCase(DEFAULT_SKIN);
+    }
+
+    private static String normalizeSelectedSkin(String skin) {
+        if (skin == null || skin.isBlank() || DEFAULT_SKIN.equalsIgnoreCase(skin)) {
+            return DEFAULT_SKIN;
+        }
+        return skin;
+    }
+
+    private static boolean hasGiveMenuSkinMarker(ItemStack stack) {
+        NbtComponent customData = stack.get(DataComponentTypes.CUSTOM_DATA);
+        return customData != null && customData.copyNbt().getBoolean(GIVE_MENU_SKIN_MARKER);
     }
 
     public record OwnedGunSkins(String selectedSkin, List<String> ownedSkins) {

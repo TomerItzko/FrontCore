@@ -43,7 +43,7 @@ public final class MercFrontCoreClientCommand {
         var root = literal(name);
         root.then(
             literal("gun").then(
-                literal("giveMenu").then(
+                literal("giveMenu").requires(source -> source.hasPermissionLevel(2)).then(
                     argument("item", IdentifierArgumentType.identifier())
                         .suggests(MercFrontCoreClientCommand::suggestGunItems)
                         .executes(MercFrontCoreClientCommand::gunGiveMenu)
@@ -70,7 +70,7 @@ public final class MercFrontCoreClientCommand {
             )
         );
         root.then(
-            literal("admin")
+            literal("admin").requires(source -> source.hasPermissionLevel(2))
                 .then(
                     literal("gun").then(
                         literal("debugOptions").then(

@@ -1,6 +1,7 @@
 package dev.tomerdev.mercfrontcore.client.screen;
 
 import dev.tomerdev.mercfrontcore.client.data.AddonClientData;
+import dev.tomerdev.mercfrontcore.data.PlayerGunSkinStore;
 import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -45,7 +46,7 @@ public final class OwnedGunSkinsScreen extends AddonScreen {
             PlayerGunSkinStatePacket.GunSkinState state = entry.getValue();
             Item item = Registries.ITEM.get(id);
             String itemName = item == null ? id.toString() : item.getName().getString();
-            String selected = state.selectedSkin().isBlank() ? "none" : state.selectedSkin();
+            String selected = state.selectedSkin().isBlank() ? PlayerGunSkinStore.DEFAULT_SKIN : state.selectedSkin();
             addDrawableChild(ButtonWidget.builder(
                 Text.literal(itemName + " [" + selected + "]"),
                 button -> MinecraftClient.getInstance().setScreen(new OwnedGunSkinSelectScreen(this, id, state))
