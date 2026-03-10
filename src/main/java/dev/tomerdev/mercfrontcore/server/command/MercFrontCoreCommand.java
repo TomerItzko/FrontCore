@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.command.argument.IdentifierArgumentType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,13 +41,16 @@ import dev.tomerdev.mercfrontcore.data.AddonCommonData;
 import dev.tomerdev.mercfrontcore.data.GunModifier;
 import dev.tomerdev.mercfrontcore.data.LoadoutData;
 import dev.tomerdev.mercfrontcore.data.LoadoutStore;
+import dev.tomerdev.mercfrontcore.data.PlayerGunSkinStore;
 import dev.tomerdev.mercfrontcore.data.ProfileOverrideData;
 import dev.tomerdev.mercfrontcore.net.packet.ClearProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.NewProfileOverridesPacket;
+import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPropertyPacket;
 import dev.tomerdev.mercfrontcore.net.packet.ViewSpawnsPacket;
 import dev.tomerdev.mercfrontcore.server.ProxyCompatibility;
+import dev.tomerdev.mercfrontcore.setup.GunExtraOptionsIndex;
 import dev.tomerdev.mercfrontcore.setup.GunSkinIndex;
 
 public final class MercFrontCoreCommand {
@@ -96,15 +100,55 @@ public final class MercFrontCoreCommand {
                 literal("gun")
                     .then(
                         literal("giveWithSkin")
-                            .then(argument("id", StringArgumentType.word())
+                            .then(argument("id", IdentifierArgumentType.identifier())
                                 .suggests(MercFrontCoreCommand::suggestGunIds)
                                 .then(argument("skin", StringArgumentType.word())
                                     .suggests(MercFrontCoreCommand::suggestGunSkins)
                                     .executes(ctx -> giveWithSkin(
                                         ctx.getSource(),
-                                        StringArgumentType.getString(ctx, "id"),
+                                        IdentifierArgumentType.getIdentifier(ctx, "id"),
                                         StringArgumentType.getString(ctx, "skin")
                                     ))
+                                )
+                            )
+                    )
+                    .then(
+                        literal("skinPlayer")
+                            .then(argument("target", EntityArgumentType.player())
+                                .then(argument("id", IdentifierArgumentType.identifier())
+                                    .suggests(MercFrontCoreCommand::suggestGunIds)
+                                    .then(argument("skin", StringArgumentType.word())
+                                        .suggests(MercFrontCoreCommand::suggestGunSkins)
+                                        .executes(ctx -> setPermanentPlayerSkin(
+                                            ctx.getSource(),
+                                            EntityArgumentType.getPlayer(ctx, "target"),
+                                            IdentifierArgumentType.getIdentifier(ctx, "id"),
+                                            StringArgumentType.getString(ctx, "skin")
+                                        ))
+                                    )
+                                )
+                            )
+                    )
+                    .then(
+                        literal("removeSkinPlayer")
+                            .then(argument("target", EntityArgumentType.player())
+                                .then(argument("id", IdentifierArgumentType.identifier())
+                                    .suggests(MercFrontCoreCommand::suggestPlayerOwnedGunIds)
+                                    .executes(ctx -> revokePermanentPlayerSkin(
+                                        ctx.getSource(),
+                                        EntityArgumentType.getPlayer(ctx, "target"),
+                                        IdentifierArgumentType.getIdentifier(ctx, "id"),
+                                        null
+                                    ))
+                                    .then(argument("skin", StringArgumentType.word())
+                                        .suggests(MercFrontCoreCommand::suggestPlayerOwnedGunSkins)
+                                        .executes(ctx -> revokePermanentPlayerSkin(
+                                            ctx.getSource(),
+                                            EntityArgumentType.getPlayer(ctx, "target"),
+                                            IdentifierArgumentType.getIdentifier(ctx, "id"),
+                                            StringArgumentType.getString(ctx, "skin")
+                                        ))
+                                    )
                                 )
                             )
                     )
@@ -245,17 +289,75 @@ public final class MercFrontCoreCommand {
         );
     }
 
+    private static CompletableFuture<Suggestions> suggestPlayerOwnedGunIds(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
+        try {
+            ServerPlayerEntity target = EntityArgumentType.getPlayer(context, "target");
+            return CommandSource.suggestMatching(
+                PlayerGunSkinStore.getInstance().getPlayerSkins(target.getUuid()).keySet(),
+                suggestions
+            );
+        } catch (Exception ignored) {
+            return suggestions.buildFuture();
+        }
+    }
+
+    private static CompletableFuture<Suggestions> suggestPlayerOwnedGunSkins(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
+        try {
+            ServerPlayerEntity target = EntityArgumentType.getPlayer(context, "target");
+            Identifier id = IdentifierArgumentType.getIdentifier(context, "id");
+            var owned = PlayerGunSkinStore.getInstance().getPlayerSkins(target.getUuid()).get(id.toString());
+            if (owned == null) {
+                return suggestions.buildFuture();
+            }
+            return CommandSource.suggestMatching(owned.ownedSkins(), suggestions);
+        } catch (Exception ignored) {
+            return suggestions.buildFuture();
+        }
+    }
+
     private static CompletableFuture<Suggestions> suggestGunSkins(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
         GunSkinIndex.ensureInitialized();
-        Identifier id = Identifier.tryParse(StringArgumentType.getString(context, "id"));
+        Identifier id = extractGunIdForSkinSuggestion(context.getInput());
         if (id == null) {
             return suggestions.buildFuture();
         }
-        var skins = GunSkinIndex.SKINS.get(id);
-        if (skins == null) {
-            return suggestions.buildFuture();
+        var declaredFallbackSkins = GunExtraOptionsIndex.getDeclaredFallbackSkins(id);
+        if (!declaredFallbackSkins.isEmpty()) {
+            return CommandSource.suggestMatching(declaredFallbackSkins, suggestions);
         }
-        return CommandSource.suggestMatching(skins.keySet(), suggestions);
+        Item item = Registries.ITEM.get(id);
+        if (item != null && item != Items.AIR) {
+            var strictSkins = GunSkinIndex.getStrictSkinNames(item);
+            if (!strictSkins.isEmpty()) {
+                return CommandSource.suggestMatching(strictSkins, suggestions);
+            }
+        }
+        var gunOptions = GunExtraOptionsIndex.snapshot().get(id);
+        if (gunOptions != null && !gunOptions.skins().isEmpty()) {
+            return CommandSource.suggestMatching(gunOptions.skins(), suggestions);
+        }
+        return suggestions.buildFuture();
+    }
+
+    private static Identifier extractGunIdForSkinSuggestion(String input) {
+        if (input == null || input.isBlank()) {
+            return null;
+        }
+
+        String[] tokens = input.trim().split("\\s+");
+        if (tokens.length < 4) {
+            return null;
+        }
+        if (!"gun".equals(tokens[1])) {
+            return null;
+        }
+        if ("giveWithSkin".equals(tokens[2]) && tokens.length >= 4) {
+            return Identifier.tryParse(tokens[3]);
+        }
+        if ("skinPlayer".equals(tokens[2]) && tokens.length >= 5) {
+            return Identifier.tryParse(tokens[4]);
+        }
+        return null;
     }
 
     private static int enableSpawnView(ServerCommandSource source, String gameName) {
@@ -405,19 +507,13 @@ public final class MercFrontCoreCommand {
         return 1;
     }
 
-    private static int giveWithSkin(ServerCommandSource source, String idText, String skin) {
+    private static int giveWithSkin(ServerCommandSource source, Identifier id, String skin) {
         GunSkinIndex.ensureInitialized();
         ServerPlayerEntity player;
         try {
             player = source.getPlayerOrThrow();
         } catch (Exception e) {
             source.sendError(Text.translatable("mercfrontcore.message.command.error.player"));
-            return -1;
-        }
-
-        Identifier id = Identifier.tryParse(idText);
-        if (id == null) {
-            source.sendError(Text.literal("Invalid item id: " + idText));
             return -1;
         }
 
@@ -451,6 +547,93 @@ public final class MercFrontCoreCommand {
         for (var entry : GunModifier.ACTIVE.entrySet()) {
             source.sendFeedback(() -> Text.literal(entry.getKey().getIdAsString()), false);
         }
+        return 1;
+    }
+
+    private static int setPermanentPlayerSkin(
+        ServerCommandSource source,
+        ServerPlayerEntity target,
+        Identifier id,
+        String skin
+    ) {
+        GunSkinIndex.ensureInitialized();
+
+        Item item = Registries.ITEM.get(id);
+        if (item == null || item == Items.AIR) {
+            source.sendError(Text.literal("Unknown gun item: " + id));
+            return 0;
+        }
+
+        Optional<Float> skinId = GunSkinIndex.getSkinId(item, skin);
+        if (skinId.isEmpty()) {
+            source.sendError(Text.literal("Unknown skin '" + skin + "' for item " + id));
+            return 0;
+        }
+
+        PlayerGunSkinStore store = PlayerGunSkinStore.getInstance();
+        store.grantPlayerSkin(target.getUuid(), id.toString(), skin);
+        if (!store.save(source.getServer())) {
+            source.sendError(Text.literal("Saved permanent skin in memory, but failed to write player skin data."));
+            return 0;
+        }
+
+        int applied = store.applyToPlayer(target);
+        PacketDistributor.sendToPlayer(target, store.toPacket(target.getUuid()));
+        target.sendMessage(
+            Text.literal("You received gun skin '" + skin + "' for " + id + ". Use /fc gun skins to view and select your skins."),
+            false
+        );
+        source.sendFeedback(
+            () -> Text.literal(
+                "Granted gun skin '" + skin + "' to " + target.getNameForScoreboard() + " for " + id
+                    + (applied > 0 ? " (applied to current inventory)." : ".")
+            ),
+            true
+        );
+        return 1;
+    }
+
+    private static int revokePermanentPlayerSkin(
+        ServerCommandSource source,
+        ServerPlayerEntity target,
+        Identifier id,
+        String skin
+    ) {
+        PlayerGunSkinStore store = PlayerGunSkinStore.getInstance();
+        PlayerGunSkinStore.RevokeResult result = store.revokePlayerSkin(target.getUuid(), id.toString(), skin);
+        if (result.removedCount() <= 0) {
+            source.sendError(Text.literal(
+                skin == null
+                    ? "No permanent skins are stored for " + target.getNameForScoreboard() + " on " + id
+                    : "Player does not own skin '" + skin + "' for " + id
+            ));
+            return 0;
+        }
+        if (!store.save(source.getServer())) {
+            source.sendError(Text.literal("Updated player skin data in memory, but failed to write player skin data."));
+            return 0;
+        }
+
+        int applied = store.reconcilePlayerGun(target, id.toString(), result.previousState(), result.currentState());
+        PacketDistributor.sendToPlayer(target, store.toPacket(target.getUuid()));
+        target.sendMessage(
+            Text.literal(
+                skin == null
+                    ? "An admin removed your permanent gun skins for " + id + "."
+                    : "An admin removed your gun skin '" + skin + "' for " + id + "."
+            ),
+            false
+        );
+        source.sendFeedback(
+            () -> Text.literal(
+                skin == null
+                    ? "Removed " + result.removedCount() + " permanent skin(s) from " + target.getNameForScoreboard() + " for " + id
+                        + (applied > 0 ? " (updated current inventory)." : ".")
+                    : "Removed permanent skin '" + skin + "' from " + target.getNameForScoreboard() + " for " + id
+                        + (applied > 0 ? " (updated current inventory)." : ".")
+            ),
+            true
+        );
         return 1;
     }
 
@@ -569,6 +752,7 @@ public final class MercFrontCoreCommand {
         } else {
             syncChangedProperties(uuid, prev, next);
         }
+        AddonCommonData.getInstance().refreshLiveProfile(target);
         persistProfileOverrides(source, false);
         source.sendFeedback(() -> Text.literal("Set profile override for " + target.getNameForScoreboard()), true);
         return 1;
@@ -581,6 +765,7 @@ public final class MercFrontCoreCommand {
             source.sendError(Text.literal("No profile override exists for " + target.getNameForScoreboard()));
             return 0;
         }
+        AddonCommonData.getInstance().refreshLiveProfile(target);
         syncClearProfileOverride(uuid);
         persistProfileOverrides(source, false);
         source.sendFeedback(() -> Text.literal("Cleared profile override for " + target.getNameForScoreboard()), true);
@@ -663,6 +848,7 @@ public final class MercFrontCoreCommand {
 
     private static int reloadProfileOverrides(ServerCommandSource source) {
         int loaded = AddonCommonData.getInstance().loadProfileOverrides(source.getServer());
+        AddonCommonData.getInstance().applyProfileOverrides(source.getServer());
         syncProfileOverrides();
         source.sendFeedback(() -> Text.literal("Profile overrides reloaded (" + loaded + ")."), true);
         return 1;

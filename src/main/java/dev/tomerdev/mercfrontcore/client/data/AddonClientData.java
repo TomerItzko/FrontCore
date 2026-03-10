@@ -20,6 +20,7 @@ import dev.tomerdev.mercfrontcore.AddonConstants;
 import dev.tomerdev.mercfrontcore.data.GunModifier;
 import dev.tomerdev.mercfrontcore.net.packet.GunExtraOptionsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
+import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
 import dev.tomerdev.mercfrontcore.setup.GunModifierIndex;
 import dev.tomerdev.mercfrontcore.setup.LoadoutIndex;
 
@@ -29,6 +30,7 @@ public final class AddonClientData {
 	public Map<LoadoutIndex.Identifier, List<Loadout>> tempLoadouts;
 	public Map<RegistryEntry<Item>, GunModifier> tempGunModifiers;
 	public Map<Identifier, GunExtraOptionsPacket.GunOptions> gunExtraOptions = new Object2ObjectOpenHashMap<>();
+	public Map<Identifier, PlayerGunSkinStatePacket.GunSkinState> ownedGunSkins = new Object2ObjectOpenHashMap<>();
 	
 	public @Nullable List<FDSPose> spawnView = null;
 	public @Nullable String editingMapName = null;
@@ -120,5 +122,13 @@ public final class AddonClientData {
 
     public void setGunExtraOptions(Map<Identifier, GunExtraOptionsPacket.GunOptions> options) {
         gunExtraOptions = new Object2ObjectOpenHashMap<>(options);
+    }
+
+    public Map<Identifier, PlayerGunSkinStatePacket.GunSkinState> getOwnedGunSkins() {
+        return ownedGunSkins;
+    }
+
+    public void setOwnedGunSkins(Map<Identifier, PlayerGunSkinStatePacket.GunSkinState> skins) {
+        ownedGunSkins = new Object2ObjectOpenHashMap<>(skins);
     }
 }

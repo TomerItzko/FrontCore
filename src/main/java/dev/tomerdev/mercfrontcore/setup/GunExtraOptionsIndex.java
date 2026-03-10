@@ -79,6 +79,14 @@ public final class GunExtraOptionsIndex {
         return Map.copyOf(CURRENT);
     }
 
+    public static List<String> getDeclaredFallbackSkins(Identifier itemId) {
+        FallbackGunData fallback = loadFallbackGunData().get(itemId);
+        if (fallback == null || fallback.skins.isEmpty()) {
+            return List.of();
+        }
+        return List.copyOf(dedupPreserveOrder(fallback.skins));
+    }
+
     private static GunExtraOptionsPacket.GunOptions discoverFor(
         GunItem gunItem,
         Identifier itemId,
@@ -140,24 +148,17 @@ public final class GunExtraOptionsIndex {
         if (cloudData != null && !cloudData.skins.isEmpty()) {
             skins.addAll(cloudData.skins);
         }
-        GunSkinIndex.getSkinNames(gunItem).ifPresent(skins::addAll);
-        if (skins.isEmpty()) {
-            var map = GunSkinIndex.SKINS.get(itemId);
-            if (map != null) {
-                skins.addAll(map.keySet());
-            }
-        }
-        if (skins.isEmpty()) {
-            collectStringNumberMapKeys(gunItem, skins);
-        }
+        skins.addAll(GunSkinIndex.getStrictSkinNames(gunItem));
 
         List<String> validatedMagTypes = keepValidMagTypes(gunItem, dedupPreserveOrder(magTypes));
         List<String> validatedBarrelTypes = keepValidBarrelTypes(gunItem, dedupPreserveOrder(barrelTypes));
 
+        List<String> validatedSkins = keepValidSkins(gunItem, dedupPreserveOrder(skins));
+
         return new GunExtraOptionsPacket.GunOptions(
             List.copyOf(validatedMagTypes),
             List.copyOf(validatedBarrelTypes),
-            List.copyOf(dedupPreserveOrder(skins))
+            List.copyOf(validatedSkins)
         );
     }
 
@@ -297,34 +298,6 @@ public final class GunExtraOptionsIndex {
         return value == null ? "" : value.trim();
     }
 
-    private static void collectStringNumberMapKeys(Object target, List<String> out) {
-        LinkedHashSet<String> candidates = new LinkedHashSet<>();
-        Class<?> current = target.getClass();
-        while (current != null && current != Object.class) {
-            for (var field : current.getDeclaredFields()) {
-                try {
-                    field.setAccessible(true);
-                    Object raw = field.get(target);
-                    if (!(raw instanceof Map<?, ?> map) || map.isEmpty()) {
-                        continue;
-                    }
-                    Object first = map.values().iterator().next();
-                    if (!(first instanceof Number)) {
-                        continue;
-                    }
-                    for (Object key : map.keySet()) {
-                        if (key instanceof String s && !s.isBlank()) {
-                            candidates.add(s);
-                        }
-                    }
-                } catch (Throwable ignored) {
-                }
-            }
-            current = current.getSuperclass();
-        }
-        out.addAll(candidates);
-    }
-
     private static void collectTypedMapKeys(Object target, String valueTypeClassName, List<String> out) {
         Class<?> valueType;
         try {
@@ -432,6 +405,19 @@ public final class GunExtraOptionsIndex {
                 continue;
             }
             if (isValidBarrelType(gunItem, value) && !out.contains(value)) {
+                out.add(value);
+            }
+        }
+        return out;
+    }
+
+    private static List<String> keepValidSkins(GunItem gunItem, List<String> values) {
+        List<String> out = new ArrayList<>();
+        for (String value : values) {
+            if (value == null || value.isBlank()) {
+                continue;
+            }
+            if (GunSkinIndex.getSkinId(gunItem, value).isPresent() && !out.contains(value)) {
                 out.add(value);
             }
         }

@@ -27,9 +27,11 @@ import dev.tomerdev.mercfrontcore.data.GunModifier;
 import dev.tomerdev.mercfrontcore.data.GunModifierFiles;
 import dev.tomerdev.mercfrontcore.data.LoadoutEditorStore;
 import dev.tomerdev.mercfrontcore.data.LoadoutStore;
+import dev.tomerdev.mercfrontcore.data.PlayerGunSkinStore;
 import dev.tomerdev.mercfrontcore.net.packet.GunExtraOptionsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.GunModifiersPacket;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
+import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.server.ProxyCompatibility;
 import dev.tomerdev.mercfrontcore.server.command.MercFrontCoreCommand;
@@ -47,6 +49,7 @@ public final class MercFrontCoreServerEvents {
     private static final Set<UUID> PENDING_LOADOUT_SYNC = ConcurrentHashMap.newKeySet();
     private static final Set<UUID> PENDING_BF_ROUTER_ATTACH = ConcurrentHashMap.newKeySet();
     private static final Map<UUID, Integer> PENDING_VENDOR_TRACK_SYNC = new ConcurrentHashMap<>();
+    private static int permanentSkinTick = 0;
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
@@ -54,6 +57,8 @@ public final class MercFrontCoreServerEvents {
         MercFrontCore.LOGGER.info("Loaded {} profile overrides.", loaded);
         int loadoutsLoaded = LoadoutStore.getInstance().load(event.getServer());
         MercFrontCore.LOGGER.info("Loaded {} loadouts.", loadoutsLoaded);
+        int playerSkinMappings = PlayerGunSkinStore.getInstance().load(event.getServer());
+        MercFrontCore.LOGGER.info("Loaded {} permanent player gun skin mappings.", playerSkinMappings);
 
         GunModifierIndex.init();
         GunModifier.ACTIVE.clear();
@@ -85,6 +90,10 @@ public final class MercFrontCoreServerEvents {
         if (!loadoutsSaved) {
             MercFrontCore.LOGGER.warn("Failed to save loadouts during shutdown.");
         }
+        boolean playerSkinsSaved = PlayerGunSkinStore.getInstance().save(event.getServer());
+        if (!playerSkinsSaved) {
+            MercFrontCore.LOGGER.warn("Failed to save permanent player gun skin mappings during shutdown.");
+        }
         boolean editorLoadoutsSaved = LoadoutEditorStore.getInstance().saveCachedOrCurrent(event.getServer());
         if (!editorLoadoutsSaved) {
             MercFrontCore.LOGGER.warn("Failed to save BF loadout-editor entries during shutdown.");
@@ -108,10 +117,13 @@ public final class MercFrontCoreServerEvents {
             );
         }
 
+        AddonCommonData.getInstance().refreshLiveProfile(player);
+        PlayerGunSkinStore.getInstance().applyToPlayer(player);
         PacketDistributor.sendToPlayer(player, new SetProfileOverridesPacket(
             Map.copyOf(AddonCommonData.getInstance().getProfileOverrides())
         ));
         PacketDistributor.sendToPlayer(player, new GunModifiersPacket(Map.copyOf(GunModifier.ACTIVE), true));
+        PacketDistributor.sendToPlayer(player, PlayerGunSkinStore.getInstance().toPacket(player.getUuid()));
         GunExtraOptionsIndex.rebuild();
         var gunOptions = GunExtraOptionsIndex.snapshot();
         PacketDistributor.sendToPlayer(player, new GunExtraOptionsPacket(gunOptions));
@@ -130,6 +142,7 @@ public final class MercFrontCoreServerEvents {
     @SubscribeEvent
     public void onServerTickPost(ServerTickEvent.Post event) {
         forceRefreshAfkTrackers(event.getServer().getPlayerManager().getPlayerList());
+        pulsePermanentGunSkins(event.getServer().getPlayerManager().getPlayerList());
 
         if (!PENDING_LOADOUT_SYNC.isEmpty()) {
             var iterator = PENDING_LOADOUT_SYNC.iterator();
@@ -167,6 +180,7 @@ public final class MercFrontCoreServerEvents {
     @SubscribeEvent
     public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayerEntity player) {
+            AddonCommonData.getInstance().forgetLiveProfileSnapshot(player.getUuid());
             PENDING_LOADOUT_SYNC.remove(player.getUuid());
             PENDING_BF_ROUTER_ATTACH.remove(player.getUuid());
             PENDING_VENDOR_TRACK_SYNC.remove(player.getUuid());
@@ -272,6 +286,19 @@ public final class MercFrontCoreServerEvents {
                 forceStartTrackingVendor(vendorWorld, vendor, player);
             } catch (Throwable t) {
                 MercFrontCore.LOGGER.debug("Vendor track sync pulse failed: {}", t.toString());
+            }
+        }
+    }
+
+    private static void pulsePermanentGunSkins(Iterable<ServerPlayerEntity> players) {
+        permanentSkinTick++;
+        PlayerGunSkinStore store = PlayerGunSkinStore.getInstance();
+        for (ServerPlayerEntity player : players) {
+            if (player.isDisconnected()) {
+                continue;
+            }
+            if (MatchCompat.isInGameSession(player) || (permanentSkinTick % 20) == 0) {
+                store.applyToPlayer(player);
             }
         }
     }

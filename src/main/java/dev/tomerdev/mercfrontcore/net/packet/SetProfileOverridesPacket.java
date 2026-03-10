@@ -30,5 +30,6 @@ public record SetProfileOverridesPacket(Map<UUID, ProfileOverrideData> overrideD
         AddonCommonData data = AddonCommonData.getInstance();
         data.getProfileOverrides().clear();
         data.getProfileOverrides().putAll(packet.overrideData());
+        packet.overrideData().keySet().forEach(data::reapplyProfileOverride);
     }
 }

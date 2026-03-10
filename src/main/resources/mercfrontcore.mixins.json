@@ -6,10 +6,12 @@
     "PacketListenerInteractionMixin",
     "PacketListenerPlayerMoveMixin",
     "ServerPlayNetworkHandlerMixin",
-    "InfectedGameVendorRelocateMixin"
+    "InfectedGameVendorRelocateMixin",
+    "BFCommonCloudPacketHandlersMixin"
   ],
   "client": [
     "client.AbstractSoundInstanceMixin",
+    "client.GameMenuScreenMixin",
     "client.SoundOptionsScreenMixin"
   ]
 }

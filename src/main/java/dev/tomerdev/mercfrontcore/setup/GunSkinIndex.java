@@ -3,6 +3,7 @@ package dev.tomerdev.mercfrontcore.setup;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.LinkedHashSet;
 
 import com.boehmod.bflib.cloud.common.CloudRegistry;
 import com.boehmod.bflib.cloud.common.item.CloudItem;
@@ -123,6 +124,32 @@ public final class GunSkinIndex {
 		}
 		return Optional.of(SKINS.get(itemId).keySet());
 	}
+
+    public static Set<String> getStrictSkinNames(@NotNull Item item) {
+        LinkedHashSet<String> skins = new LinkedHashSet<>();
+        Identifier itemId = Registries.ITEM.getId(item);
+        CloudRegistry registry = CloudRegistryAccess.resolveRegistryObject();
+        if (registry == null) {
+            return skins;
+        }
+
+        for (CloudItem<?> cloudItem : registry.getItems()) {
+            if (!(cloudItem instanceof CloudItemGun)) {
+                continue;
+            }
+            if (cloudItem.getSkin() <= 0.0f) {
+                continue;
+            }
+            if (!itemId.equals(BFRes.fromCloud(cloudItem.getMinecraftItem()))) {
+                continue;
+            }
+            String suffix = cloudItem.getSuffixForDisplay();
+            if (suffix != null && !suffix.isBlank()) {
+                skins.add(suffix);
+            }
+        }
+        return skins;
+    }
 
 	private static String normalize(String value) {
 		return value.toLowerCase(java.util.Locale.ROOT).replace(".", "").replace("-", "").replace("_", "").replace(" ", "");

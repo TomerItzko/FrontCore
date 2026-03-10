@@ -23,6 +23,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import dev.tomerdev.mercfrontcore.AddonConstants;
 import dev.tomerdev.mercfrontcore.client.data.AddonClientData;
+import dev.tomerdev.mercfrontcore.data.PlayerGunSkinStore;
 import dev.tomerdev.mercfrontcore.data.AddonPacketCodecs;
 import dev.tomerdev.mercfrontcore.data.LoadoutEditorStore;
 import dev.tomerdev.mercfrontcore.setup.LoadoutIndex;
@@ -170,6 +171,7 @@ public record LoadoutsPacket(Map<LoadoutIndex.Identifier, List<Loadout>> loadout
 
                 if (online.getWorld() instanceof ServerWorld serverWorld) {
                     BFUtils.giveLoadout(serverWorld, online, loadout);
+                    PlayerGunSkinStore.getInstance().applyToPlayer(online);
                 }
             }
         } catch (Throwable ignored) {

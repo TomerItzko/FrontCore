@@ -105,6 +105,7 @@ public final class MercFrontCoreClientEvents {
         InputTracker.getInstance().update(client.mouse);
         if (client.world == null) {
             AddonCommonData.getInstance().getProfileOverrides().clear();
+            dev.tomerdev.mercfrontcore.client.data.AddonClientData.getInstance().setOwnedGunSkins(java.util.Map.of());
         }
     }
 

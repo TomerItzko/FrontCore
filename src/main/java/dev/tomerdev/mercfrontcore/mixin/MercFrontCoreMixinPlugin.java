@@ -63,6 +63,11 @@ public final class MercFrontCoreMixinPlugin implements IMixinConfigPlugin {
                 "com.boehmod.blockfront.game.impl.inf.InfectedGame"
             );
         }
+        if (mixinClassName.endsWith(".BFCommonCloudPacketHandlersMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.cloud.common.BFCommonCloudPacketHandlers"
+            );
+        }
         if (mixinClassName.endsWith(".PacketListenerPlayerActionMixin")) {
             return hasAll(
                 "com.boehmod.blockfront.server.net.PacketListenerPlayerAction",

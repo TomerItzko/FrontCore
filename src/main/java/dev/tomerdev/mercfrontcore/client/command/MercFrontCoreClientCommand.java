@@ -19,6 +19,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import dev.tomerdev.mercfrontcore.client.data.AddonClientData;
 import dev.tomerdev.mercfrontcore.client.screen.GunModifierEditorScreen;
 import dev.tomerdev.mercfrontcore.client.screen.LoadoutEditorScreen;
+import dev.tomerdev.mercfrontcore.client.screen.OwnedGunSkinsScreen;
 import dev.tomerdev.mercfrontcore.client.screen.WeaponExtraScreen;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.GunModifiersPacket;
@@ -39,7 +40,7 @@ public final class MercFrontCoreClientCommand {
     }
 
     private static com.mojang.brigadier.builder.LiteralArgumentBuilder<ServerCommandSource> rootCommand(String name) {
-        var root = literal(name).requires(source -> source.hasPermissionLevel(2));
+        var root = literal(name);
         root.then(
             literal("gun").then(
                 literal("giveMenu").then(
@@ -47,6 +48,8 @@ public final class MercFrontCoreClientCommand {
                         .suggests(MercFrontCoreClientCommand::suggestGunItems)
                         .executes(MercFrontCoreClientCommand::gunGiveMenu)
                 )
+            ).then(
+                literal("skins").executes(MercFrontCoreClientCommand::openOwnedGunSkins)
             ).then(
                 literal("modifier").requires(source -> source.hasPermissionLevel(4)).then(
                     literal("editor").then(
@@ -154,6 +157,12 @@ public final class MercFrontCoreClientCommand {
     private static int gunModifierSync(CommandContext<ServerCommandSource> context) {
         PacketDistributor.sendToServer(new GunModifiersPacket(AddonClientData.getInstance().tempGunModifiers, false));
         context.getSource().sendMessage(Text.translatable("mercfrontcore.message.command.gun.modifier.sync.success"));
+        return 1;
+    }
+
+    public static int openOwnedGunSkins(CommandContext<ServerCommandSource> context) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        client.setScreen(new OwnedGunSkinsScreen(client.currentScreen));
         return 1;
     }
 

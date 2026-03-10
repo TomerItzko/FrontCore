@@ -10,6 +10,8 @@ import dev.tomerdev.mercfrontcore.net.packet.GunModifiersPacket;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.MapEffectPositionPacket;
 import dev.tomerdev.mercfrontcore.net.packet.NewProfileOverridesPacket;
+import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
+import dev.tomerdev.mercfrontcore.net.packet.SelectPlayerGunSkinPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPropertyPacket;
 import dev.tomerdev.mercfrontcore.net.packet.ViewSpawnsPacket;
@@ -45,10 +47,20 @@ public final class MercFrontCoreModEvents {
             GunExtraOptionsPacket.PACKET_CODEC,
             GunExtraOptionsPacket::handleClient
         );
+        registrar.playToClient(
+            PlayerGunSkinStatePacket.ID,
+            PlayerGunSkinStatePacket.PACKET_CODEC,
+            PlayerGunSkinStatePacket::handleClient
+        );
         registrar.playToServer(
             GiveGunPacket.ID,
             GiveGunPacket.PACKET_CODEC,
             GiveGunPacket::handleServer
+        );
+        registrar.playToServer(
+            SelectPlayerGunSkinPacket.ID,
+            SelectPlayerGunSkinPacket.PACKET_CODEC,
+            SelectPlayerGunSkinPacket::handleServer
         );
         registrar.playBidirectional(
             GunModifiersPacket.ID,

@@ -2,7 +2,20 @@
 
 All notable changes to this project are documented in this file.
 
-## [0.7.1.2b-hotfix4] - 2026-03-09
+## [1.0.5-0.7.1.2b] - 2026-03-10
+
+### Fixed
+- Profile overrides now apply directly to BlockFront live profile data, reapply on login/reload and after BF profile refreshes, and restore the previous live state when cleared.
+- Permanent player gun skins now stay active in matches, while guns given with an explicit skin from the gun menu keep that explicit skin.
+- Gun skin commands now fully support namespaced gun ids and per-gun skin tab completion.
+
+### Added
+- `/frontcore gun skinPlayer <player> <gun id> <skin>` and `/fc gun skinPlayer ...` for persistent per-player gun skins stored in `player_gun_skins.json`.
+- `/frontcore gun removeSkinPlayer <player> <gun id> [skin]` and `/fc gun removeSkinPlayer ...` for removing a player's permanent gun skins, with tab completion limited to the guns and skins that player actually owns.
+- `/fc gun skins` and `/frontcore gun skins` so players can browse owned guns, preview skins, and choose their active skin from an in-game GUI.
+- Player-facing polish for the skin GUI, including live preview, aligned navigation controls, and a clearer selected-skin marker.
+- A `Gun Skins` button in the vanilla pause menu under `Back to Game`, anchored to the live vanilla layout so it stays on its own row.
+## [1.0.4-0.7.1.2b] - 2026-03-09
 
 ### Fixed
 - Removed FrontCore infected-vendor relocate mixin overrides so vendor behavior remains BlockFront-native.
@@ -12,7 +25,7 @@ All notable changes to this project are documented in this file.
 - Restored custom gun/grenade sound sliders by registering missing client mixins (`SoundOptionsScreenMixin`, `AbstractSoundInstanceMixin`).
 - Removed temporary startup build-marker error log (`MFC-BUILD-2026-03-09-DROPRESET-01`).
 
-## [0.7.1.2b-hotfix3] - 2026-03-09
+## [1.0.3-0.7.1.2b] - 2026-03-09
 
 ### Changed
 - Added explicit BF packet router attach on player login/tick to stabilize server-side packet listener presence.
@@ -23,7 +36,7 @@ All notable changes to this project are documented in this file.
 - Addressed missing BF packet routing attachment visibility by adding explicit server log lines for router attach.
 - Reduced ghost/desync side effects from direct action-packet interception in current hotfix path.
 
-## [0.7.1.2b-hotfix2] - 2026-03-08
+## [1.0.2-0.7.1.2b] - 2026-03-08
 
 ### Fixed
 - Loadout editor sync now sends a stable snapshot to server before local reload, preventing sync-time loss.
@@ -40,7 +53,7 @@ All notable changes to this project are documented in this file.
 - Gun sound slider now also scales hit-confirm sounds (hitmarker/headshot/kill patterns).
 - AFK false triggers during matches addressed with server-tick keepalive that marks active in-game players as moved each tick.
 
-## [0.7.1.2b-hotfix1] - 2026-03-08
+## [1.0.1-0.7.1.2b] - 2026-03-08
 
 ### Fixed
 - Prevented duplicate BlockFront Netty handler injection on Velocity server switches and reconnect paths.
@@ -52,7 +65,7 @@ All notable changes to this project are documented in this file.
   - `mod_packet_handler_set_chunk_cache_center`
 - Added runtime mixin target guard for `BFServerManagerMixin` to avoid missing-target warnings on obfuscated production jars.
 
-## [0.7.1.2b] - 2026-03-08
+## [1.0.0-0.7.1.2b] - 2026-03-08
 
 ### Added
 - Dedicated client sound scaling path via `AbstractSoundInstance` mixin.

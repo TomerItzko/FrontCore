@@ -27,6 +27,8 @@ public record NewProfileOverridesPacket(Map<UUID, ProfileOverrideData> overrideD
     }
 
     public static void handleClient(NewProfileOverridesPacket packet, IPayloadContext context) {
-        AddonCommonData.getInstance().getProfileOverrides().putAll(packet.overrideData());
+        AddonCommonData data = AddonCommonData.getInstance();
+        data.getProfileOverrides().putAll(packet.overrideData());
+        packet.overrideData().keySet().forEach(data::reapplyProfileOverride);
     }
 }

@@ -42,7 +42,8 @@ public record SetProfileOverridesPropertyPacket(
     }
 
     public static void handleClient(SetProfileOverridesPropertyPacket packet, IPayloadContext context) {
-        var profileOverrides = AddonCommonData.getInstance().getProfileOverrides();
+        AddonCommonData data = AddonCommonData.getInstance();
+        var profileOverrides = data.getProfileOverrides();
         for (UUID uuid : packet.uuids()) {
             ProfileOverrideData current = profileOverrides.getOrDefault(uuid, new ProfileOverrideData("unknown", 0, 0));
             ProfileOverrideData updated = switch (packet.propertyId()) {
@@ -52,6 +53,7 @@ public record SetProfileOverridesPropertyPacket(
                 default -> current;
             };
             profileOverrides.put(uuid, updated);
+            data.reapplyProfileOverride(uuid);
         }
     }
 }

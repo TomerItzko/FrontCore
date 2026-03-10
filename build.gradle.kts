@@ -3,7 +3,6 @@ plugins {
 }
 
 group = "red.vuis"
-version = "0.7.1.2b-hotfix4"
 description = "FrontCore companion utility mod for BlockFront. Credit to the OG author: forteus19 (https://github.com/forteus19/Front-Utilities)."
 
 base {
@@ -11,6 +10,11 @@ base {
 }
 
 val bfVersion = "0.7.1.2b"
+val frontcoreMajor = 1
+val frontcoreUpdate = 0
+val frontcoreFix = 5
+version = "$frontcoreMajor.$frontcoreUpdate.$frontcoreFix-$bfVersion"
+
 val bfNamedJar = file("bf/$bfVersion-named.jar")
 val bfOriginalJar = file("bf/$bfVersion-original.jar")
 val bfLibJar = file("bf/bflib-$bfVersion.jar")
