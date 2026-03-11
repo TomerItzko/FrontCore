@@ -68,6 +68,11 @@ public final class MercFrontCoreMixinPlugin implements IMixinConfigPlugin {
                 "com.boehmod.blockfront.cloud.common.BFCommonCloudPacketHandlers"
             );
         }
+        if (mixinClassName.endsWith(".AbstractGameWinnerSkinDropMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.game.AbstractGame"
+            );
+        }
         if (mixinClassName.endsWith(".BFUtilsLoadoutSkinMixin")) {
             return hasAll(
                 "com.boehmod.blockfront.util.BFUtils"

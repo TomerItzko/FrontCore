@@ -80,11 +80,6 @@ public final class MercFrontCoreClientCommand {
                         )
                     )
                 )
-                .then(
-                    literal("spawnView").requires(source -> source.hasPermissionLevel(3)).then(
-                        literal("disable").executes(MercFrontCoreClientCommand::spawnViewDisable)
-                    )
-                )
         );
         return root;
     }
@@ -193,12 +188,6 @@ public final class MercFrontCoreClientCommand {
             context.getSource().sendMessage(Text.literal("[mercfrontcore] GunSkinIndex skinCount=" + skinMap.size() + " skins=" + skinMap.keySet()));
         }
         context.getSource().sendMessage(Text.literal("[mercfrontcore] CloudRegistry: " + CloudRegistryDebug.describe()));
-        return 1;
-    }
-
-    private static int spawnViewDisable(CommandContext<ServerCommandSource> context) {
-        AddonClientData.getInstance().spawnView = null;
-        context.getSource().sendMessage(Text.translatable("mercfrontcore.message.command.viewSpawns.disable.success"));
         return 1;
     }
 

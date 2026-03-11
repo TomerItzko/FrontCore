@@ -39,6 +39,10 @@ public final class MercFrontCoreConfigManager {
         try (Reader reader = Files.newBufferedReader(CONFIG_PATH)) {
             MercFrontCoreConfig loaded = GSON.fromJson(reader, MercFrontCoreConfig.class);
             config = loaded != null ? loaded : new MercFrontCoreConfig();
+            boolean changed = normalizeConfig();
+            if (changed) {
+                save();
+            }
             return true;
         } catch (IOException | JsonSyntaxException e) {
             MercFrontCore.LOGGER.error("Failed to load config at {}", CONFIG_PATH, e);
@@ -67,6 +71,7 @@ public final class MercFrontCoreConfigManager {
         try (Reader reader = Files.newBufferedReader(backup)) {
             MercFrontCoreConfig loaded = GSON.fromJson(reader, MercFrontCoreConfig.class);
             config = loaded != null ? loaded : new MercFrontCoreConfig();
+            normalizeConfig();
             writeJsonAtomically(CONFIG_PATH, config);
             MercFrontCore.LOGGER.warn("Recovered mercfrontcore config from backup {}", backup);
             return true;
@@ -88,6 +93,34 @@ public final class MercFrontCoreConfigManager {
         } catch (IOException e) {
             MercFrontCore.LOGGER.warn("Failed to refresh config backup at {}", backup, e);
         }
+    }
+
+    private static boolean normalizeConfig() {
+        boolean changed = false;
+        if (config.proxy == null) {
+            config.proxy = new MercFrontCoreConfig.ProxySettings();
+            changed = true;
+        }
+        if (config.audio == null) {
+            config.audio = new MercFrontCoreConfig.AudioSettings();
+            changed = true;
+        }
+        if (config.rewards == null) {
+            config.rewards = new MercFrontCoreConfig.RewardSettings();
+            changed = true;
+        }
+        if (Float.isNaN(config.rewards.winnerSkinDropChance)) {
+            config.rewards.winnerSkinDropChance = 0.25f;
+            changed = true;
+        }
+        if (config.rewards.winnerSkinDropChance < 0.0f) {
+            config.rewards.winnerSkinDropChance = 0.0f;
+            changed = true;
+        } else if (config.rewards.winnerSkinDropChance > 1.0f) {
+            config.rewards.winnerSkinDropChance = 1.0f;
+            changed = true;
+        }
+        return changed;
     }
 
     private static void writeJsonAtomically(Path path, Object jsonPayload) throws IOException {

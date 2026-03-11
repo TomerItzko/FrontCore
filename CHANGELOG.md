@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.0.6-0.7.1.2b] - 2026-03-11
+
+### Added
+- Random winner-only gun skin drops at match finish, with an independent roll per victorious player.
+- Server-authoritative reward selection that prefers skins the player does not already own and syncs the reward immediately to the client.
+
+### Changed
+- Added `rewards.enableWinnerSkinDrops` and `rewards.winnerSkinDropChance` to the server `config/mercfrontcore.json` file.
+- Server status output now includes winner skin drop settings for quick verification.
+- Random admin drops and winner reward drops now choose a gun first, then only choose from skins validated for that exact gun using the same selection source as `gun skinPlayer`.
+- Removed the old `admin spawnView` commands and trimmed server-side `loadout` commands down to `reload`, leaving `loadout editor` and `loadout sync` on the client side.
+
 ## [1.0.5-0.7.1.2b] - 2026-03-10
 
 ### Fixed

@@ -28,6 +28,7 @@ import dev.tomerdev.mercfrontcore.data.GunModifierFiles;
 import dev.tomerdev.mercfrontcore.data.LoadoutEditorStore;
 import dev.tomerdev.mercfrontcore.data.LoadoutStore;
 import dev.tomerdev.mercfrontcore.data.PlayerGunSkinStore;
+import dev.tomerdev.mercfrontcore.data.WinnerSkinDropManager;
 import dev.tomerdev.mercfrontcore.net.packet.GunExtraOptionsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.GunModifiersPacket;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
@@ -53,6 +54,7 @@ public final class MercFrontCoreServerEvents {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
+        WinnerSkinDropManager.resetSession();
         int loaded = AddonCommonData.getInstance().loadProfileOverrides(event.getServer());
         MercFrontCore.LOGGER.info("Loaded {} profile overrides.", loaded);
         int loadoutsLoaded = LoadoutStore.getInstance().load(event.getServer());
@@ -82,6 +84,7 @@ public final class MercFrontCoreServerEvents {
 
     @SubscribeEvent
     public void onServerStopping(ServerStoppingEvent event) {
+        WinnerSkinDropManager.resetSession();
         boolean saved = AddonCommonData.getInstance().saveProfileOverrides(event.getServer());
         if (!saved) {
             MercFrontCore.LOGGER.warn("Failed to save profile overrides during shutdown.");

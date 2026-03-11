@@ -3,17 +3,12 @@ package dev.tomerdev.mercfrontcore.server.command;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
-import com.boehmod.bflib.cloud.common.CloudRegistry;
-import com.boehmod.bflib.cloud.common.item.CloudItem;
-import com.boehmod.bflib.cloud.common.item.CloudItemStack;
 import com.boehmod.blockfront.BlockFront;
-import com.boehmod.blockfront.assets.impl.GameAsset;
 import com.boehmod.blockfront.common.BFAbstractManager;
 import com.boehmod.blockfront.game.AbstractGame;
 import com.boehmod.blockfront.game.BFGameType;
 import com.boehmod.blockfront.registry.BFDataComponents;
 import com.boehmod.blockfront.server.BFServerManager;
-import com.boehmod.blockfront.util.BFRes;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -43,13 +38,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
-import com.boehmod.blockfront.util.math.FDSPose;
 import dev.tomerdev.mercfrontcore.AddonConstants;
 import dev.tomerdev.mercfrontcore.config.MercFrontCoreConfig;
 import dev.tomerdev.mercfrontcore.config.MercFrontCoreConfigManager;
 import dev.tomerdev.mercfrontcore.data.AddonCommonData;
 import dev.tomerdev.mercfrontcore.data.GunModifier;
-import dev.tomerdev.mercfrontcore.data.LoadoutData;
 import dev.tomerdev.mercfrontcore.data.LoadoutStore;
 import dev.tomerdev.mercfrontcore.data.PlayerGunSkinStore;
 import dev.tomerdev.mercfrontcore.data.ProfileOverrideData;
@@ -58,7 +51,6 @@ import dev.tomerdev.mercfrontcore.net.packet.NewProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPropertyPacket;
-import dev.tomerdev.mercfrontcore.net.packet.ViewSpawnsPacket;
 import dev.tomerdev.mercfrontcore.server.ProxyCompatibility;
 import dev.tomerdev.mercfrontcore.setup.GunExtraOptionsIndex;
 import dev.tomerdev.mercfrontcore.setup.GunSkinIndex;
@@ -141,6 +133,12 @@ public final class MercFrontCoreCommand {
                     .then(
                         literal("removeSkinPlayer").requires(MercFrontCoreCommand::isAdminCommandSource)
                             .then(argument("target", EntityArgumentType.player())
+                                .then(literal("all").executes(ctx ->
+                                    revokeAllPermanentPlayerSkins(
+                                        ctx.getSource(),
+                                        EntityArgumentType.getPlayer(ctx, "target")
+                                    )
+                                ))
                                 .then(argument("id", IdentifierArgumentType.identifier())
                                     .suggests(MercFrontCoreCommand::suggestPlayerOwnedGunIds)
                                     .executes(ctx -> revokePermanentPlayerSkin(
@@ -180,49 +178,7 @@ public final class MercFrontCoreCommand {
             )
             .then(
                 literal("loadout").requires(MercFrontCoreCommand::isAdminCommandSource)
-                    .then(literal("list").executes(ctx -> showLoadouts(ctx.getSource())))
-                    .then(literal("save").executes(ctx -> saveLoadouts(ctx.getSource())))
                     .then(literal("reload").executes(ctx -> reloadLoadouts(ctx.getSource())))
-                    .then(
-                        literal("remove")
-                            .then(argument("name", StringArgumentType.word())
-                                .suggests(MercFrontCoreCommand::suggestLoadoutNames)
-                                .executes(ctx ->
-                                    removeLoadout(ctx.getSource(), StringArgumentType.getString(ctx, "name"))
-                                ))
-                    )
-                    .then(
-                        literal("set")
-                            .then(argument("name", StringArgumentType.word())
-                                .suggests(MercFrontCoreCommand::suggestLoadoutNames)
-                                .then(argument("primary", StringArgumentType.word())
-                                    .suggests(MercFrontCoreCommand::suggestItemIds)
-                                    .then(argument("secondary", StringArgumentType.word())
-                                        .suggests(MercFrontCoreCommand::suggestItemIds)
-                                        .executes(ctx ->
-                                            setLoadout(
-                                                ctx.getSource(),
-                                                StringArgumentType.getString(ctx, "name"),
-                                                StringArgumentType.getString(ctx, "primary"),
-                                                StringArgumentType.getString(ctx, "secondary")
-                                            )
-                                        ))
-                                ))
-                    )
-                    .then(
-                        literal("give")
-                            .then(argument("target", EntityArgumentType.player())
-                                .then(argument("name", StringArgumentType.word())
-                                    .suggests(MercFrontCoreCommand::suggestLoadoutNames)
-                                    .executes(ctx ->
-                                        giveLoadout(
-                                            ctx.getSource(),
-                                            EntityArgumentType.getPlayer(ctx, "target"),
-                                            StringArgumentType.getString(ctx, "name")
-                                        )
-                                    ))
-                            )
-                    )
             )
             .then(
                 literal("admin").requires(MercFrontCoreCommand::isAdminCommandSource)
@@ -281,19 +237,6 @@ public final class MercFrontCoreCommand {
                                 ))
                             )
                     )
-                    .then(
-                        literal("spawnView")
-                            .then(
-                                literal("enable")
-                                    .then(argument("game", StringArgumentType.word())
-                                        .suggests(MercFrontCoreCommand::suggestGames)
-                                        .executes(ctx -> enableSpawnView(
-                                            ctx.getSource(),
-                                            StringArgumentType.getString(ctx, "game")
-                                        ))
-                                    )
-                            )
-                    )
             );
     }
 
@@ -301,28 +244,10 @@ public final class MercFrontCoreCommand {
         return source.hasPermissionLevel(2);
     }
 
-    private static CompletableFuture<Suggestions> suggestGames(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
-        return CommandSource.suggestMatching(getGameNames(), suggestions);
-    }
-
     private static CompletableFuture<Suggestions> suggestGunIds(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
         GunSkinIndex.ensureInitialized();
         return CommandSource.suggestMatching(
             GunSkinIndex.SKINS.keySet().stream().map(Identifier::toString),
-            suggestions
-        );
-    }
-
-    private static CompletableFuture<Suggestions> suggestItemIds(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
-        return CommandSource.suggestMatching(
-            Registries.ITEM.getIds().stream().map(Identifier::toString),
-            suggestions
-        );
-    }
-
-    private static CompletableFuture<Suggestions> suggestLoadoutNames(CommandContext<ServerCommandSource> context, SuggestionsBuilder suggestions) {
-        return CommandSource.suggestMatching(
-            LoadoutStore.getInstance().getLoadouts().keySet(),
             suggestions
         );
     }
@@ -359,22 +284,30 @@ public final class MercFrontCoreCommand {
         if (id == null) {
             return suggestions.buildFuture();
         }
+        var selectableSkins = getSelectableGunSkins(id);
+        if (!selectableSkins.isEmpty()) {
+            return CommandSource.suggestMatching(selectableSkins, suggestions);
+        }
+        return suggestions.buildFuture();
+    }
+
+    private static List<String> getSelectableGunSkins(Identifier id) {
         var declaredFallbackSkins = GunExtraOptionsIndex.getDeclaredFallbackSkins(id);
         if (!declaredFallbackSkins.isEmpty()) {
-            return CommandSource.suggestMatching(declaredFallbackSkins, suggestions);
+            return new ArrayList<>(declaredFallbackSkins);
         }
         Item item = Registries.ITEM.get(id);
         if (item != null && item != Items.AIR) {
             var strictSkins = GunSkinIndex.getStrictSkinNames(item);
             if (!strictSkins.isEmpty()) {
-                return CommandSource.suggestMatching(strictSkins, suggestions);
+                return new ArrayList<>(strictSkins);
             }
         }
         var gunOptions = GunExtraOptionsIndex.snapshot().get(id);
         if (gunOptions != null && !gunOptions.skins().isEmpty()) {
-            return CommandSource.suggestMatching(gunOptions.skins(), suggestions);
+            return new ArrayList<>(gunOptions.skins());
         }
-        return suggestions.buildFuture();
+        return List.of();
     }
 
     private static Identifier extractGunIdForSkinSuggestion(String input) {
@@ -396,47 +329,6 @@ public final class MercFrontCoreCommand {
             return Identifier.tryParse(tokens[4]);
         }
         return null;
-    }
-
-    private static int enableSpawnView(ServerCommandSource source, String gameName) {
-        ServerPlayerEntity player;
-        try {
-            player = source.getPlayerOrThrow();
-        } catch (Exception e) {
-            source.sendError(Text.translatable("mercfrontcore.message.command.error.player"));
-            return -1;
-        }
-
-        Object gameAsset = findGameAssetByName(gameName);
-        if (gameAsset == null) {
-            source.sendError(Text.translatable("mercfrontcore.message.command.viewSpawns.enable.error.type"));
-            return -1;
-        }
-        Object game = invokeNoArg(gameAsset, "getGame");
-        if (game == null) {
-            source.sendError(Text.translatable("mercfrontcore.message.command.viewSpawns.enable.error.type"));
-            return -1;
-        }
-        if (!game.getClass().getName().contains(".ffa.")) {
-            source.sendError(Text.translatable("mercfrontcore.message.command.viewSpawns.enable.error.type"));
-            return -1;
-        }
-
-        Object playerManager = invokeNoArg(game, "getPlayerManager");
-        if (playerManager == null) {
-            source.sendError(Text.translatable("mercfrontcore.message.command.viewSpawns.enable.error.type"));
-            return -1;
-        }
-
-        var spawns = findSpawnList(playerManager);
-        if (spawns == null) {
-            source.sendError(Text.translatable("mercfrontcore.message.command.viewSpawns.enable.error.type"));
-            return -1;
-        }
-
-        String resolvedGameName = asString(invokeNoArg(game, "getName"), gameName);
-        PacketDistributor.sendToPlayer(player, new ViewSpawnsPacket(resolvedGameName, spawns));
-        return 1;
     }
 
     private static int joinLobbyGame(ServerCommandSource source, String modeKey) {
@@ -487,58 +379,6 @@ public final class MercFrontCoreCommand {
             false
         );
         return 1;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static java.util.List<FDSPose> findSpawnList(Object playerManager) {
-        for (String methodName : new String[]{"getSpawns", "method_3566", "getPlayerSpawns"}) {
-            Object value = invokeNoArg(playerManager, methodName);
-            if (value instanceof java.util.List<?> list && (list.isEmpty() || list.getFirst() instanceof FDSPose)) {
-                return (java.util.List<FDSPose>) list;
-            }
-        }
-        for (var method : playerManager.getClass().getMethods()) {
-            if (method.getParameterCount() != 0 || !java.util.List.class.isAssignableFrom(method.getReturnType())) {
-                continue;
-            }
-            try {
-                Object value = method.invoke(playerManager);
-                if (value instanceof java.util.List<?> list && (list.isEmpty() || list.getFirst() instanceof FDSPose)) {
-                    return (java.util.List<FDSPose>) list;
-                }
-            } catch (Throwable ignored) {
-            }
-        }
-        return null;
-    }
-
-    private static java.util.List<String> getGameNames() {
-        Object gamesObj = getGamesMap();
-        if (!(gamesObj instanceof Map<?, ?> games)) {
-            return java.util.List.of();
-        }
-        java.util.List<String> names = new java.util.ArrayList<>(games.size());
-        for (Object gameAsset : games.values()) {
-            String name = asString(invokeNoArg(gameAsset, "getName"), null);
-            if (name != null && !name.isBlank()) {
-                names.add(name);
-            }
-        }
-        return names;
-    }
-
-    private static Object findGameAssetByName(String gameName) {
-        Object gamesObj = getGamesMap();
-        if (!(gamesObj instanceof Map<?, ?> games)) {
-            return null;
-        }
-        for (Object gameAsset : games.values()) {
-            String name = asString(invokeNoArg(gameAsset, "getName"), null);
-            if (gameName.equalsIgnoreCase(name)) {
-                return gameAsset;
-            }
-        }
-        return null;
     }
 
     private static List<Object> findJoinableGames(ServerCommandSource source, Object manager, String modeKey) {
@@ -1097,7 +937,9 @@ public final class MercFrontCoreCommand {
         String message = AddonConstants.MOD_NAME + " remake baseline loaded. "
             + "proxyCompatibility=" + ProxyCompatibility.isCompatibilityEnabled()
             + ", enforceDirectConnection=" + cfg.proxy.enforceDirectConnection
-            + ", trustForwardedIdentity=" + cfg.proxy.trustForwardedIdentity;
+            + ", trustForwardedIdentity=" + cfg.proxy.trustForwardedIdentity
+            + ", winnerSkinDrops=" + cfg.rewards.enableWinnerSkinDrops
+            + ", winnerSkinDropChance=" + cfg.rewards.winnerSkinDropChance;
         source.sendFeedback(() -> Text.literal(message), false);
         return 1;
     }
@@ -1151,29 +993,12 @@ public final class MercFrontCoreCommand {
         Identifier id,
         String skin
     ) {
-        GunSkinIndex.ensureInitialized();
-
-        Item item = Registries.ITEM.get(id);
-        if (item == null || item == Items.AIR) {
-            source.sendError(Text.literal("Unknown gun item: " + id));
+        GrantSkinResult result = grantPermanentPlayerSkinInternal(source.getServer(), target, id, skin);
+        if (!result.success()) {
+            source.sendError(Text.literal(result.message()));
             return 0;
         }
 
-        Optional<Float> skinId = GunSkinIndex.getSkinId(item, skin);
-        if (skinId.isEmpty()) {
-            source.sendError(Text.literal("Unknown skin '" + skin + "' for item " + id));
-            return 0;
-        }
-
-        PlayerGunSkinStore store = PlayerGunSkinStore.getInstance();
-        store.grantPlayerSkin(target.getUuid(), id.toString(), skin);
-        if (!store.save(source.getServer())) {
-            source.sendError(Text.literal("Saved permanent skin in memory, but failed to write player skin data."));
-            return 0;
-        }
-
-        int applied = store.applyToPlayer(target);
-        PacketDistributor.sendToPlayer(target, store.toPacket(target.getUuid()));
         target.sendMessage(
             Text.literal("You received gun skin '" + skin + "' for " + id + ". Use /fc gun skins to view and select your skins."),
             false
@@ -1181,11 +1006,40 @@ public final class MercFrontCoreCommand {
         source.sendFeedback(
             () -> Text.literal(
                 "Granted gun skin '" + skin + "' to " + target.getNameForScoreboard() + " for " + id
-                    + (applied > 0 ? " (applied to current inventory)." : ".")
+                    + (result.appliedCount() > 0 ? " (applied to current inventory)." : ".")
             ),
             true
         );
         return 1;
+    }
+
+    private static GrantSkinResult grantPermanentPlayerSkinInternal(
+        net.minecraft.server.MinecraftServer server,
+        ServerPlayerEntity target,
+        Identifier id,
+        String skin
+    ) {
+        GunSkinIndex.ensureInitialized();
+
+        Item item = Registries.ITEM.get(id);
+        if (item == null || item == Items.AIR) {
+            return GrantSkinResult.failure("Unknown gun item: " + id);
+        }
+
+        Optional<Float> skinId = GunSkinIndex.getSkinId(item, skin);
+        if (skinId.isEmpty()) {
+            return GrantSkinResult.failure("Unknown skin '" + skin + "' for item " + id);
+        }
+
+        PlayerGunSkinStore store = PlayerGunSkinStore.getInstance();
+        store.grantPlayerSkin(target.getUuid(), id.toString(), skin);
+        if (!store.save(server)) {
+            return GrantSkinResult.failure("Saved permanent skin in memory, but failed to write player skin data.");
+        }
+
+        int applied = store.applyToPlayer(target);
+        PacketDistributor.sendToPlayer(target, store.toPacket(target.getUuid()));
+        return GrantSkinResult.success(applied);
     }
 
     private static int revokePermanentPlayerSkin(
@@ -1232,23 +1086,53 @@ public final class MercFrontCoreCommand {
         return 1;
     }
 
-    private static int randomDrop(ServerCommandSource source, Collection<ServerPlayerEntity> players, int count) {
-        Object manager = getBfManager();
-        if (manager == null) {
-            source.sendError(Text.literal("BlockFront manager is unavailable."));
+    private static int revokeAllPermanentPlayerSkins(ServerCommandSource source, ServerPlayerEntity target) {
+        PlayerGunSkinStore store = PlayerGunSkinStore.getInstance();
+        Map<String, PlayerGunSkinStore.OwnedGunSkins> existing = new java.util.LinkedHashMap<>(store.getPlayerSkins(target.getUuid()));
+        if (existing.isEmpty()) {
+            source.sendError(Text.literal("No permanent skins are stored for " + target.getNameForScoreboard() + "."));
             return 0;
         }
 
-        Object registryObj = invokeNoArg(manager, "getCloudRegistry");
-        if (!(registryObj instanceof CloudRegistry cloudRegistry)) {
-            source.sendError(Text.literal("Cloud registry is unavailable."));
+        int removedCount = 0;
+        int applied = 0;
+        for (Map.Entry<String, PlayerGunSkinStore.OwnedGunSkins> entry : existing.entrySet()) {
+            PlayerGunSkinStore.RevokeResult result = store.revokePlayerSkin(target.getUuid(), entry.getKey(), null);
+            removedCount += result.removedCount();
+        }
+        if (!store.save(source.getServer())) {
+            source.sendError(Text.literal("Updated player skin data in memory, but failed to write player skin data."));
+            return 0;
+        }
+        for (Map.Entry<String, PlayerGunSkinStore.OwnedGunSkins> entry : existing.entrySet()) {
+            applied += store.reconcilePlayerGun(target, entry.getKey(), entry.getValue(), null);
+        }
+
+        PacketDistributor.sendToPlayer(target, store.toPacket(target.getUuid()));
+        target.sendMessage(Text.literal("An admin removed all of your permanent gun skins."), false);
+        int finalRemovedCount = removedCount;
+        int finalApplied = applied;
+        source.sendFeedback(
+            () -> Text.literal(
+                "Removed " + finalRemovedCount + " permanent skin(s) across all guns from " + target.getNameForScoreboard()
+                    + (finalApplied > 0 ? " (updated current inventory)." : ".")
+            ),
+            true
+        );
+        return 1;
+    }
+
+    private static int randomDrop(ServerCommandSource source, Collection<ServerPlayerEntity> players, int count) {
+        GunSkinIndex.ensureInitialized();
+        if (GunSkinIndex.SKINS.isEmpty()) {
+            source.sendError(Text.literal("No gun skins are currently available."));
             return 0;
         }
 
         int given = 0;
         for (ServerPlayerEntity player : players) {
             for (int i = 0; i < count; i++) {
-                if (giveRandomDrop(player, cloudRegistry)) {
+                if (giveRandomDrop(player)) {
                     given++;
                 }
             }
@@ -1257,28 +1141,75 @@ public final class MercFrontCoreCommand {
 
         int finalGiven = given;
         source.sendFeedback(() -> Text.literal(
-            "Gave " + finalGiven + " random drops to " + players.size() + " player(s)."
+            "Granted " + finalGiven + " random gun skin drop(s) to " + players.size() + " player(s)."
         ), true);
         return given;
     }
 
-    private static boolean giveRandomDrop(ServerPlayerEntity player, CloudRegistry cloudRegistry) {
-        try {
-            CloudItemStack dropStack = CloudItem.getRandomDrop(cloudRegistry);
-            CloudItem<?> dropItem = dropStack.getCloudItem(cloudRegistry);
-            if (dropItem == null) {
-                return false;
-            }
-            Identifier itemId = BFRes.fromCloud(dropItem.getMinecraftItem());
-            Item item = Registries.ITEM.get(itemId);
-            if (item == null || item == Items.AIR) {
-                return false;
-            }
-            player.giveItemStack(new ItemStack(item));
-            return true;
-        } catch (Throwable ignored) {
+    private static boolean giveRandomDrop(ServerPlayerEntity player) {
+        RandomSkinReward reward = pickRandomSkinReward(player.getUuid(), ThreadLocalRandom.current());
+        if (reward == null) {
             return false;
         }
+
+        GrantSkinResult result = grantPermanentPlayerSkinInternal(player.getServer(), player, reward.gunId(), reward.skin());
+        if (!result.success()) {
+            return false;
+        }
+        player.sendMessage(
+            Text.literal("You received random gun skin '" + reward.skin() + "' for " + reward.gunId() + "."),
+            false
+        );
+        return true;
+    }
+
+    private static RandomSkinReward pickRandomSkinReward(UUID playerUuid, ThreadLocalRandom random) {
+        Map<String, PlayerGunSkinStore.OwnedGunSkins> ownedByGun = PlayerGunSkinStore.getInstance().getPlayerSkins(playerUuid);
+        List<GunRewardPool> gunPools = new ArrayList<>();
+        for (Identifier gunId : GunSkinIndex.SKINS.keySet()) {
+            Item item = Registries.ITEM.get(gunId);
+            if (item == null || item == Items.AIR) {
+                continue;
+            }
+            List<String> selectableSkins = getSelectableGunSkins(gunId);
+            if (selectableSkins.isEmpty()) {
+                continue;
+            }
+            Set<String> ownedSkins = ownedByGun.containsKey(gunId.toString())
+                ? Set.copyOf(ownedByGun.get(gunId.toString()).ownedSkins())
+                : Set.of();
+            List<String> validUnownedSkins = new ArrayList<>();
+            List<String> validAllSkins = new ArrayList<>();
+            for (String skin : selectableSkins) {
+                if (skin == null || skin.isBlank()) {
+                    continue;
+                }
+                if (GunSkinIndex.getSkinId(item, skin).isEmpty()) {
+                    continue;
+                }
+                validAllSkins.add(skin);
+                if (!ownedSkins.contains(skin)) {
+                    validUnownedSkins.add(skin);
+                }
+            }
+            if (!validAllSkins.isEmpty()) {
+                gunPools.add(new GunRewardPool(gunId, validUnownedSkins, validAllSkins));
+            }
+        }
+
+        if (gunPools.isEmpty()) {
+            return null;
+        }
+
+        List<GunRewardPool> preferredGunPools = gunPools.stream()
+            .filter(pool -> !pool.unownedSkins().isEmpty())
+            .toList();
+        List<GunRewardPool> selectedGunPoolSource = !preferredGunPools.isEmpty() ? preferredGunPools : gunPools;
+        GunRewardPool gunPool = selectedGunPoolSource.get(random.nextInt(selectedGunPoolSource.size()));
+
+        List<String> skinPool = !gunPool.unownedSkins().isEmpty() ? gunPool.unownedSkins() : gunPool.allSkins();
+        String skin = skinPool.get(random.nextInt(skinPool.size()));
+        return new RandomSkinReward(gunPool.gunId(), skin);
     }
 
     private static int reloadConfig(ServerCommandSource source) {
@@ -1449,92 +1380,25 @@ public final class MercFrontCoreCommand {
         return 1;
     }
 
-    private static int showLoadouts(ServerCommandSource source) {
-        Map<String, LoadoutData> loadouts = LoadoutStore.getInstance().getLoadouts();
-        if (loadouts.isEmpty()) {
-            source.sendFeedback(() -> Text.literal("No loadouts are defined."), false);
-            return 1;
-        }
-
-        source.sendFeedback(() -> Text.literal("Loadouts: " + loadouts.size()), false);
-        loadouts.forEach((name, data) -> source.sendFeedback(
-            () -> Text.literal(name + " -> primary=" + data.primaryItem() + ", secondary=" + data.secondaryItem()),
-            false
-        ));
-        return 1;
-    }
-
-    private static int setLoadout(ServerCommandSource source, String name, String primary, String secondary) {
-        String key = name.toLowerCase();
-        LoadoutStore.getInstance().getLoadouts().put(key, new LoadoutData(primary, secondary));
-        boolean saved = LoadoutStore.getInstance().save(source.getServer());
-        if (!saved) {
-            source.sendError(Text.literal("Loadout set in memory but failed to save."));
-            return 0;
-        }
-        source.sendFeedback(() -> Text.literal("Saved loadout '" + key + "'"), true);
-        return 1;
-    }
-
-    private static int removeLoadout(ServerCommandSource source, String name) {
-        String key = name.toLowerCase();
-        LoadoutData removed = LoadoutStore.getInstance().getLoadouts().remove(key);
-        if (removed == null) {
-            source.sendError(Text.literal("Loadout not found: " + key));
-            return 0;
-        }
-        boolean saved = LoadoutStore.getInstance().save(source.getServer());
-        if (!saved) {
-            source.sendError(Text.literal("Loadout removed in memory but failed to save."));
-            return 0;
-        }
-        source.sendFeedback(() -> Text.literal("Removed loadout '" + key + "'"), true);
-        return 1;
-    }
-
-    private static int saveLoadouts(ServerCommandSource source) {
-        boolean ok = LoadoutStore.getInstance().save(source.getServer());
-        if (ok) {
-            source.sendFeedback(() -> Text.literal("Loadouts saved."), false);
-            return 1;
-        }
-        source.sendError(Text.literal("Failed to save loadouts."));
-        return 0;
-    }
-
     private static int reloadLoadouts(ServerCommandSource source) {
         int loaded = LoadoutStore.getInstance().load(source.getServer());
         source.sendFeedback(() -> Text.literal("Loadouts reloaded (" + loaded + ")."), true);
         return 1;
     }
 
-    private static int giveLoadout(ServerCommandSource source, ServerPlayerEntity target, String name) {
-        String key = name.toLowerCase();
-        LoadoutData loadout = LoadoutStore.getInstance().getLoadouts().get(key);
-        if (loadout == null) {
-            source.sendError(Text.literal("Loadout not found: " + key));
-            return 0;
-        }
-
-        Item primary = resolveItem(loadout.primaryItem());
-        Item secondary = resolveItem(loadout.secondaryItem());
-        if (primary == Items.AIR || secondary == Items.AIR) {
-            source.sendError(Text.literal("Loadout contains invalid item id(s): " + loadout.primaryItem() + ", " + loadout.secondaryItem()));
-            return 0;
-        }
-
-        target.giveItemStack(new ItemStack(primary));
-        target.giveItemStack(new ItemStack(secondary));
-        source.sendFeedback(() -> Text.literal("Gave loadout '" + key + "' to " + target.getNameForScoreboard()), true);
-        return 1;
+    private record RandomSkinReward(Identifier gunId, String skin) {
     }
 
-    private static Item resolveItem(String itemId) {
-        Identifier id = Identifier.tryParse(itemId);
-        if (id == null) {
-            return Items.AIR;
+    private record GunRewardPool(Identifier gunId, List<String> unownedSkins, List<String> allSkins) {
+    }
+
+    private record GrantSkinResult(boolean success, String message, int appliedCount) {
+        private static GrantSkinResult success(int appliedCount) {
+            return new GrantSkinResult(true, "", appliedCount);
         }
-        Item item = Registries.ITEM.get(id);
-        return item == null ? Items.AIR : item;
+
+        private static GrantSkinResult failure(String message) {
+            return new GrantSkinResult(false, message, 0);
+        }
     }
 }

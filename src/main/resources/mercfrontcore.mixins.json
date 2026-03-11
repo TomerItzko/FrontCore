@@ -3,6 +3,7 @@
   "package": "dev.tomerdev.mercfrontcore.mixin",
   "plugin": "dev.tomerdev.mercfrontcore.mixin.MercFrontCoreMixinPlugin",
   "mixins": [
+    "AbstractGameWinnerSkinDropMixin",
     "PacketListenerInteractionMixin",
     "PacketListenerPlayerMoveMixin",
     "ServerPlayNetworkHandlerMixin",

@@ -39,10 +39,7 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 `/fc gun removeSkinPlayer <player> <gun id> [skin]`
 `/fc gun modifier list`
 - Manage loadouts:
-`/fc loadout list|save|reload`
-`/fc loadout set <name> <primary> <secondary>`
-`/fc loadout remove <name>`
-`/fc loadout give <target> <name>`
+`/fc loadout reload`
 - Manage proxy and lobby debugging:
 `/fc admin proxy show|reload|save`
 `/fc admin proxy set compatibility <true|false>`
@@ -50,16 +47,16 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 `/fc admin proxy set trustForwardedIdentity <true|false>`
 `/fc admin lobby debug|random|ffa|tdm|dom|conq|inf|gg|ttt|boot`
 `/fc admin randomDrop <players> [count]`
-`/fc admin spawnView enable <game>`
 
 ### Admin Client Commands
 
 - Open the give-menu flow:
 `/fc gun giveMenu <item>`
+- Open or sync the loadout editor:
+`/fc loadout editor`
+`/fc loadout sync`
 - Inspect gun debug options:
 `/fc admin gun debugOptions <item>`
-- Disable spawn view:
-`/fc admin spawnView disable`
 
 ### Access Rules
 
@@ -70,7 +67,7 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 - Start BlockFront and enter offline mode.
 - Use `/frontcore gun skins` to choose a permanent skin for supported guns.
 - Use `/frontcore lobby ...` to join an active BlockFront match by mode.
-- Use loadout/profile commands and admin subcommands for setup, proxy compatibility, and debugging.
+- Use the client loadout editor and server profile/admin commands for setup, proxy compatibility, and debugging.
 
 ## 4) Gun Skins
 
@@ -95,7 +92,7 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 - Version format is:
 `<frontcore>-<BF>`
 - Example:
-`1.0.5-0.7.1.2b`
+`1.0.6-0.7.1.2b`
 
 ## 7) Requirements
 
