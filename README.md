@@ -14,41 +14,56 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 
 ## 2) Key Commands
 
-- Base command: `/frontcore`
-- Alias: `/fc`
+- Main command: `/frontcore`
+- Short alias: `/fc`
 
-- Player commands:
-`/frontcore gun skins`
-`/frontcore lobby random|ffa|tdm|dom|conq|inf|gg|ttt|boot`
+### Player Commands
 
-- Admin-only server commands:
-`/frontcore status`
-`/frontcore profile show|save|reload`
-`/frontcore profile set <target> <displayName> <level> <prestige>`
-`/frontcore profile clear <target>`
-`/frontcore gun giveWithSkin <id> <skin>`
-`/frontcore gun skinPlayer <player> <gun id> <skin>`
-`/frontcore gun removeSkinPlayer <player> <gun id> [skin]`
-`/frontcore gun modifier list`
-`/frontcore loadout list|save|reload`
-`/frontcore loadout set <name> <primary> <secondary>`
-`/frontcore loadout remove <name>`
-`/frontcore loadout give <target> <name>`
-`/frontcore admin proxy show|reload|save`
-`/frontcore admin proxy set compatibility <true|false>`
-`/frontcore admin proxy set directOnly <true|false>`
-`/frontcore admin proxy set trustForwardedIdentity <true|false>`
-`/frontcore admin lobby debug|random|ffa|tdm|dom|conq|inf|gg|ttt|boot`
-`/frontcore admin randomDrop <players> [count]`
-`/frontcore admin spawnView enable <game>`
+- Open the permanent gun skin selector:
+`/fc gun skins`
+- Join a live match by mode:
+`/fc lobby random`
+`/fc lobby ffa|tdm|dom|conq|inf|gg|ttt|boot`
 
-- Admin-only client commands:
-`/frontcore gun giveMenu <item>`
-`/frontcore admin gun debugOptions <item>`
-`/frontcore admin spawnView disable`
+### Admin Server Commands
 
-- Operator restrictions:
-`/frontcore status`, admin subcommands, and the client `gun giveMenu` flow are operator-only.
+- Check current FrontCore state:
+`/fc status`
+- Manage profile overrides:
+`/fc profile show|save|reload`
+`/fc profile set <target> <displayName> <level> <prestige>`
+`/fc profile clear <target>`
+- Manage gun skins and modifiers:
+`/fc gun giveWithSkin <id> <skin>`
+`/fc gun skinPlayer <player> <gun id> <skin>`
+`/fc gun removeSkinPlayer <player> <gun id> [skin]`
+`/fc gun modifier list`
+- Manage loadouts:
+`/fc loadout list|save|reload`
+`/fc loadout set <name> <primary> <secondary>`
+`/fc loadout remove <name>`
+`/fc loadout give <target> <name>`
+- Manage proxy and lobby debugging:
+`/fc admin proxy show|reload|save`
+`/fc admin proxy set compatibility <true|false>`
+`/fc admin proxy set directOnly <true|false>`
+`/fc admin proxy set trustForwardedIdentity <true|false>`
+`/fc admin lobby debug|random|ffa|tdm|dom|conq|inf|gg|ttt|boot`
+`/fc admin randomDrop <players> [count]`
+`/fc admin spawnView enable <game>`
+
+### Admin Client Commands
+
+- Open the give-menu flow:
+`/fc gun giveMenu <item>`
+- Inspect gun debug options:
+`/fc admin gun debugOptions <item>`
+- Disable spawn view:
+`/fc admin spawnView disable`
+
+### Access Rules
+
+- `/fc status`, all `admin` subcommands, and the client `gun giveMenu` flow are operator-only.
 
 ## 3) Typical Workflow
 
