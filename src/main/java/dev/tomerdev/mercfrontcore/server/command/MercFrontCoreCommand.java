@@ -48,6 +48,7 @@ import dev.tomerdev.mercfrontcore.data.GunModifier;
 import dev.tomerdev.mercfrontcore.data.LoadoutStore;
 import dev.tomerdev.mercfrontcore.data.PlayerGunSkinStore;
 import dev.tomerdev.mercfrontcore.data.ProfileOverrideData;
+import dev.tomerdev.mercfrontcore.data.SkinRewardSelector;
 import dev.tomerdev.mercfrontcore.net.packet.ClearProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.NewProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
@@ -227,16 +228,30 @@ public final class MercFrontCoreCommand {
                     .then(
                         literal("randomDrop")
                             .then(argument("players", EntityArgumentType.players()).executes(ctx ->
-                                randomDrop(ctx.getSource(), EntityArgumentType.getPlayers(ctx, "players"), 1)
+                                randomDrop(ctx.getSource(), EntityArgumentType.getPlayers(ctx, "players"), 1, null)
                             ))
                             .then(argument("players", EntityArgumentType.players())
-                                .then(argument("count", IntegerArgumentType.integer(1, 100)).executes(ctx ->
-                                    randomDrop(
-                                        ctx.getSource(),
-                                        EntityArgumentType.getPlayers(ctx, "players"),
-                                        IntegerArgumentType.getInteger(ctx, "count")
+                                .then(argument("count", IntegerArgumentType.integer(1, 100))
+                                    .executes(ctx ->
+                                        randomDrop(
+                                            ctx.getSource(),
+                                            EntityArgumentType.getPlayers(ctx, "players"),
+                                            IntegerArgumentType.getInteger(ctx, "count"),
+                                            null
+                                        )
                                     )
-                                ))
+                                    .then(argument("rarity", StringArgumentType.word())
+                                        .suggests(MercFrontCoreCommand::suggestSkinRarities)
+                                        .executes(ctx ->
+                                            randomDrop(
+                                                ctx.getSource(),
+                                                EntityArgumentType.getPlayers(ctx, "players"),
+                                                IntegerArgumentType.getInteger(ctx, "count"),
+                                                StringArgumentType.getString(ctx, "rarity")
+                                            )
+                                        )
+                                    )
+                                )
                             )
                     )
                     .then(
@@ -294,30 +309,18 @@ public final class MercFrontCoreCommand {
         if (id == null) {
             return suggestions.buildFuture();
         }
-        var selectableSkins = getSelectableGunSkins(id);
+        var selectableSkins = SkinRewardSelector.getSelectableGunSkins(id);
         if (!selectableSkins.isEmpty()) {
             return CommandSource.suggestMatching(selectableSkins, suggestions);
         }
         return suggestions.buildFuture();
     }
 
-    private static List<String> getSelectableGunSkins(Identifier id) {
-        var declaredFallbackSkins = GunExtraOptionsIndex.getDeclaredFallbackSkins(id);
-        if (!declaredFallbackSkins.isEmpty()) {
-            return new ArrayList<>(declaredFallbackSkins);
-        }
-        Item item = Registries.ITEM.get(id);
-        if (item != null && item != Items.AIR) {
-            var strictSkins = GunSkinIndex.getStrictSkinNames(item);
-            if (!strictSkins.isEmpty()) {
-                return new ArrayList<>(strictSkins);
-            }
-        }
-        var gunOptions = GunExtraOptionsIndex.snapshot().get(id);
-        if (gunOptions != null && !gunOptions.skins().isEmpty()) {
-            return new ArrayList<>(gunOptions.skins());
-        }
-        return List.of();
+    private static CompletableFuture<Suggestions> suggestSkinRarities(
+        CommandContext<ServerCommandSource> context,
+        SuggestionsBuilder suggestions
+    ) {
+        return CommandSource.suggestMatching(SkinRewardSelector.RARITY_NAMES, suggestions);
     }
 
     private static Identifier extractGunIdForSkinSuggestion(String input) {
@@ -1132,17 +1135,19 @@ public final class MercFrontCoreCommand {
         return 1;
     }
 
-    private static int randomDrop(ServerCommandSource source, Collection<ServerPlayerEntity> players, int count) {
+    private static int randomDrop(ServerCommandSource source, Collection<ServerPlayerEntity> players, int count, String rarityFilter) {
         GunSkinIndex.ensureInitialized();
         if (GunSkinIndex.SKINS.isEmpty()) {
             source.sendError(Text.literal("No gun skins are currently available."));
             return 0;
         }
 
+        String normalizedRarity = rarityFilter == null ? null : SkinRewardSelector.normalizeRarity(rarityFilter);
+
         int given = 0;
         for (ServerPlayerEntity player : players) {
             for (int i = 0; i < count; i++) {
-                if (giveRandomDrop(player)) {
+                if (giveRandomDrop(player, normalizedRarity)) {
                     given++;
                 }
             }
@@ -1150,14 +1155,18 @@ public final class MercFrontCoreCommand {
         }
 
         int finalGiven = given;
-        source.sendFeedback(() -> Text.literal(
-            "Granted " + finalGiven + " random gun skin drop(s) to " + players.size() + " player(s)."
-        ), true);
+        String suffix = normalizedRarity == null ? "" : " with rarity " + normalizedRarity.toLowerCase(java.util.Locale.ROOT);
+        source.sendFeedback(
+            () -> Text.literal(
+                "Granted " + finalGiven + " random gun skin drop(s)" + suffix + " to " + players.size() + " player(s)."
+            ),
+            true
+        );
         return given;
     }
 
-    private static boolean giveRandomDrop(ServerPlayerEntity player) {
-        RandomSkinReward reward = pickRandomSkinReward(player.getUuid(), ThreadLocalRandom.current());
+    private static boolean giveRandomDrop(ServerPlayerEntity player, String rarityFilter) {
+        SkinRewardSelector.SelectedSkinReward reward = SkinRewardSelector.pickRandomReward(player.getUuid(), rarityFilter);
         if (reward == null) {
             return false;
         }
@@ -1167,7 +1176,10 @@ public final class MercFrontCoreCommand {
             return false;
         }
         player.sendMessage(
-            Text.literal("You received random gun skin '" + reward.skin() + "' for " + reward.gunId() + "."),
+            Text.literal(
+                "You received " + reward.rarity().toLowerCase(java.util.Locale.ROOT)
+                    + " gun skin '" + reward.skin() + "' for " + reward.gunId() + "."
+            ),
             false
         );
         return true;
@@ -1231,55 +1243,6 @@ public final class MercFrontCoreCommand {
             .toList();
         List<FDSPose> pool = alternatives.isEmpty() ? infectedGame.vendorSpawns : alternatives;
         return pool.get(ThreadLocalRandom.current().nextInt(pool.size()));
-    }
-
-    private static RandomSkinReward pickRandomSkinReward(UUID playerUuid, ThreadLocalRandom random) {
-        Map<String, PlayerGunSkinStore.OwnedGunSkins> ownedByGun = PlayerGunSkinStore.getInstance().getPlayerSkins(playerUuid);
-        List<GunRewardPool> gunPools = new ArrayList<>();
-        for (Identifier gunId : GunSkinIndex.SKINS.keySet()) {
-            Item item = Registries.ITEM.get(gunId);
-            if (item == null || item == Items.AIR) {
-                continue;
-            }
-            List<String> selectableSkins = getSelectableGunSkins(gunId);
-            if (selectableSkins.isEmpty()) {
-                continue;
-            }
-            Set<String> ownedSkins = ownedByGun.containsKey(gunId.toString())
-                ? Set.copyOf(ownedByGun.get(gunId.toString()).ownedSkins())
-                : Set.of();
-            List<String> validUnownedSkins = new ArrayList<>();
-            List<String> validAllSkins = new ArrayList<>();
-            for (String skin : selectableSkins) {
-                if (skin == null || skin.isBlank()) {
-                    continue;
-                }
-                if (GunSkinIndex.getSkinId(item, skin).isEmpty()) {
-                    continue;
-                }
-                validAllSkins.add(skin);
-                if (!ownedSkins.contains(skin)) {
-                    validUnownedSkins.add(skin);
-                }
-            }
-            if (!validAllSkins.isEmpty()) {
-                gunPools.add(new GunRewardPool(gunId, validUnownedSkins, validAllSkins));
-            }
-        }
-
-        if (gunPools.isEmpty()) {
-            return null;
-        }
-
-        List<GunRewardPool> preferredGunPools = gunPools.stream()
-            .filter(pool -> !pool.unownedSkins().isEmpty())
-            .toList();
-        List<GunRewardPool> selectedGunPoolSource = !preferredGunPools.isEmpty() ? preferredGunPools : gunPools;
-        GunRewardPool gunPool = selectedGunPoolSource.get(random.nextInt(selectedGunPoolSource.size()));
-
-        List<String> skinPool = !gunPool.unownedSkins().isEmpty() ? gunPool.unownedSkins() : gunPool.allSkins();
-        String skin = skinPool.get(random.nextInt(skinPool.size()));
-        return new RandomSkinReward(gunPool.gunId(), skin);
     }
 
     private static int reloadConfig(ServerCommandSource source) {
@@ -1454,12 +1417,6 @@ public final class MercFrontCoreCommand {
         int loaded = LoadoutStore.getInstance().load(source.getServer());
         source.sendFeedback(() -> Text.literal("Loadouts reloaded (" + loaded + ")."), true);
         return 1;
-    }
-
-    private record RandomSkinReward(Identifier gunId, String skin) {
-    }
-
-    private record GunRewardPool(Identifier gunId, List<String> unownedSkins, List<String> allSkins) {
     }
 
     private record GrantSkinResult(boolean success, String message, int appliedCount) {

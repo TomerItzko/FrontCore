@@ -8,9 +8,15 @@ All notable changes to this project are documented in this file.
 - Restored BF action packet routing with a guarded bridge so block-break packets still reach vanilla while BF drop/offhand rules stay active.
 - Hardened BF Netty player resolution by falling back to the real `packet_handler` player when address-based lookup fails, reducing invalid-entity kicks during interaction handling.
 - Strengthened infected vendor re-pair pulses after login and relocate, plus periodic maintenance resyncs to improve vendor visibility after relocate and later re-entry.
+- Skipped the dedicated-server BF packet router attach path on integrated singleplayer servers to stop client/world desync issues that broke movement and block breaking offline.
+- Reworked winner skin reward triggering to detect real match-end `GAME -> POST_GAME` transitions on the server and recompute winners through BlockFront, restoring reward grants and player chat notifications when the original match-finish hook did not fire.
+- Expanded winner reward selection to build from the synced gun option index as well as the live skin index so reward pools do not collapse on servers where the cloud skin registry is late or incomplete at match end.
+- Winner reward chat announcements now broadcast reliably to players still in the same match, with the awarded skin name highlighted in rarity color and bold for visibility.
 
 ### Added
 - Added operator commands to force infected vendor relocation to a configured spawn or directly to the executing player's position for verification.
+- Added rarity-aware random skin selection for admin random drops and winner rewards, with rolls done by rarity first and then by eligible gun/skin within that rarity.
+- Added an optional admin rarity filter to `randomDrop` so operators can force `coal`, `iron`, `lapis`, `gold`, or `diamond` while still keeping the actual skin random.
 
 ## [1.0.6-0.7.1.2b] - 2026-03-11
 

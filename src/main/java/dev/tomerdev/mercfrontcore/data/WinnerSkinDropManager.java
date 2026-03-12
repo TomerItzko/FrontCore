@@ -4,20 +4,15 @@ import com.boehmod.blockfront.common.BFAbstractManager;
 import com.boehmod.blockfront.util.BFUtils;
 import dev.tomerdev.mercfrontcore.MercFrontCore;
 import dev.tomerdev.mercfrontcore.config.MercFrontCoreConfigManager;
-import dev.tomerdev.mercfrontcore.setup.GunExtraOptionsIndex;
-import dev.tomerdev.mercfrontcore.setup.GunSkinIndex;
-import java.util.ArrayList;
+import java.util.Locale;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.Formatting;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public final class WinnerSkinDropManager {
@@ -42,27 +37,33 @@ public final class WinnerSkinDropManager {
 
         String matchKey = resolveMatchKey(game) + ":" + playerUuid;
         if (!PROCESSED_MATCH_RESULTS.add(matchKey)) {
+            MercFrontCore.LOGGER.debug("Skipped duplicate winner skin reward processing for {}", matchKey);
             return;
         }
 
         ServerPlayerEntity player = BFUtils.getPlayerByUUID(playerUuid);
         if (player == null || player.getServer() == null) {
+            MercFrontCore.LOGGER.debug("Skipped winner skin reward because player {} is unavailable", playerUuid);
             return;
         }
 
         if (player.getRandom().nextFloat() > rewards.winnerSkinDropChance) {
+            MercFrontCore.LOGGER.debug(
+                "Skipped winner skin reward roll for {} at chance {}",
+                player.getNameForScoreboard(),
+                rewards.winnerSkinDropChance
+            );
             return;
         }
 
-        GunSkinIndex.ensureInitialized();
-        List<SkinReward> rewardsPool = buildEligibleRewards(playerUuid);
-        if (rewardsPool.isEmpty()) {
+        SkinRewardSelector.SelectedSkinReward reward = SkinRewardSelector.pickRandomReward(playerUuid);
+        if (reward == null) {
+            MercFrontCore.LOGGER.warn("No eligible winner skin rewards were available for {}", player.getNameForScoreboard());
             return;
         }
 
-        SkinReward reward = rewardsPool.get(player.getRandom().nextInt(rewardsPool.size()));
         PlayerGunSkinStore store = PlayerGunSkinStore.getInstance();
-        store.grantPlayerSkin(playerUuid, reward.gunId().toString(), reward.skinName());
+        store.grantPlayerSkin(playerUuid, reward.gunId().toString(), reward.skin());
         if (!store.save(player.getServer())) {
             MercFrontCore.LOGGER.warn("Failed to save winner skin drop reward for {}", player.getNameForScoreboard());
             return;
@@ -70,93 +71,24 @@ public final class WinnerSkinDropManager {
 
         int applied = store.applyToPlayer(player);
         PacketDistributor.sendToPlayer(player, store.toPacket(playerUuid));
-        player.sendMessage(
-            Text.literal(
-                "Victory reward: you received gun skin '" + reward.skinName() + "' for " + reward.gunId()
-                    + (applied > 0 ? " and it was applied to your inventory." : ".")
-            ),
-            false
-        );
+        broadcastRewardMessage(game, manager, player, reward, applied);
         MercFrontCore.LOGGER.info(
-            "Awarded winner skin drop {} / {} to {}",
+            "Awarded winner skin drop {} / {} ({}) to {}",
             reward.gunId(),
-            reward.skinName(),
+            reward.skin(),
+            reward.rarity(),
             player.getNameForScoreboard()
         );
     }
 
-    private static List<SkinReward> buildEligibleRewards(UUID playerUuid) {
-        Map<String, PlayerGunSkinStore.OwnedGunSkins> ownedByGun = PlayerGunSkinStore.getInstance().getPlayerSkins(playerUuid);
-        List<GunRewardPool> gunPools = new ArrayList<>();
-        for (Identifier gunId : GunSkinIndex.SKINS.keySet()) {
-            Item item = Registries.ITEM.get(gunId);
-            if (item == null || item == Items.AIR) {
-                continue;
-            }
-            List<String> selectableSkins = getSelectableGunSkins(gunId);
-            if (selectableSkins.isEmpty()) {
-                continue;
-            }
-            Set<String> owned = ownedByGun.containsKey(gunId.toString())
-                ? Set.copyOf(ownedByGun.get(gunId.toString()).ownedSkins())
-                : Set.of();
-            List<String> validUnownedSkins = new ArrayList<>();
-            List<String> validAllSkins = new ArrayList<>();
-            for (String skinName : selectableSkins) {
-                if (skinName == null || skinName.isBlank()) {
-                    continue;
-                }
-                if (GunSkinIndex.getSkinId(item, skinName).isEmpty()) {
-                    continue;
-                }
-                validAllSkins.add(skinName);
-                if (!owned.contains(skinName)) {
-                    validUnownedSkins.add(skinName);
-                }
-            }
-            if (!validAllSkins.isEmpty()) {
-                gunPools.add(new GunRewardPool(gunId, validUnownedSkins, validAllSkins));
-            }
-        }
-        if (gunPools.isEmpty()) {
-            return List.of();
-        }
-
-        List<GunRewardPool> preferredGunPools = gunPools.stream()
-            .filter(pool -> !pool.unownedSkins().isEmpty())
-            .toList();
-        List<GunRewardPool> selectedGunPoolSource = !preferredGunPools.isEmpty() ? preferredGunPools : gunPools;
-
-        List<SkinReward> rewards = new ArrayList<>();
-        for (GunRewardPool pool : selectedGunPoolSource) {
-            List<String> skinPool = !pool.unownedSkins().isEmpty() ? pool.unownedSkins() : pool.allSkins();
-            for (String skin : skinPool) {
-                rewards.add(new SkinReward(pool.gunId(), skin));
-            }
-        }
-        return rewards;
-    }
-
-    private static List<String> getSelectableGunSkins(Identifier id) {
-        var declaredFallbackSkins = GunExtraOptionsIndex.getDeclaredFallbackSkins(id);
-        if (!declaredFallbackSkins.isEmpty()) {
-            return new ArrayList<>(declaredFallbackSkins);
-        }
-        Item item = Registries.ITEM.get(id);
-        if (item != null && item != Items.AIR) {
-            var strictSkins = GunSkinIndex.getStrictSkinNames(item);
-            if (!strictSkins.isEmpty()) {
-                return new ArrayList<>(strictSkins);
-            }
-        }
-        var gunOptions = GunExtraOptionsIndex.snapshot().get(id);
-        if (gunOptions != null && !gunOptions.skins().isEmpty()) {
-            return new ArrayList<>(gunOptions.skins());
-        }
-        return List.of();
-    }
-
     private static String resolveMatchKey(Object game) {
+        try {
+            Object uuid = game.getClass().getMethod("getUUID").invoke(game);
+            if (uuid != null) {
+                return uuid.toString();
+            }
+        } catch (Throwable ignored) {
+        }
         try {
             Object uuid = game.getClass().getMethod("getUuid").invoke(game);
             return uuid != null ? uuid.toString() : "unknown";
@@ -165,9 +97,60 @@ public final class WinnerSkinDropManager {
         }
     }
 
-    private record SkinReward(Identifier gunId, String skinName) {
+    private static void broadcastRewardMessage(
+        Object game,
+        BFAbstractManager<?, ?, ?> manager,
+        ServerPlayerEntity winner,
+        SkinRewardSelector.SelectedSkinReward reward,
+        int applied
+    ) {
+        MutableText message = Text.empty()
+            .append(Text.literal("[Victory Reward] ").formatted(Formatting.GOLD, Formatting.BOLD))
+            .append(Text.literal(winner.getNameForScoreboard()).formatted(Formatting.YELLOW))
+            .append(Text.literal(" received ").formatted(Formatting.GRAY))
+            .append(Text.literal("'").formatted(Formatting.GRAY))
+            .append(Text.literal(reward.skin()).formatted(getRarityFormatting(reward.rarity()), Formatting.BOLD))
+            .append(Text.literal("' skin for ").formatted(Formatting.GRAY))
+            .append(Text.literal(reward.gunId().toString()).formatted(Formatting.AQUA));
+
+        if (applied > 0) {
+            message = message.append(Text.literal(" and it was applied immediately.").formatted(Formatting.GREEN));
+        } else {
+            message = message.append(Text.literal(".").formatted(Formatting.GRAY));
+        }
+
+        for (ServerPlayerEntity target : getMatchPlayers(game, manager, winner)) {
+            target.sendMessage(message, false);
+        }
     }
 
-    private record GunRewardPool(Identifier gunId, List<String> unownedSkins, List<String> allSkins) {
+    private static List<ServerPlayerEntity> getMatchPlayers(
+        Object game,
+        BFAbstractManager<?, ?, ?> manager,
+        ServerPlayerEntity winner
+    ) {
+        if (winner.getServer() == null) {
+            return List.of();
+        }
+        List<ServerPlayerEntity> resolved = new java.util.ArrayList<>();
+        for (ServerPlayerEntity player : winner.getServer().getPlayerManager().getPlayerList()) {
+            try {
+                if (manager.getGameWithPlayer(player.getUuid()) == game) {
+                    resolved.add(player);
+                }
+            } catch (Throwable ignored) {
+            }
+        }
+        return resolved;
+    }
+
+    private static Formatting getRarityFormatting(String rarity) {
+        return switch (rarity.toUpperCase(Locale.ROOT)) {
+            case "IRON" -> Formatting.GRAY;
+            case "LAPIS" -> Formatting.BLUE;
+            case "GOLD" -> Formatting.GOLD;
+            case "DIAMOND" -> Formatting.AQUA;
+            default -> Formatting.DARK_GRAY;
+        };
     }
 }

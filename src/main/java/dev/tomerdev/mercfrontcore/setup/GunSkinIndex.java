@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.LinkedHashSet;
+import java.util.HashMap;
 
 import com.boehmod.bflib.cloud.common.CloudRegistry;
 import com.boehmod.bflib.cloud.common.item.CloudItem;
@@ -23,6 +24,7 @@ import dev.tomerdev.mercfrontcore.AddonConstants;
 
 public final class GunSkinIndex {
 	public static final Map<Identifier, BiMap<String, Float>> SKINS = HashBiMap.create();
+    public static final Map<Identifier, Map<String, String>> SKIN_RARITIES = new HashMap<>();
     private static volatile boolean initialized = false;
     private static volatile long lastInitAttemptMs = 0L;
 	
@@ -31,6 +33,7 @@ public final class GunSkinIndex {
 	
 	public static void init(CloudRegistry registry) {
         SKINS.clear();
+        SKIN_RARITIES.clear();
 		for (CloudItem<?> item : registry.getItems()) {
 			if (!(item instanceof CloudItemGun)) {
 				continue;
@@ -52,6 +55,8 @@ public final class GunSkinIndex {
 				AddonConstants.LOGGER.warn("Item {} has duplicate skin IDs! (\"{}\" and \"{}\")", item.getMinecraftItem(), existingName, newName);
 			} else {
 				skinMap.put(suffix, item.getSkin());
+                SKIN_RARITIES.computeIfAbsent(BFRes.fromCloud(item.getMinecraftItem()), key -> new HashMap<>())
+                    .put(suffix, item.getRarity().name());
 			}
 		}
         initialized = !SKINS.isEmpty();
@@ -124,6 +129,36 @@ public final class GunSkinIndex {
 		}
 		return Optional.of(SKINS.get(itemId).keySet());
 	}
+
+    public static Optional<String> getSkinRarity(@NotNull Item item, @Nullable String name) {
+        if (name == null) {
+            return Optional.empty();
+        }
+        Identifier itemId = Registries.ITEM.getId(item);
+        if (!SKIN_RARITIES.containsKey(itemId)) {
+            return Optional.empty();
+        }
+        Map<String, String> rarities = SKIN_RARITIES.get(itemId);
+        String direct = rarities.get(name);
+        if (direct != null && !direct.isBlank()) {
+            return Optional.of(direct);
+        }
+
+        String normalizedRequested = normalize(name);
+        for (Map.Entry<String, String> entry : rarities.entrySet()) {
+            String key = entry.getKey();
+            if (key == null) {
+                continue;
+            }
+            if (key.equalsIgnoreCase(name) || normalize(key).equals(normalizedRequested)) {
+                String rarity = entry.getValue();
+                if (rarity != null && !rarity.isBlank()) {
+                    return Optional.of(rarity);
+                }
+            }
+        }
+        return Optional.empty();
+    }
 
     public static Set<String> getStrictSkinNames(@NotNull Item item) {
         LinkedHashSet<String> skins = new LinkedHashSet<>();

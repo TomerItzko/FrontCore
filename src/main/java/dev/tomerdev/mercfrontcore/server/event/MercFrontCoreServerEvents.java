@@ -4,6 +4,8 @@ import com.boehmod.blockfront.BlockFront;
 import com.boehmod.blockfront.common.BFAbstractManager;
 import com.boehmod.blockfront.common.entity.VendorEntity;
 import com.boehmod.blockfront.game.AbstractGame;
+import com.boehmod.blockfront.game.GameStatus;
+import com.boehmod.blockfront.game.WinningTeamData;
 import com.boehmod.blockfront.game.impl.inf.InfectedGame;
 import com.boehmod.blockfront.server.BFServerManager;
 import com.boehmod.blockfront.server.player.BFServerPlayerData;
@@ -53,12 +55,14 @@ public final class MercFrontCoreServerEvents {
     private static final Set<UUID> PENDING_LOADOUT_SYNC = ConcurrentHashMap.newKeySet();
     private static final Set<UUID> PENDING_BF_ROUTER_ATTACH = ConcurrentHashMap.newKeySet();
     private static final Map<UUID, Integer> PENDING_VENDOR_TRACK_SYNC = new ConcurrentHashMap<>();
+    private static final Map<UUID, GameStatus> LAST_GAME_STATUS = new ConcurrentHashMap<>();
     private static int permanentSkinTick = 0;
     private static int vendorSyncTick = 0;
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         WinnerSkinDropManager.resetSession();
+        LAST_GAME_STATUS.clear();
         int loaded = AddonCommonData.getInstance().loadProfileOverrides(event.getServer());
         MercFrontCore.LOGGER.info("Loaded {} profile overrides.", loaded);
         int loadoutsLoaded = LoadoutStore.getInstance().load(event.getServer());
@@ -89,6 +93,7 @@ public final class MercFrontCoreServerEvents {
     @SubscribeEvent
     public void onServerStopping(ServerStoppingEvent event) {
         WinnerSkinDropManager.resetSession();
+        LAST_GAME_STATUS.clear();
         boolean saved = AddonCommonData.getInstance().saveProfileOverrides(event.getServer());
         if (!saved) {
             MercFrontCore.LOGGER.warn("Failed to save profile overrides during shutdown.");
@@ -117,6 +122,7 @@ public final class MercFrontCoreServerEvents {
         if (!(event.getEntity() instanceof ServerPlayerEntity player)) {
             return;
         }
+        boolean dedicatedServer = mercfrontcore$isDedicatedServer(player.getServer());
 
         if (ProxyCompatibility.shouldBlockForwardedPlayers()) {
             MercFrontCore.LOGGER.warn(
@@ -142,7 +148,11 @@ public final class MercFrontCoreServerEvents {
 
         // Defer initial sync to server tick; login event can fire during configuration transition.
         PENDING_LOADOUT_SYNC.add(player.getUuid());
-        PENDING_BF_ROUTER_ATTACH.add(player.getUuid());
+        if (dedicatedServer) {
+            PENDING_BF_ROUTER_ATTACH.add(player.getUuid());
+        } else {
+            PENDING_BF_ROUTER_ATTACH.remove(player.getUuid());
+        }
         PENDING_VENDOR_TRACK_SYNC.put(player.getUuid(), VENDOR_SYNC_WINDOW_TICKS);
     }
 
@@ -150,6 +160,7 @@ public final class MercFrontCoreServerEvents {
     public void onServerTickPost(ServerTickEvent.Post event) {
         forceRefreshAfkTrackers(event.getServer().getPlayerManager().getPlayerList());
         pulsePermanentGunSkins(event.getServer().getPlayerManager().getPlayerList());
+        processWinnerRewardsFromStatusTransitions(event.getServer());
         vendorSyncTick++;
 
         if (!PENDING_LOADOUT_SYNC.isEmpty()) {
@@ -355,6 +366,91 @@ public final class MercFrontCoreServerEvents {
             return serverManager;
         }
         return null;
+    }
+
+    private static boolean mercfrontcore$isDedicatedServer(net.minecraft.server.MinecraftServer server) {
+        if (server == null) {
+            return false;
+        }
+        try {
+            Object result = server.getClass().getMethod("isDedicatedServer").invoke(server);
+            if (result instanceof Boolean value) {
+                return value;
+            }
+        } catch (Throwable ignored) {
+        }
+        try {
+            Object result = server.getClass().getMethod("isDedicated").invoke(server);
+            return result instanceof Boolean value && value;
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+
+    private static void processWinnerRewardsFromStatusTransitions(net.minecraft.server.MinecraftServer server) {
+        BFServerManager manager = getServerManager();
+        if (manager == null) {
+            LAST_GAME_STATUS.clear();
+            return;
+        }
+
+        Set<UUID> liveGameIds = ConcurrentHashMap.newKeySet();
+        for (var gameAsset : manager.getGames().values()) {
+            if (gameAsset == null) {
+                continue;
+            }
+
+            AbstractGame<?, ?, ?> game = gameAsset.getGame();
+            if (game == null) {
+                continue;
+            }
+
+            UUID gameId = game.getUUID();
+            liveGameIds.add(gameId);
+
+            GameStatus currentStatus = game.getStatus();
+            GameStatus previousStatus = LAST_GAME_STATUS.put(gameId, currentStatus);
+            if (previousStatus == GameStatus.GAME && currentStatus == GameStatus.POST_GAME) {
+                awardWinnerRewardsForTransition(server, manager, game);
+            }
+        }
+
+        LAST_GAME_STATUS.keySet().removeIf(uuid -> !liveGameIds.contains(uuid));
+    }
+
+    private static void awardWinnerRewardsForTransition(
+        net.minecraft.server.MinecraftServer server,
+        BFServerManager manager,
+        AbstractGame<?, ?, ?> game
+    ) {
+        if (server.getOverworld() == null) {
+            return;
+        }
+
+        try {
+            Set<UUID> players = Set.copyOf(game.getPlayerManager().getPlayerUUIDs());
+            if (players.isEmpty()) {
+                return;
+            }
+
+            WinningTeamData winningTeam = game.getPlayerManager().getWinningTeam(server.getOverworld(), players, null);
+            if (winningTeam == null) {
+                MercFrontCore.LOGGER.info("Winner reward transition found no winning team for game {}", game.getUUID());
+                return;
+            }
+
+            for (UUID playerUuid : players) {
+                boolean victory = false;
+                if (winningTeam.team != null && winningTeam.team.getPlayers().contains(playerUuid)) {
+                    victory = true;
+                } else if (winningTeam.topPlayers != null && winningTeam.topPlayers.contains(playerUuid)) {
+                    victory = true;
+                }
+                WinnerSkinDropManager.maybeAwardWinnerSkin(game, manager, playerUuid, victory);
+            }
+        } catch (Throwable t) {
+            MercFrontCore.LOGGER.warn("Failed winner reward status-transition processing for game {}", game.getUUID(), t);
+        }
     }
 
 }

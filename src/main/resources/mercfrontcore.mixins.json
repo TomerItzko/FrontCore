@@ -4,7 +4,6 @@
   "plugin": "dev.tomerdev.mercfrontcore.mixin.MercFrontCoreMixinPlugin",
   "mixins": [
     "AbstractGameWinnerSkinDropMixin",
-    "PacketListenerPlayerActionMixin",
     "PacketListenerInteractionMixin",
     "PacketListenerPlayerMoveMixin",
     "ServerPlayNetworkHandlerMixin",
