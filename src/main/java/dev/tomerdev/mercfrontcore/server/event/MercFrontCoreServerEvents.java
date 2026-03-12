@@ -47,10 +47,14 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class MercFrontCoreServerEvents {
+    private static final int VENDOR_SYNC_WINDOW_TICKS = 120;
+    private static final int VENDOR_SYNC_ACTIVE_INTERVAL = 5;
+    private static final int VENDOR_SYNC_MAINTENANCE_INTERVAL = 40;
     private static final Set<UUID> PENDING_LOADOUT_SYNC = ConcurrentHashMap.newKeySet();
     private static final Set<UUID> PENDING_BF_ROUTER_ATTACH = ConcurrentHashMap.newKeySet();
     private static final Map<UUID, Integer> PENDING_VENDOR_TRACK_SYNC = new ConcurrentHashMap<>();
     private static int permanentSkinTick = 0;
+    private static int vendorSyncTick = 0;
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
@@ -139,13 +143,14 @@ public final class MercFrontCoreServerEvents {
         // Defer initial sync to server tick; login event can fire during configuration transition.
         PENDING_LOADOUT_SYNC.add(player.getUuid());
         PENDING_BF_ROUTER_ATTACH.add(player.getUuid());
-        PENDING_VENDOR_TRACK_SYNC.put(player.getUuid(), 100);
+        PENDING_VENDOR_TRACK_SYNC.put(player.getUuid(), VENDOR_SYNC_WINDOW_TICKS);
     }
 
     @SubscribeEvent
     public void onServerTickPost(ServerTickEvent.Post event) {
         forceRefreshAfkTrackers(event.getServer().getPlayerManager().getPlayerList());
         pulsePermanentGunSkins(event.getServer().getPlayerManager().getPlayerList());
+        vendorSyncTick++;
 
         if (!PENDING_LOADOUT_SYNC.isEmpty()) {
             var iterator = PENDING_LOADOUT_SYNC.iterator();
@@ -244,36 +249,29 @@ public final class MercFrontCoreServerEvents {
     }
 
     private static void pulseVendorTrackSync(net.minecraft.server.MinecraftServer server) {
-        if (PENDING_VENDOR_TRACK_SYNC.isEmpty()) {
+        BFServerManager manager = getServerManager();
+        if (manager == null) {
             return;
         }
 
-        var iterator = PENDING_VENDOR_TRACK_SYNC.entrySet().iterator();
-        while (iterator.hasNext()) {
-            var entry = iterator.next();
-            UUID uuid = entry.getKey();
-            int remaining = entry.getValue();
-            if (remaining <= 0) {
-                iterator.remove();
-                continue;
-            }
-
-            ServerPlayerEntity player = server.getPlayerManager().getPlayer(uuid);
+        for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             if (player == null || player.isDisconnected()) {
-                iterator.remove();
                 continue;
             }
 
-            entry.setValue(remaining - 1);
-            if ((remaining % 10) != 0) {
+            int remaining = PENDING_VENDOR_TRACK_SYNC.getOrDefault(player.getUuid(), 0);
+            if (remaining > 0) {
+                PENDING_VENDOR_TRACK_SYNC.put(player.getUuid(), remaining - 1);
+            } else {
+                PENDING_VENDOR_TRACK_SYNC.remove(player.getUuid());
+            }
+
+            boolean shouldPulse = remaining > 0 && (remaining % VENDOR_SYNC_ACTIVE_INTERVAL) == 0;
+            if (!shouldPulse && (vendorSyncTick % VENDOR_SYNC_MAINTENANCE_INTERVAL) != 0) {
                 continue;
             }
 
             try {
-                BFServerManager manager = getServerManager();
-                if (manager == null) {
-                    continue;
-                }
                 AbstractGame<?, ?, ?> game = manager.getGameWithPlayer(player.getUuid());
                 if (!(game instanceof InfectedGame infectedGame)) {
                     continue;

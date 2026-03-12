@@ -46,6 +46,8 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 `/fc admin proxy set directOnly <true|false>`
 `/fc admin proxy set trustForwardedIdentity <true|false>`
 `/fc admin lobby debug|random|ffa|tdm|dom|conq|inf|gg|ttt|boot`
+`/fc admin infected vendor relocate`
+`/fc admin infected vendor here`
 `/fc admin randomDrop <players> [count]`
 
 ### Admin Client Commands

@@ -7,8 +7,10 @@ import com.boehmod.blockfront.BlockFront;
 import com.boehmod.blockfront.common.BFAbstractManager;
 import com.boehmod.blockfront.game.AbstractGame;
 import com.boehmod.blockfront.game.BFGameType;
+import com.boehmod.blockfront.game.impl.inf.InfectedGame;
 import com.boehmod.blockfront.registry.BFDataComponents;
 import com.boehmod.blockfront.server.BFServerManager;
+import com.boehmod.blockfront.util.math.FDSPose;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -235,6 +237,14 @@ public final class MercFrontCoreCommand {
                                         IntegerArgumentType.getInteger(ctx, "count")
                                     )
                                 ))
+                            )
+                    )
+                    .then(
+                        literal("infected")
+                            .then(
+                                literal("vendor")
+                                    .then(literal("relocate").executes(ctx -> forceInfectedVendorRelocate(ctx.getSource(), false)))
+                                    .then(literal("here").executes(ctx -> forceInfectedVendorRelocate(ctx.getSource(), true)))
                             )
                     )
             );
@@ -1161,6 +1171,66 @@ public final class MercFrontCoreCommand {
             false
         );
         return true;
+    }
+
+    private static int forceInfectedVendorRelocate(ServerCommandSource source, boolean usePlayerPose) {
+        ServerPlayerEntity player;
+        try {
+            player = source.getPlayerOrThrow();
+        } catch (Exception e) {
+            source.sendError(Text.translatable("mercfrontcore.message.command.error.player"));
+            return 0;
+        }
+
+        Object manager = getBfManager();
+        if (manager == null) {
+            source.sendError(Text.literal("BlockFront manager is unavailable."));
+            return 0;
+        }
+
+        Object game = invokeGameWithPlayer(manager, player.getUuid());
+        if (!(game instanceof InfectedGame infectedGame)) {
+            source.sendError(Text.literal("You must be in an infected game to force vendor relocation."));
+            return 0;
+        }
+
+        FDSPose pose;
+        if (usePlayerPose) {
+            pose = new FDSPose(player);
+        } else {
+            pose = pickVendorRelocatePose(infectedGame);
+            if (pose == null) {
+                source.sendError(Text.literal("This infected game has no configured vendor spawns."));
+                return 0;
+            }
+        }
+
+        infectedGame.relocateVendor(player.getServerWorld(), pose);
+        source.sendFeedback(
+            () -> Text.literal(
+                usePlayerPose
+                    ? "Forced infected vendor relocate to your current position."
+                    : "Forced infected vendor relocate to a configured vendor spawn."
+            ),
+            true
+        );
+        return 1;
+    }
+
+    private static FDSPose pickVendorRelocatePose(InfectedGame infectedGame) {
+        if (infectedGame.vendorSpawns.isEmpty()) {
+            return null;
+        }
+        if (infectedGame.vendorSpawns.size() == 1 || infectedGame.vendorEntity == null) {
+            return infectedGame.vendorSpawns.get(ThreadLocalRandom.current().nextInt(infectedGame.vendorSpawns.size()));
+        }
+
+        var currentPos = infectedGame.vendorEntity.getPos();
+        List<FDSPose> alternatives = infectedGame.vendorSpawns.stream()
+            .filter(pose -> pose != null && pose.position != null && pose.position.squaredDistanceTo(currentPos) > 0.25)
+            .toList();
+        List<FDSPose> pool = alternatives.isEmpty() ? infectedGame.vendorSpawns : alternatives;
+        return pool.get(ThreadLocalRandom.current().nextInt(pool.size()));
     }
 
     private static RandomSkinReward pickRandomSkinReward(UUID playerUuid, ThreadLocalRandom random) {

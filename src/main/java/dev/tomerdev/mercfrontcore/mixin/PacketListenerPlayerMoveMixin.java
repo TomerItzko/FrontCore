@@ -1,6 +1,6 @@
 package dev.tomerdev.mercfrontcore.mixin;
 
-import com.boehmod.blockfront.util.NettyUtils;
+import dev.tomerdev.mercfrontcore.server.net.BfNettyCompat;
 import dev.tomerdev.mercfrontcore.util.AfkCompat;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -23,7 +23,7 @@ public abstract class PacketListenerPlayerMoveMixin {
         Object packet,
         CallbackInfo ci
     ) {
-        ServerPlayerEntity player = NettyUtils.getServerPlayerFromConnection(ctx.channel());
+        ServerPlayerEntity player = BfNettyCompat.resolvePlayer(ctx.channel());
         if (player == null) {
             ctx.fireChannelRead(packet);
             ci.cancel();

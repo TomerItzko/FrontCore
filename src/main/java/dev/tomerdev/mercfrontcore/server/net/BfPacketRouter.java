@@ -24,7 +24,7 @@ public final class BfPacketRouter {
                 return;
             }
             try {
-                removeHandlerIfPresent(channel.pipeline(), "mod_packet_handler_actions");
+                attachHandler(channel.pipeline(), "mod_packet_handler_actions", "com.boehmod.blockfront.server.net.PacketListenerPlayerAction");
                 attachHandler(channel.pipeline(), "mod_packet_handler_interaction", "com.boehmod.blockfront.server.net.PacketListenerInteraction");
                 attachHandler(channel.pipeline(), "mod_packet_handler_move", "com.boehmod.blockfront.server.net.PacketListenerPlayerMove");
                 MercFrontCore.LOGGER.info("BF packet router attached for {}", player.getNameForScoreboard());
@@ -48,16 +48,6 @@ public final class BfPacketRouter {
             pipeline.addBefore("packet_handler", name, handler);
         } else {
             pipeline.addLast(name, handler);
-        }
-    }
-
-    private static void removeHandlerIfPresent(ChannelPipeline pipeline, String name) {
-        try {
-            if (pipeline.get(name) != null) {
-                pipeline.remove(name);
-                MercFrontCore.LOGGER.info("Removed BF handler '{}' to allow vanilla action packet flow", name);
-            }
-        } catch (Throwable ignored) {
         }
     }
 

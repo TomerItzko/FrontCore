@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.0.7-0.7.1.2b] - 2026-03-12
+
+### Fixed
+- Restored BF action packet routing with a guarded bridge so block-break packets still reach vanilla while BF drop/offhand rules stay active.
+- Hardened BF Netty player resolution by falling back to the real `packet_handler` player when address-based lookup fails, reducing invalid-entity kicks during interaction handling.
+- Strengthened infected vendor re-pair pulses after login and relocate, plus periodic maintenance resyncs to improve vendor visibility after relocate and later re-entry.
+
+### Added
+- Added operator commands to force infected vendor relocation to a configured spawn or directly to the executing player's position for verification.
+
 ## [1.0.6-0.7.1.2b] - 2026-03-11
 
 ### Added
