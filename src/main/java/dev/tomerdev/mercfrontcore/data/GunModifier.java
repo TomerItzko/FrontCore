@@ -310,6 +310,7 @@ public record GunModifier(
 					"No valid fire modes for item {}! Not applying.",
 					Registries.ITEM.getId(item)
 				);
+				return;
 			}
 			
 			item.fireModes(fireConfigs.toArray(GunFireConfig[]::new));

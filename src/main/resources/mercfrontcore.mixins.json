@@ -4,6 +4,10 @@
   "plugin": "dev.tomerdev.mercfrontcore.mixin.MercFrontCoreMixinPlugin",
   "mixins": [
     "AbstractGameWinnerSkinDropMixin",
+    "AbstractGameClassChangeGuardMixin",
+    "AbstractGamePlayerManagerAccessor",
+    "AbstractGamePlayerManagerLoadoutXpMixin",
+    "BFGameChangeClassRequestPacketMixin",
     "PacketListenerInteractionMixin",
     "PacketListenerPlayerMoveMixin",
     "ServerPlayNetworkHandlerMixin",
@@ -13,7 +17,10 @@
   ],
   "client": [
     "client.BFWeaponItemRendererMixin",
+    "client.AbstractMatchSelectClassScreenLoadoutXpMixin",
     "client.AbstractSoundInstanceMixin",
+    "client.BF197LoadoutXpMixin",
+    "client.MatchSelectClassScreenLoadoutLockMixin",
     "client.GameMenuScreenMixin",
     "client.SoundOptionsScreenMixin"
   ]

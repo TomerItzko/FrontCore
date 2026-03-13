@@ -1,6 +1,6 @@
 # FrontCore
 
-`FrontCore` is a companion utility mod for BlockFront focused on offline flow control, loadout editing, persistent gun skins, lobby helpers, and advanced admin/setup tools.
+`FrontCore` is a companion utility mod for BlockFront focused on offline flow control, loadout editing, persistent gun skins, native BF XP persistence, leaderboards, lobby helpers, and advanced admin/setup tools.
 
 Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilities).
 
@@ -21,6 +21,9 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 
 - Open the permanent gun skin selector:
 `/fc gun skins`
+- Open the XP leaderboard:
+`/fc leaderboard`
+`/fc leaderboard weekly|monthly|all`
 - Join a live match by mode:
 `/fc lobby random`
 `/fc lobby ffa|tdm|dom|conq|inf|gg|ttt|boot`
@@ -63,22 +66,39 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 ### Access Rules
 
 - `/fc status`, all `admin` subcommands, and the client `gun giveMenu` flow are operator-only.
+- `/fc gun skins` and `/fc leaderboard` are normal player commands.
 
 ## 3) Typical Workflow
 
 - Start BlockFront and enter offline mode.
 - Use `/frontcore gun skins` to choose a permanent skin for supported guns.
+- Use `/frontcore leaderboard` to view weekly, monthly, or all-time XP standings.
 - Use `/frontcore lobby ...` to join an active BlockFront match by mode.
 - Use the client loadout editor and server profile/admin commands for setup, proxy compatibility, and debugging.
 
-## 4) Gun Skins
+## 4) Gun Skins And Pause Menu
 
 - Permanent player gun skins apply to matching guns in BlockFront matches.
 - If a gun is given through `gun giveMenu` with its own explicit skin, that explicit skin is kept.
 - The gun skin selector always includes `default`, which clears the permanent override for that gun.
-- A `Gun Skins` button is also added to the vanilla pause menu.
+- The vanilla pause menu includes icon buttons for:
+`Leaderboard`
+`Gun Skins`
 
-## 5) Sound Sliders (Client-Side)
+## 5) Native XP And Leaderboard
+
+- Match rewards now write into BlockFront's native profile EXP and class EXP.
+- Player EXP, prestige, and class EXP persist under:
+`mercfrontcore/players/`
+- Player XP files are named with both player name and UUID for easier administration.
+- Leaderboards are server-authoritative and built from saved player XP data.
+- Leaderboard periods:
+`weekly` = last 7 days of saved XP gains
+`monthly` = last 30 days of saved XP gains
+`all time` = total saved profile EXP
+- Weekly and monthly views depend on FrontCore's saved XP history, so they become accurate from the point this feature is installed onward.
+
+## 6) Sound Sliders (Client-Side)
 
 - Sound sliders are in Minecraft sound options:
 `Gun SFX Volume` and `Grenade SFX Volume`.
@@ -89,26 +109,26 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 `1-100%` scales target category volume.
 - The rest of game audio is not changed.
 
-## 6) Versioning
+## 7) Versioning
 
 - Version format is:
 `<frontcore>-<BF>`
 - Example:
-`1.0.6-0.7.1.2b`
+`1.0.8-0.7.1.2b`
 
-## 7) Requirements
+## 8) Requirements
 
 - Minecraft `1.21.1`
 - NeoForge `21.1.x`
 - BlockFront `0.7.1.2b`
 
-## 8) Build (for local development)
+## 9) Build (for local development)
 
 - Follow setup notes in `bf/README.md`.
 - Build with:
 `gradlew.bat build`
 
-## 9) Safety Rules
+## 10) Safety Rules
 
 - Before touching packet routing, drop handling, or match gating logic, read:
-`RULES.md`
+`rules.md`

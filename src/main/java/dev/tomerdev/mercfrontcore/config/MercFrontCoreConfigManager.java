@@ -2,6 +2,9 @@ package dev.tomerdev.mercfrontcore.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.io.Reader;
@@ -37,9 +40,11 @@ public final class MercFrontCoreConfigManager {
         }
 
         try (Reader reader = Files.newBufferedReader(CONFIG_PATH)) {
-            MercFrontCoreConfig loaded = GSON.fromJson(reader, MercFrontCoreConfig.class);
+            JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
+            boolean changed = mergeMissingDefaults(root, defaultConfigTree());
+            MercFrontCoreConfig loaded = GSON.fromJson(root, MercFrontCoreConfig.class);
             config = loaded != null ? loaded : new MercFrontCoreConfig();
-            boolean changed = normalizeConfig();
+            changed |= normalizeConfig();
             if (changed) {
                 save();
             }
@@ -69,7 +74,9 @@ public final class MercFrontCoreConfigManager {
             return false;
         }
         try (Reader reader = Files.newBufferedReader(backup)) {
-            MercFrontCoreConfig loaded = GSON.fromJson(reader, MercFrontCoreConfig.class);
+            JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
+            mergeMissingDefaults(root, defaultConfigTree());
+            MercFrontCoreConfig loaded = GSON.fromJson(root, MercFrontCoreConfig.class);
             config = loaded != null ? loaded : new MercFrontCoreConfig();
             normalizeConfig();
             writeJsonAtomically(CONFIG_PATH, config);
@@ -109,6 +116,10 @@ public final class MercFrontCoreConfigManager {
             config.rewards = new MercFrontCoreConfig.RewardSettings();
             changed = true;
         }
+        if (config.experience == null) {
+            config.experience = new MercFrontCoreConfig.ExperienceSettings();
+            changed = true;
+        }
         if (Float.isNaN(config.rewards.winnerSkinDropChance)) {
             config.rewards.winnerSkinDropChance = 0.25f;
             changed = true;
@@ -119,6 +130,52 @@ public final class MercFrontCoreConfigManager {
         } else if (config.rewards.winnerSkinDropChance > 1.0f) {
             config.rewards.winnerSkinDropChance = 1.0f;
             changed = true;
+        }
+        changed |= clampMin(() -> config.experience.deathXp, v -> config.experience.deathXp = v, 0);
+        changed |= clampMin(() -> config.experience.assistXp, v -> config.experience.assistXp = v, 0);
+        changed |= clampMin(() -> config.experience.botKillXp, v -> config.experience.botKillXp = v, 0);
+        changed |= clampMin(() -> config.experience.playerKillXp, v -> config.experience.playerKillXp = v, 0);
+        changed |= clampMin(() -> config.experience.fireKillXp, v -> config.experience.fireKillXp = v, 0);
+        changed |= clampMin(() -> config.experience.vehicleKillXp, v -> config.experience.vehicleKillXp = v, 0);
+        changed |= clampMin(() -> config.experience.headshotXp, v -> config.experience.headshotXp = v, 0);
+        changed |= clampMin(() -> config.experience.noScopeXp, v -> config.experience.noScopeXp = v, 0);
+        changed |= clampMin(() -> config.experience.backStabXp, v -> config.experience.backStabXp = v, 0);
+        changed |= clampMin(() -> config.experience.firstBloodXp, v -> config.experience.firstBloodXp = v, 0);
+        changed |= clampMin(() -> config.experience.participationXp, v -> config.experience.participationXp = v, 0);
+        changed |= clampMin(() -> config.experience.victoryXp, v -> config.experience.victoryXp = v, 0);
+        changed |= clampMin(() -> config.experience.infectedRoundWinXp, v -> config.experience.infectedRoundWinXp = v, 0);
+        changed |= clampMin(() -> config.experience.infectedMatchWinXp, v -> config.experience.infectedMatchWinXp = v, 0);
+        changed |= clampMin(() -> config.experience.classPlayerKillXp, v -> config.experience.classPlayerKillXp = v, 0);
+        changed |= clampMin(() -> config.experience.classAssistXp, v -> config.experience.classAssistXp = v, 0);
+        return changed;
+    }
+
+    private static boolean clampMin(java.util.function.IntSupplier getter, java.util.function.IntConsumer setter, int min) {
+        int value = getter.getAsInt();
+        if (value >= min) {
+            return false;
+        }
+        setter.accept(min);
+        return true;
+    }
+
+    private static JsonObject defaultConfigTree() {
+        return GSON.toJsonTree(new MercFrontCoreConfig()).getAsJsonObject();
+    }
+
+    private static boolean mergeMissingDefaults(JsonObject target, JsonObject defaults) {
+        boolean changed = false;
+        for (String key : defaults.keySet()) {
+            JsonElement defaultValue = defaults.get(key);
+            JsonElement existingValue = target.get(key);
+            if (existingValue == null || existingValue.isJsonNull()) {
+                target.add(key, defaultValue.deepCopy());
+                changed = true;
+                continue;
+            }
+            if (existingValue.isJsonObject() && defaultValue.isJsonObject()) {
+                changed |= mergeMissingDefaults(existingValue.getAsJsonObject(), defaultValue.getAsJsonObject());
+            }
         }
         return changed;
     }

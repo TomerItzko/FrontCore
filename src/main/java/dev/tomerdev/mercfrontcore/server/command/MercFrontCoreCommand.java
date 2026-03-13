@@ -77,19 +77,19 @@ public final class MercFrontCoreCommand {
                     .then(literal("reload").executes(ctx -> reloadProfileOverrides(ctx.getSource())))
                     .then(
                         literal("clear")
-                            .then(argument("target", EntityArgumentType.player()).executes(ctx ->
-                                clearProfileOverride(ctx.getSource(), EntityArgumentType.getPlayer(ctx, "target"))
+                            .then(argument("target", EntityArgumentType.players()).executes(ctx ->
+                                clearProfileOverride(ctx.getSource(), EntityArgumentType.getPlayers(ctx, "target"))
                             ))
                     )
                     .then(
                         literal("set")
-                            .then(argument("target", EntityArgumentType.player())
+                            .then(argument("target", EntityArgumentType.players())
                                 .then(argument("displayName", StringArgumentType.word())
                                     .then(argument("level", IntegerArgumentType.integer(0))
                                         .then(argument("prestige", IntegerArgumentType.integer(0)).executes(ctx ->
                                             setProfileOverride(
                                                 ctx.getSource(),
-                                                EntityArgumentType.getPlayer(ctx, "target"),
+                                                EntityArgumentType.getPlayers(ctx, "target"),
                                                 StringArgumentType.getString(ctx, "displayName"),
                                                 IntegerArgumentType.getInteger(ctx, "level"),
                                                 IntegerArgumentType.getInteger(ctx, "prestige")
@@ -1298,36 +1298,49 @@ public final class MercFrontCoreCommand {
 
     private static int setProfileOverride(
         ServerCommandSource source,
-        ServerPlayerEntity target,
+        Collection<ServerPlayerEntity> targets,
         String displayName,
         int level,
         int prestige
     ) {
-        UUID uuid = target.getUuid();
         ProfileOverrideData next = new ProfileOverrideData(displayName, level, prestige);
-        ProfileOverrideData prev = AddonCommonData.getInstance().getProfileOverrides().put(uuid, next);
-        if (prev == null) {
-            syncNewProfileOverride(uuid, next);
-        } else {
-            syncChangedProperties(uuid, prev, next);
+        int updated = 0;
+        for (ServerPlayerEntity target : targets) {
+            UUID uuid = target.getUuid();
+            ProfileOverrideData prev = AddonCommonData.getInstance().getProfileOverrides().put(uuid, next);
+            if (prev == null) {
+                syncNewProfileOverride(uuid, next);
+            } else {
+                syncChangedProperties(uuid, prev, next);
+            }
+            AddonCommonData.getInstance().refreshLiveProfile(target);
+            updated++;
         }
-        AddonCommonData.getInstance().refreshLiveProfile(target);
         persistProfileOverrides(source, false);
-        source.sendFeedback(() -> Text.literal("Set profile override for " + target.getNameForScoreboard()), true);
-        return 1;
+        int finalUpdated = updated;
+        source.sendFeedback(() -> Text.literal("Set profile override for " + finalUpdated + " player(s)."), true);
+        return updated > 0 ? 1 : 0;
     }
 
-    private static int clearProfileOverride(ServerCommandSource source, ServerPlayerEntity target) {
-        UUID uuid = target.getUuid();
-        ProfileOverrideData removed = AddonCommonData.getInstance().getProfileOverrides().remove(uuid);
-        if (removed == null) {
-            source.sendError(Text.literal("No profile override exists for " + target.getNameForScoreboard()));
+    private static int clearProfileOverride(ServerCommandSource source, Collection<ServerPlayerEntity> targets) {
+        int cleared = 0;
+        for (ServerPlayerEntity target : targets) {
+            UUID uuid = target.getUuid();
+            ProfileOverrideData removed = AddonCommonData.getInstance().getProfileOverrides().remove(uuid);
+            if (removed == null) {
+                continue;
+            }
+            AddonCommonData.getInstance().refreshLiveProfile(target);
+            syncClearProfileOverride(uuid);
+            cleared++;
+        }
+        if (cleared == 0) {
+            source.sendError(Text.literal("No profile overrides existed for the selected player(s)."));
             return 0;
         }
-        AddonCommonData.getInstance().refreshLiveProfile(target);
-        syncClearProfileOverride(uuid);
         persistProfileOverrides(source, false);
-        source.sendFeedback(() -> Text.literal("Cleared profile override for " + target.getNameForScoreboard()), true);
+        int finalCleared = cleared;
+        source.sendFeedback(() -> Text.literal("Cleared profile override for " + finalCleared + " player(s)."), true);
         return 1;
     }
 

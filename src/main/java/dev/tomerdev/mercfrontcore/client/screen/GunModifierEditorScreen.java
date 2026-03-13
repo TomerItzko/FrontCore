@@ -116,6 +116,8 @@ public class GunModifierEditorScreen extends AddonScreen {
 	public void close() {
 		if (modifier.hasData()) {
 			AddonClientData.getInstance().tempGunModifiers.put(itemEntry, modifier);
+		} else {
+			AddonClientData.getInstance().tempGunModifiers.remove(itemEntry);
 		}
 		
 		assert client != null;

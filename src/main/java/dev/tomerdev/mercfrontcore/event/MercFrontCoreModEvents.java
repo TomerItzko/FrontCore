@@ -7,10 +7,13 @@ import dev.tomerdev.mercfrontcore.net.packet.ClearProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.GiveGunPacket;
 import dev.tomerdev.mercfrontcore.net.packet.GunExtraOptionsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.GunModifiersPacket;
+import dev.tomerdev.mercfrontcore.net.packet.LeaderboardRequestPacket;
+import dev.tomerdev.mercfrontcore.net.packet.LeaderboardResponsePacket;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.MapEffectPositionPacket;
 import dev.tomerdev.mercfrontcore.net.packet.NewProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
+import dev.tomerdev.mercfrontcore.net.packet.ProfileXpSyncPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SelectPlayerGunSkinPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPropertyPacket;
@@ -52,6 +55,16 @@ public final class MercFrontCoreModEvents {
             PlayerGunSkinStatePacket.PACKET_CODEC,
             PlayerGunSkinStatePacket::handleClient
         );
+        registrar.playToClient(
+            ProfileXpSyncPacket.ID,
+            ProfileXpSyncPacket.PACKET_CODEC,
+            ProfileXpSyncPacket::handleClient
+        );
+        registrar.playToClient(
+            LeaderboardResponsePacket.ID,
+            LeaderboardResponsePacket.PACKET_CODEC,
+            LeaderboardResponsePacket::handleClient
+        );
         registrar.playToServer(
             GiveGunPacket.ID,
             GiveGunPacket.PACKET_CODEC,
@@ -76,6 +89,11 @@ public final class MercFrontCoreModEvents {
             MapEffectPositionPacket.ID,
             MapEffectPositionPacket.PACKET_CODEC,
             MapEffectPositionPacket::handleServer
+        );
+        registrar.playToServer(
+            LeaderboardRequestPacket.ID,
+            LeaderboardRequestPacket.PACKET_CODEC,
+            LeaderboardRequestPacket::handleServer
         );
         registrar.playToClient(
             ViewSpawnsPacket.ID,

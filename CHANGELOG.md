@@ -2,6 +2,28 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.0.8-0.7.1.2b] - 2026-03-13
+
+### Added
+- Added native BlockFront profile XP rewards at match end through FrontCore's `GAME -> POST_GAME` transition hook, so awarded progress now feeds BF's real profile EXP/rank system instead of a separate leveling path.
+- Added direct client profile XP sync after match rewards so the local BlockFront profile sees the updated EXP in time for native post-match progress rendering.
+- Added configurable native match XP reward settings in `config/mercfrontcore.json` for rank XP and class XP event rewards, including kills, assists, deaths, headshots, no-scopes, back-stabs, match completion, match wins, and infected win rewards.
+- Added persistent player XP storage under `mercfrontcore/players/`, including saved BlockFront global XP, prestige, and per-class XP so match-earned progression survives restarts.
+- Added an XP leaderboard GUI with `weekly`, `monthly`, and `all time` tabs, opened by the player-facing `/fc leaderboard` client command.
+- Added rolling XP gain history to player XP files so weekly and monthly leaderboard views can be calculated from saved server data instead of only the current total.
+- Added pause-menu shortcut buttons for the new leaderboard and the existing gun-skins screen, using BlockFront item icons instead of text rows.
+
+### Changed
+- Match-end progression now uses FrontCore-calculated XP rewards written into BF `PlayerCloudData` while still relying on BlockFront's native EXP thresholds, prestige rules, and summary/rank UI.
+- Player XP data files are now named with both player name and UUID for easier administration while keeping entries unique across name changes.
+- Leaderboard ranking is now server-authoritative and built from the saved `mercfrontcore/players/` data for every player who has earned XP on the server.
+- Native XP defaults now follow the configured per-event reward table for rank XP and the separate per-event reward table for class XP.
+
+### Fixed
+- Loadout `minimumXp` enforcement now works server-side during live BlockFront matches through a tick-based lock check, preventing players from keeping classes/loadouts whose required class XP is above their current class XP even when BF runtime mixins do not apply on production jars.
+- Gun modifier sync now sends only real override entries instead of resending the full default gun modifier set, avoiding invalid fire-mode rewrites.
+- Gun fire-mode modifier application now skips empty post-filter fire-mode lists instead of passing a zero-length array into BlockFront and crashing.
+
 ## [1.0.7-0.7.1.2b] - 2026-03-12
 
 ### Fixed
@@ -17,6 +39,9 @@ All notable changes to this project are documented in this file.
 - Added operator commands to force infected vendor relocation to a configured spawn or directly to the executing player's position for verification.
 - Added rarity-aware random skin selection for admin random drops and winner rewards, with rolls done by rarity first and then by eligible gun/skin within that rarity.
 - Added an optional admin rarity filter to `randomDrop` so operators can force `coal`, `iron`, `lapis`, `gold`, or `diamond` while still keeping the actual skin random.
+
+### Notes
+- Infected vendor relocate has only been verified through local/admin-driven testing so far. Real-match validation is still pending, and `Front-Utilities` uses a deeper `relocateVendor` patch if native BF relocate behavior still proves unreliable under live match conditions.
 
 ## [1.0.6-0.7.1.2b] - 2026-03-11
 

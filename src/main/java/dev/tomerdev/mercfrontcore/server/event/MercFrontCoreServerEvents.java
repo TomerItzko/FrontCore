@@ -3,13 +3,19 @@ package dev.tomerdev.mercfrontcore.server.event;
 import com.boehmod.blockfront.BlockFront;
 import com.boehmod.blockfront.common.BFAbstractManager;
 import com.boehmod.blockfront.common.entity.VendorEntity;
+import com.boehmod.blockfront.common.match.Loadout;
+import com.boehmod.blockfront.common.match.MatchClass;
+import com.boehmod.blockfront.common.player.PlayerCloudData;
+import com.boehmod.blockfront.common.stat.BFStats;
 import com.boehmod.blockfront.game.AbstractGame;
 import com.boehmod.blockfront.game.GameStatus;
+import com.boehmod.blockfront.game.GameTeam;
 import com.boehmod.blockfront.game.WinningTeamData;
 import com.boehmod.blockfront.game.impl.inf.InfectedGame;
 import com.boehmod.blockfront.server.BFServerManager;
 import com.boehmod.blockfront.server.player.BFServerPlayerData;
 import com.boehmod.blockfront.server.player.ServerPlayerDataHandler;
+import com.boehmod.blockfront.util.BFUtils;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.EntityTrackerEntry;
@@ -29,12 +35,15 @@ import dev.tomerdev.mercfrontcore.data.GunModifier;
 import dev.tomerdev.mercfrontcore.data.GunModifierFiles;
 import dev.tomerdev.mercfrontcore.data.LoadoutEditorStore;
 import dev.tomerdev.mercfrontcore.data.LoadoutStore;
+import dev.tomerdev.mercfrontcore.data.MatchXpManager;
+import dev.tomerdev.mercfrontcore.data.PlayerXpStore;
 import dev.tomerdev.mercfrontcore.data.PlayerGunSkinStore;
 import dev.tomerdev.mercfrontcore.data.WinnerSkinDropManager;
 import dev.tomerdev.mercfrontcore.net.packet.GunExtraOptionsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.GunModifiersPacket;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
+import dev.tomerdev.mercfrontcore.net.packet.ProfileXpSyncPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.server.ProxyCompatibility;
 import dev.tomerdev.mercfrontcore.server.command.MercFrontCoreCommand;
@@ -42,6 +51,7 @@ import dev.tomerdev.mercfrontcore.server.net.BfPacketRouter;
 import dev.tomerdev.mercfrontcore.setup.GunExtraOptionsIndex;
 import dev.tomerdev.mercfrontcore.setup.GunModifierIndex;
 import dev.tomerdev.mercfrontcore.setup.LoadoutIndex;
+import dev.tomerdev.mercfrontcore.util.LoadoutXpCompat;
 import dev.tomerdev.mercfrontcore.util.MatchCompat;
 import java.util.Map;
 import java.util.Set;
@@ -56,13 +66,16 @@ public final class MercFrontCoreServerEvents {
     private static final Set<UUID> PENDING_BF_ROUTER_ATTACH = ConcurrentHashMap.newKeySet();
     private static final Map<UUID, Integer> PENDING_VENDOR_TRACK_SYNC = new ConcurrentHashMap<>();
     private static final Map<UUID, GameStatus> LAST_GAME_STATUS = new ConcurrentHashMap<>();
+    private static final Map<UUID, String> LAST_ENFORCED_LOADOUT_LOCK = new ConcurrentHashMap<>();
     private static int permanentSkinTick = 0;
     private static int vendorSyncTick = 0;
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         WinnerSkinDropManager.resetSession();
+        PlayerXpStore.getInstance().clearSession();
         LAST_GAME_STATUS.clear();
+        LAST_ENFORCED_LOADOUT_LOCK.clear();
         int loaded = AddonCommonData.getInstance().loadProfileOverrides(event.getServer());
         MercFrontCore.LOGGER.info("Loaded {} profile overrides.", loaded);
         int loadoutsLoaded = LoadoutStore.getInstance().load(event.getServer());
@@ -94,6 +107,8 @@ public final class MercFrontCoreServerEvents {
     public void onServerStopping(ServerStoppingEvent event) {
         WinnerSkinDropManager.resetSession();
         LAST_GAME_STATUS.clear();
+        LAST_ENFORCED_LOADOUT_LOCK.clear();
+        saveOnlinePlayerXp(event.getServer());
         boolean saved = AddonCommonData.getInstance().saveProfileOverrides(event.getServer());
         if (!saved) {
             MercFrontCore.LOGGER.warn("Failed to save profile overrides during shutdown.");
@@ -124,6 +139,34 @@ public final class MercFrontCoreServerEvents {
         }
         boolean dedicatedServer = mercfrontcore$isDedicatedServer(player.getServer());
 
+        var dataHandler = getServerManager() != null && getServerManager().getPlayerDataHandler() instanceof ServerPlayerDataHandler serverDataHandler
+            ? serverDataHandler
+            : null;
+        if (dataHandler != null) {
+            var profile = dataHandler.getCloudProfile(player);
+            var storedXp = PlayerXpStore.getInstance().loadOrCreate(
+                player.getServer(),
+                player.getUuid(),
+                player.getNameForScoreboard(),
+                profile.getExp(),
+                profile.getPrestigeLevel(),
+                MatchXpManager.snapshotClassExp(profile)
+            );
+            profile.setExp(storedXp.exp());
+            profile.setPrestigeLevel(storedXp.prestige());
+            for (int i = 0; i < storedXp.classExp().size(); i++) {
+                profile.setClassExp(i, storedXp.classExp().get(i));
+            }
+            var cachedProfile = dataHandler.getCloudProfile(player.getUuid());
+            if (cachedProfile != profile) {
+                cachedProfile.setExp(storedXp.exp());
+                cachedProfile.setPrestigeLevel(storedXp.prestige());
+                for (int i = 0; i < storedXp.classExp().size(); i++) {
+                    cachedProfile.setClassExp(i, storedXp.classExp().get(i));
+                }
+            }
+        }
+
         if (ProxyCompatibility.shouldBlockForwardedPlayers()) {
             MercFrontCore.LOGGER.warn(
                 "enforceDirectConnection=true is set, but hard-blocking proxy traffic is not implemented in remake baseline."
@@ -137,6 +180,18 @@ public final class MercFrontCoreServerEvents {
         ));
         PacketDistributor.sendToPlayer(player, new GunModifiersPacket(Map.copyOf(GunModifier.ACTIVE), true));
         PacketDistributor.sendToPlayer(player, PlayerGunSkinStore.getInstance().toPacket(player.getUuid()));
+        if (dataHandler != null) {
+            var currentProfile = dataHandler.getCloudProfile(player);
+            PacketDistributor.sendToPlayer(
+                player,
+                new ProfileXpSyncPacket(
+                    player.getUuid(),
+                    currentProfile.getExp(),
+                    currentProfile.getPrestigeLevel(),
+                    MatchXpManager.snapshotClassExp(currentProfile)
+                )
+            );
+        }
         GunExtraOptionsIndex.rebuild();
         var gunOptions = GunExtraOptionsIndex.snapshot();
         PacketDistributor.sendToPlayer(player, new GunExtraOptionsPacket(gunOptions));
@@ -160,7 +215,8 @@ public final class MercFrontCoreServerEvents {
     public void onServerTickPost(ServerTickEvent.Post event) {
         forceRefreshAfkTrackers(event.getServer().getPlayerManager().getPlayerList());
         pulsePermanentGunSkins(event.getServer().getPlayerManager().getPlayerList());
-        processWinnerRewardsFromStatusTransitions(event.getServer());
+        processPostGameTransitions(event.getServer());
+        enforceLockedLoadouts(event.getServer());
         vendorSyncTick++;
 
         if (!PENDING_LOADOUT_SYNC.isEmpty()) {
@@ -203,6 +259,7 @@ public final class MercFrontCoreServerEvents {
             PENDING_LOADOUT_SYNC.remove(player.getUuid());
             PENDING_BF_ROUTER_ATTACH.remove(player.getUuid());
             PENDING_VENDOR_TRACK_SYNC.remove(player.getUuid());
+            LAST_ENFORCED_LOADOUT_LOCK.remove(player.getUuid());
         }
     }
 
@@ -387,7 +444,7 @@ public final class MercFrontCoreServerEvents {
         }
     }
 
-    private static void processWinnerRewardsFromStatusTransitions(net.minecraft.server.MinecraftServer server) {
+    private static void processPostGameTransitions(net.minecraft.server.MinecraftServer server) {
         BFServerManager manager = getServerManager();
         if (manager == null) {
             LAST_GAME_STATUS.clear();
@@ -411,14 +468,14 @@ public final class MercFrontCoreServerEvents {
             GameStatus currentStatus = game.getStatus();
             GameStatus previousStatus = LAST_GAME_STATUS.put(gameId, currentStatus);
             if (previousStatus == GameStatus.GAME && currentStatus == GameStatus.POST_GAME) {
-                awardWinnerRewardsForTransition(server, manager, game);
+                processPostGameTransition(server, manager, game);
             }
         }
 
         LAST_GAME_STATUS.keySet().removeIf(uuid -> !liveGameIds.contains(uuid));
     }
 
-    private static void awardWinnerRewardsForTransition(
+    private static void processPostGameTransition(
         net.minecraft.server.MinecraftServer server,
         BFServerManager manager,
         AbstractGame<?, ?, ?> game
@@ -435,11 +492,40 @@ public final class MercFrontCoreServerEvents {
 
             WinningTeamData winningTeam = game.getPlayerManager().getWinningTeam(server.getOverworld(), players, null);
             if (winningTeam == null) {
-                MercFrontCore.LOGGER.info("Winner reward transition found no winning team for game {}", game.getUUID());
+                MercFrontCore.LOGGER.info("Post-game transition found no winning team for game {}", game.getUUID());
                 return;
             }
 
+            ServerPlayerDataHandler dataHandler = manager.getPlayerDataHandler() instanceof ServerPlayerDataHandler serverDataHandler
+                ? serverDataHandler
+                : null;
             for (UUID playerUuid : players) {
+                if (dataHandler != null) {
+                    ServerPlayerEntity player = server.getPlayerManager().getPlayer(playerUuid);
+                    if (player != null && !player.isDisconnected()) {
+                        MatchXpManager.MatchXpAwardResult xpAward = MatchXpManager.awardMatchXp(game, dataHandler, player, winningTeam);
+                        if (xpAward != null) {
+                            PacketDistributor.sendToPlayer(
+                                player,
+                                new ProfileXpSyncPacket(
+                                    playerUuid,
+                                    xpAward.afterXp(),
+                                    dataHandler.getCloudProfile(player).getPrestigeLevel(),
+                                    MatchXpManager.snapshotClassExp(dataHandler.getCloudProfile(player))
+                                )
+                            );
+                            MercFrontCore.LOGGER.info(
+                                "Awarded {} BF XP to {} for game {} ({} -> {})",
+                                xpAward.gainedXp(),
+                                player.getNameForScoreboard(),
+                                game.getUUID(),
+                                xpAward.beforeXp(),
+                                xpAward.afterXp()
+                            );
+                        }
+                    }
+                }
+
                 boolean victory = false;
                 if (winningTeam.team != null && winningTeam.team.getPlayers().contains(playerUuid)) {
                     victory = true;
@@ -449,7 +535,108 @@ public final class MercFrontCoreServerEvents {
                 WinnerSkinDropManager.maybeAwardWinnerSkin(game, manager, playerUuid, victory);
             }
         } catch (Throwable t) {
-            MercFrontCore.LOGGER.warn("Failed winner reward status-transition processing for game {}", game.getUUID(), t);
+            MercFrontCore.LOGGER.warn("Failed post-game transition processing for game {}", game.getUUID(), t);
+        }
+    }
+
+    private static void enforceLockedLoadouts(net.minecraft.server.MinecraftServer server) {
+        BFServerManager manager = getServerManager();
+        if (manager == null || !(manager.getPlayerDataHandler() instanceof ServerPlayerDataHandler dataHandler)) {
+            LAST_ENFORCED_LOADOUT_LOCK.clear();
+            return;
+        }
+
+        Set<UUID> seenPlayers = ConcurrentHashMap.newKeySet();
+        for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+            if (player == null || player.isDisconnected() || player.isCreative()) {
+                continue;
+            }
+
+            AbstractGame<?, ?, ?> game = manager.getGameWithPlayer(player.getUuid());
+            if (game == null) {
+                LAST_ENFORCED_LOADOUT_LOCK.remove(player.getUuid());
+                continue;
+            }
+            if (game.getStatus() != GameStatus.PRE_GAME && game.getStatus() != GameStatus.GAME) {
+                LAST_ENFORCED_LOADOUT_LOCK.remove(player.getUuid());
+                continue;
+            }
+
+            GameTeam team = game.getPlayerManager().getPlayerTeam(player.getUuid());
+            if (team == null) {
+                LAST_ENFORCED_LOADOUT_LOCK.remove(player.getUuid());
+                continue;
+            }
+
+            int classOrdinal = game.getPlayerStatData(player.getUuid()).getInteger(BFStats.CLASS.getKey(), -1);
+            int classLevel = game.getPlayerStatData(player.getUuid()).getInteger(BFStats.CLASS_INDEX.getKey(), -1);
+            if (classOrdinal < 0 || classLevel < 0 || classOrdinal >= MatchClass.values().length) {
+                LAST_ENFORCED_LOADOUT_LOCK.remove(player.getUuid());
+                continue;
+            }
+
+            MatchClass matchClass = MatchClass.values()[classOrdinal];
+            Loadout loadout = team.getDivisionData(game).getLoadout(matchClass, classLevel);
+            int minimumXp = LoadoutXpCompat.resolveMinimumXp(game, team, matchClass, classLevel, loadout);
+            if (minimumXp <= 0) {
+                LAST_ENFORCED_LOADOUT_LOCK.remove(player.getUuid());
+                continue;
+            }
+
+            PlayerCloudData profile = dataHandler.getCloudProfile(player);
+            int classXp = LoadoutXpCompat.getEffectiveXp(profile, matchClass);
+            if (classXp >= minimumXp) {
+                LAST_ENFORCED_LOADOUT_LOCK.remove(player.getUuid());
+                continue;
+            }
+
+            seenPlayers.add(player.getUuid());
+            String stateKey = matchClass + ":" + classLevel + ":" + minimumXp + ":" + classXp;
+            if (!stateKey.equals(LAST_ENFORCED_LOADOUT_LOCK.put(player.getUuid(), stateKey))) {
+                MercFrontCore.LOGGER.info(
+                    "Tick-enforced locked loadout for {} class={} level={} minimumXp={} classXp={}",
+                    player.getNameForScoreboard(),
+                    matchClass,
+                    classLevel,
+                    minimumXp,
+                    classXp
+                );
+                BFUtils.sendNoticeMessage(player, LoadoutXpCompat.createMinimumXpMessage(minimumXp, classXp));
+            }
+
+            game.getPlayerStatData(player.getUuid()).setInteger(BFStats.CLASS.getKey(), -1);
+            game.getPlayerStatData(player.getUuid()).setInteger(BFStats.CLASS_INDEX.getKey(), -1);
+            game.getPlayerStatData(player.getUuid()).setInteger(BFStats.CLASS_ALIVE.getKey(), -1);
+            player.getInventory().clear();
+            player.currentScreenHandler.sendContentUpdates();
+            player.playerScreenHandler.sendContentUpdates();
+        }
+
+        LAST_ENFORCED_LOADOUT_LOCK.keySet().removeIf(uuid -> !seenPlayers.contains(uuid) && server.getPlayerManager().getPlayer(uuid) == null);
+    }
+
+    private static void saveOnlinePlayerXp(net.minecraft.server.MinecraftServer server) {
+        BFServerManager manager = getServerManager();
+        if (manager == null || !(manager.getPlayerDataHandler() instanceof ServerPlayerDataHandler dataHandler)) {
+            return;
+        }
+        for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+            if (AddonCommonData.getInstance().getProfileOverrides().containsKey(player.getUuid())) {
+                continue;
+            }
+            var profile = dataHandler.getCloudProfile(player);
+            PlayerXpStore.getInstance().save(
+                server,
+                player.getUuid(),
+                player.getNameForScoreboard(),
+                new PlayerXpStore.PlayerXpData(
+                    profile.getExp(),
+                    profile.getPrestigeLevel(),
+                    MatchXpManager.snapshotClassExp(profile),
+                    player.getNameForScoreboard(),
+                    java.util.List.of()
+                )
+            );
         }
     }
 

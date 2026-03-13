@@ -2,6 +2,7 @@ package dev.tomerdev.mercfrontcore.client.data;
 
 import java.util.List;
 import java.util.Map;
+import java.util.EnumMap;
 
 import com.boehmod.blockfront.common.match.BFCountry;
 import com.boehmod.blockfront.common.match.Loadout;
@@ -18,7 +19,9 @@ import org.jetbrains.annotations.Nullable;
 
 import dev.tomerdev.mercfrontcore.AddonConstants;
 import dev.tomerdev.mercfrontcore.data.GunModifier;
+import dev.tomerdev.mercfrontcore.data.LeaderboardPeriod;
 import dev.tomerdev.mercfrontcore.net.packet.GunExtraOptionsPacket;
+import dev.tomerdev.mercfrontcore.net.packet.LeaderboardResponsePacket;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
 import dev.tomerdev.mercfrontcore.setup.GunModifierIndex;
@@ -31,6 +34,8 @@ public final class AddonClientData {
 	public Map<RegistryEntry<Item>, GunModifier> tempGunModifiers;
 	public Map<Identifier, GunExtraOptionsPacket.GunOptions> gunExtraOptions = new Object2ObjectOpenHashMap<>();
 	public Map<Identifier, PlayerGunSkinStatePacket.GunSkinState> ownedGunSkins = new Object2ObjectOpenHashMap<>();
+	public Map<LeaderboardPeriod, List<LeaderboardResponsePacket.Entry>> leaderboards = new EnumMap<>(LeaderboardPeriod.class);
+	public LeaderboardPeriod leaderboardLoading = null;
 	
 	public @Nullable List<FDSPose> spawnView = null;
 	public @Nullable String editingMapName = null;
@@ -54,7 +59,7 @@ public final class AddonClientData {
 		LoadoutIndex.init();
 		tempLoadouts = LoadoutIndex.currentFlat();
 		GunModifierIndex.init();
-		tempGunModifiers = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>(GunModifierIndex.DEFAULT);
+		tempGunModifiers = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
 	}
 	
 	public void resetLoadouts() {
@@ -130,5 +135,25 @@ public final class AddonClientData {
 
     public void setOwnedGunSkins(Map<Identifier, PlayerGunSkinStatePacket.GunSkinState> skins) {
         ownedGunSkins = new Object2ObjectOpenHashMap<>(skins);
+    }
+
+    public List<LeaderboardResponsePacket.Entry> getLeaderboard(LeaderboardPeriod period) {
+        return leaderboards.getOrDefault(period, List.of());
+    }
+
+    public void markLeaderboardLoading(LeaderboardPeriod period) {
+        leaderboardLoading = period;
+    }
+
+    public boolean isLeaderboardLoading(LeaderboardPeriod period) {
+        return leaderboardLoading == period;
+    }
+
+    public void setLeaderboard(String periodId, List<LeaderboardResponsePacket.Entry> entries) {
+        LeaderboardPeriod period = LeaderboardPeriod.fromId(periodId);
+        leaderboards.put(period, List.copyOf(entries));
+        if (leaderboardLoading == period) {
+            leaderboardLoading = null;
+        }
     }
 }

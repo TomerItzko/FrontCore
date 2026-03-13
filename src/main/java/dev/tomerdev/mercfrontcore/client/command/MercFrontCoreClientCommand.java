@@ -18,9 +18,11 @@ import net.minecraft.util.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 import dev.tomerdev.mercfrontcore.client.data.AddonClientData;
 import dev.tomerdev.mercfrontcore.client.screen.GunModifierEditorScreen;
+import dev.tomerdev.mercfrontcore.client.screen.LeaderboardScreen;
 import dev.tomerdev.mercfrontcore.client.screen.LoadoutEditorScreen;
 import dev.tomerdev.mercfrontcore.client.screen.OwnedGunSkinsScreen;
 import dev.tomerdev.mercfrontcore.client.screen.WeaponExtraScreen;
+import dev.tomerdev.mercfrontcore.data.LeaderboardPeriod;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.GunModifiersPacket;
 import dev.tomerdev.mercfrontcore.setup.GunSkinIndex;
@@ -68,6 +70,13 @@ public final class MercFrontCoreClientCommand {
             ).then(
                 literal("sync").executes(MercFrontCoreClientCommand::loadoutSync)
             )
+        );
+        root.then(
+            literal("leaderboard")
+                .executes(context -> openLeaderboard(context, LeaderboardPeriod.ALL_TIME))
+                .then(literal("weekly").executes(context -> openLeaderboard(context, LeaderboardPeriod.WEEKLY)))
+                .then(literal("monthly").executes(context -> openLeaderboard(context, LeaderboardPeriod.MONTHLY)))
+                .then(literal("all").executes(context -> openLeaderboard(context, LeaderboardPeriod.ALL_TIME)))
         );
         root.then(
             literal("admin").requires(source -> source.hasPermissionLevel(2))
@@ -150,7 +159,14 @@ public final class MercFrontCoreClientCommand {
     }
 
     private static int gunModifierSync(CommandContext<ServerCommandSource> context) {
-        PacketDistributor.sendToServer(new GunModifiersPacket(AddonClientData.getInstance().tempGunModifiers, false));
+        java.util.Map<net.minecraft.registry.entry.RegistryEntry<Item>, dev.tomerdev.mercfrontcore.data.GunModifier> overrides =
+            new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+        AddonClientData.getInstance().tempGunModifiers.forEach((item, modifier) -> {
+            if (modifier != null && modifier.hasData()) {
+                overrides.put(item, modifier);
+            }
+        });
+        PacketDistributor.sendToServer(new GunModifiersPacket(overrides, false));
         context.getSource().sendMessage(Text.translatable("mercfrontcore.message.command.gun.modifier.sync.success"));
         return 1;
     }
@@ -158,6 +174,12 @@ public final class MercFrontCoreClientCommand {
     public static int openOwnedGunSkins(CommandContext<ServerCommandSource> context) {
         MinecraftClient client = MinecraftClient.getInstance();
         client.setScreen(new OwnedGunSkinsScreen(client.currentScreen));
+        return 1;
+    }
+
+    private static int openLeaderboard(CommandContext<ServerCommandSource> context, LeaderboardPeriod period) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        client.setScreen(new LeaderboardScreen(client.currentScreen, period));
         return 1;
     }
 

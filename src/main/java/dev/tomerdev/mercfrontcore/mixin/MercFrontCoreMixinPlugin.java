@@ -1,5 +1,4 @@
 package dev.tomerdev.mercfrontcore.mixin;
-
 import java.util.List;
 import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
@@ -73,9 +72,44 @@ public final class MercFrontCoreMixinPlugin implements IMixinConfigPlugin {
                 "com.boehmod.blockfront.game.AbstractGame"
             );
         }
+        if (mixinClassName.endsWith(".AbstractGameClassChangeGuardMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.game.AbstractGame"
+            );
+        }
+        if (mixinClassName.endsWith(".AbstractGamePlayerManagerLoadoutXpMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.game.AbstractGamePlayerManager"
+            );
+        }
+        if (mixinClassName.endsWith(".AbstractGamePlayerManagerAccessor")) {
+            return hasAll(
+                "com.boehmod.blockfront.game.AbstractGamePlayerManager"
+            );
+        }
+        if (mixinClassName.endsWith(".BFGameChangeClassRequestPacketMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.common.net.packet.BFGameChangeClassRequestPacket"
+            );
+        }
         if (mixinClassName.endsWith(".BFUtilsLoadoutSkinMixin")) {
             return hasAll(
                 "com.boehmod.blockfront.util.BFUtils"
+            );
+        }
+        if (mixinClassName.endsWith(".client.AbstractMatchSelectClassScreenLoadoutXpMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.client.screen.match.AbstractMatchSelectClassScreen"
+            );
+        }
+        if (mixinClassName.endsWith(".client.BF197LoadoutXpMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.unnamed.BF_197"
+            );
+        }
+        if (mixinClassName.endsWith(".client.MatchSelectClassScreenLoadoutLockMixin")) {
+            return hasAll(
+                "com.boehmod.blockfront.client.screen.match.MatchSelectClassScreen"
             );
         }
         if (mixinClassName.endsWith(".PacketListenerPlayerActionMixin")) {
