@@ -12,7 +12,7 @@ base {
 val bfVersion = "0.7.1.2b"
 val frontcoreMajor = 1
 val frontcoreUpdate = 0
-val frontcoreFix = 9
+val frontcoreFix = 10
 version = "$frontcoreMajor.$frontcoreUpdate.$frontcoreFix-$bfVersion"
 
 val bfNamedJar = file("bf/$bfVersion-named.jar")

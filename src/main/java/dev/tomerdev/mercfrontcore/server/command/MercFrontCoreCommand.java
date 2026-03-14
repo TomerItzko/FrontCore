@@ -4,6 +4,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
 import com.boehmod.blockfront.BlockFront;
+import com.boehmod.blockfront.assets.impl.GameAsset;
 import com.boehmod.blockfront.common.BFAbstractManager;
 import com.boehmod.blockfront.game.AbstractGame;
 import com.boehmod.blockfront.game.BFGameType;
@@ -43,6 +44,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 import dev.tomerdev.mercfrontcore.AddonConstants;
+import dev.tomerdev.mercfrontcore.MercFrontCore;
 import dev.tomerdev.mercfrontcore.config.MercFrontCoreConfig;
 import dev.tomerdev.mercfrontcore.config.MercFrontCoreConfigManager;
 import dev.tomerdev.mercfrontcore.data.AddonCommonData;
@@ -64,6 +66,7 @@ public final class MercFrontCoreCommand {
     private static final List<String> LOBBY_MODE_ORDER = List.of("ffa", "tdm", "dom", "conq", "inf", "gg", "ttt", "boot");
     private static final Map<String, Integer> LOBBY_MODE_INDEX = new HashMap<>();
     private static final Map<String, Integer> LOBBY_MAP_INDEX = new HashMap<>();
+    private static final String LOBBY_ANY_KEY = "__any__";
 
     private MercFrontCoreCommand() {
     }
@@ -372,14 +375,14 @@ public final class MercFrontCoreCommand {
 
         List<Object> candidateGames = findJoinableGames(source, manager, modeKey);
         if (candidateGames.isEmpty()) {
-            Object fallbackGame = selectLobbyFallbackGame(manager, modeKey);
-            if (fallbackGame != null) {
-                candidateGames = List.of(fallbackGame);
+            List<Object> fallbackGames = selectLobbyFallbackGames(source, manager, modeKey);
+            if (!fallbackGames.isEmpty()) {
+                candidateGames = fallbackGames;
             } else {
                 source.sendError(Text.literal(
                     modeKey == null
-                        ? "No active or idle BlockFront game is available right now."
-                        : "No active or idle " + modeKey + " game is available right now."
+                        ? "No active or reusable configured BlockFront game is available right now."
+                        : "No active or reusable configured " + modeKey + " game is available right now."
                 ));
                 return 0;
             }
@@ -387,9 +390,21 @@ public final class MercFrontCoreCommand {
 
         Object joinedGame = null;
         for (Object candidateGame : candidateGames) {
-            if (assignPlayerToScheduledMatch(manager, player, candidateGame) || assignPlayerToGame(source, manager, player, candidateGame)) {
-                joinedGame = candidateGame;
-                break;
+            try {
+                prepareConfiguredFallbackGame(source, candidateGame);
+                if (assignPlayerToScheduledMatch(manager, player, candidateGame) || assignPlayerToGame(source, manager, player, candidateGame)) {
+                    joinedGame = candidateGame;
+                    break;
+                }
+            } catch (Throwable t) {
+                MercFrontCore.LOGGER.warn(
+                    "Lobby fallback candidate failed: mode={}, type={}, name={}, map={}",
+                    resolveGameModeKey(candidateGame),
+                    getGameType(candidateGame),
+                    getGameName(candidateGame),
+                    candidateGame instanceof AbstractGame<?, ?, ?> bfGame && bfGame.getMap() != null ? bfGame.getMap().getName() : "-",
+                    t
+                );
             }
         }
         if (joinedGame == null) {
@@ -409,23 +424,23 @@ public final class MercFrontCoreCommand {
         return new ArrayList<>(findRankedJoinableGames(source, manager, modeKey).values().stream().map(RankedGame::game).toList());
     }
 
-    private static Object selectLobbyFallbackGame(Object manager, String modeKey) {
+    private static List<Object> selectLobbyFallbackGames(ServerCommandSource source, Object manager, String modeKey) {
         if (!(manager instanceof BFAbstractManager<?, ?, ?> bfManager)) {
-            return null;
+            return List.of();
         }
 
         if (modeKey != null) {
-            List<AbstractGame<?, ?, ?>> games = getSortedAvailableGamesForMode(bfManager, modeKey);
+            List<AbstractGame<?, ?, ?>> games = getSortedConfiguredReusableGamesForMode(source, bfManager, modeKey);
             if (games.isEmpty()) {
-                return null;
+                return List.of();
             }
-            return games.get(nextIndex(LOBBY_MAP_INDEX, modeKey, games.size()));
+            return rotateGames(games, nextIndex(LOBBY_MAP_INDEX, modeKey, games.size()));
         }
 
         List<String> availableModes = new ArrayList<>();
         Map<String, List<AbstractGame<?, ?, ?>>> gamesByMode = new HashMap<>();
         for (String candidateMode : LOBBY_MODE_ORDER) {
-            List<AbstractGame<?, ?, ?>> games = getSortedAvailableGamesForMode(bfManager, candidateMode);
+            List<AbstractGame<?, ?, ?>> games = getSortedConfiguredReusableGamesForMode(source, bfManager, candidateMode);
             if (games.isEmpty()) {
                 continue;
             }
@@ -433,12 +448,103 @@ public final class MercFrontCoreCommand {
             gamesByMode.put(candidateMode, games);
         }
         if (availableModes.isEmpty()) {
-            return null;
+            return List.of();
         }
 
         String mode = availableModes.get(nextIndex(LOBBY_MODE_INDEX, "random", availableModes.size()));
-        List<AbstractGame<?, ?, ?>> games = gamesByMode.get(mode);
-        return games.get(nextIndex(LOBBY_MAP_INDEX, mode, games.size()));
+        List<AbstractGame<?, ?, ?>> games = gamesByMode.getOrDefault(mode, List.of());
+        if (games.isEmpty()) {
+            return List.of();
+        }
+        return rotateGames(games, nextIndex(LOBBY_MAP_INDEX, mode, games.size()));
+    }
+
+    private static List<Object> rotateGames(List<AbstractGame<?, ?, ?>> games, int startIndex) {
+        if (games.isEmpty()) {
+            return List.of();
+        }
+        List<Object> ordered = new ArrayList<>(games.size());
+        for (int i = 0; i < games.size(); i++) {
+            ordered.add(games.get((startIndex + i) % games.size()));
+        }
+        return ordered;
+    }
+
+    private static List<AbstractGame<?, ?, ?>> getSortedConfiguredReusableGamesForMode(
+        ServerCommandSource source,
+        BFAbstractManager<?, ?, ?> manager,
+        String modeKey
+    ) {
+        String requestedMode = resolveGameModeKey(modeKey);
+        if (requestedMode == null) {
+            return List.of();
+        }
+        List<AbstractGame<?, ?, ?>> games = new ArrayList<>();
+        Object gamesMap = manager.getGames();
+        if (!(gamesMap instanceof Map<?, ?> entries)) {
+            return games;
+        }
+        for (Object asset : entries.values()) {
+            Object game = extractConfiguredGame(asset);
+            if (!(game instanceof AbstractGame<?, ?, ?> bfGame)) {
+                continue;
+            }
+            String resolvedMode = resolveGameModeKey(bfGame);
+            if (resolvedMode == null || !resolvedMode.equalsIgnoreCase(requestedMode)) {
+                continue;
+            }
+            String status = getGameStatusText(bfGame);
+            int onlinePlayerCount = getOnlineAssignedPlayerCount(source, manager, bfGame);
+            if (!"IDLE".equalsIgnoreCase(status) && onlinePlayerCount > 0) {
+                continue;
+            }
+            games.add(bfGame);
+        }
+        games.sort(
+            Comparator.comparing((AbstractGame<?, ?, ?> game) -> safeString(game.getMap() == null ? null : game.getMap().getName()))
+                .thenComparing(game -> safeString(game.getName()))
+                .thenComparing(game -> safeString(game.getUUID() == null ? null : game.getUUID().toString()))
+        );
+        return games;
+    }
+
+    private static int getOnlineAssignedPlayerCount(
+        ServerCommandSource source,
+        BFAbstractManager<?, ?, ?> manager,
+        AbstractGame<?, ?, ?> game
+    ) {
+        int count = 0;
+        for (ServerPlayerEntity online : source.getServer().getPlayerManager().getPlayerList()) {
+            Object assigned = invokeGameWithPlayer(manager, online.getUuid());
+            if (assigned == game) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static void prepareConfiguredFallbackGame(ServerCommandSource source, Object game) {
+        if (!(game instanceof AbstractGame<?, ?, ?> bfGame)) {
+            return;
+        }
+        if (getGamePlayerCount(bfGame) > 0) {
+            return;
+        }
+        if ("IDLE".equalsIgnoreCase(getGameStatusText(bfGame))) {
+            return;
+        }
+        try {
+            bfGame.reset(source.getWorld());
+            bfGame.setStatus(com.boehmod.blockfront.game.GameStatus.IDLE);
+        } catch (Throwable t) {
+            MercFrontCore.LOGGER.warn(
+                "Failed to prepare configured fallback game: type={}, name={}, map={}",
+                getGameType(bfGame),
+                getGameName(bfGame),
+                bfGame.getMap() != null ? bfGame.getMap().getName() : "-",
+                t
+            );
+        }
     }
 
     private static List<AbstractGame<?, ?, ?>> getSortedAvailableGamesForMode(BFAbstractManager<?, ?, ?> manager, String modeKey) {
@@ -447,11 +553,45 @@ public final class MercFrontCoreCommand {
             return List.of();
         }
         List<AbstractGame<?, ?, ?>> games = new ArrayList<>(manager.getAvailableGames(type, null));
+        if (games.isEmpty()) {
+            games.addAll(getSortedFallbackGamesForMode(manager, modeKey));
+        }
         games.sort(
             Comparator.comparing((AbstractGame<?, ?, ?> game) -> safeString(game.getMap() == null ? null : game.getMap().getName()))
                 .thenComparing(game -> safeString(game.getName()))
                 .thenComparing(game -> safeString(game.getUUID() == null ? null : game.getUUID().toString()))
         );
+        return games;
+    }
+
+    private static List<AbstractGame<?, ?, ?>> getSortedFallbackGamesForMode(BFAbstractManager<?, ?, ?> manager, String modeKey) {
+        List<AbstractGame<?, ?, ?>> games = new ArrayList<>();
+        BFGameType requestedType = resolveBfGameType(modeKey);
+        String requestedName = requestedType == null ? null : requestedType.getName();
+        Object gamesMap = manager.getGames();
+        if (!(gamesMap instanceof Map<?, ?> entries)) {
+            return games;
+        }
+        for (Object asset : entries.values()) {
+            Object game = invokeNoArg(asset, "getGame");
+            if (!(game instanceof AbstractGame<?, ?, ?> bfGame)) {
+                continue;
+            }
+            if (modeKey == null) {
+                games.add(bfGame);
+                continue;
+            }
+            String gameType = getGameType(bfGame);
+            if (requestedName != null && gameType != null && gameType.equalsIgnoreCase(requestedName)) {
+                games.add(bfGame);
+                continue;
+            }
+            String gameMode = resolveGameModeKey(gameType);
+            if (gameMode == null || !gameMode.equalsIgnoreCase(modeKey)) {
+                continue;
+            }
+            games.add(bfGame);
+        }
         return games;
     }
 
@@ -485,7 +625,7 @@ public final class MercFrontCoreCommand {
         }
         if (gamesObj instanceof Map<?, ?> games) {
             for (Object gameAsset : games.values()) {
-                Object game = invokeNoArg(gameAsset, "getGame");
+                Object game = extractConfiguredGame(gameAsset);
                 addDiscoveredGame(discoveredGames, game, "listed");
             }
         }
@@ -569,23 +709,89 @@ public final class MercFrontCoreCommand {
         );
         if (rankedGames.isEmpty()) {
             source.sendFeedback(() -> Text.literal("No candidate games were discovered."), false);
-            return 1;
+        } else {
+            for (RankedGame ranked : rankedGames.values()) {
+                Object game = ranked.game();
+                source.sendFeedback(
+                    () -> Text.literal(
+                        "[" + ranked.source() + "] priority=" + ranked.priority()
+                            + ", mode=" + valueOrDash(resolveGameModeKey(game))
+                            + ", status=" + valueOrDash(getGameStatusText(game))
+                            + ", players=" + getGamePlayerCount(game)
+                            + ", name=" + valueOrDash(getGameName(game))
+                            + ", type=" + valueOrDash(getGameType(game))
+                            + ", uuid=" + valueOrDash(String.valueOf(extractGameUuid(game)))
+                    ),
+                    false
+                );
+            }
         }
 
-        for (RankedGame ranked : rankedGames.values()) {
-            Object game = ranked.game();
+        List<AbstractGame<?, ?, ?>> reusableGames =
+            manager instanceof BFAbstractManager<?, ?, ?> bfManager
+                ? getSortedConfiguredReusableGamesForMode(source, bfManager, modeKey)
+                : List.of();
+
+        source.sendFeedback(
+            () -> Text.literal(
+                "Configured reusable games: " + reusableGames.size()
+            ),
+            false
+        );
+        for (AbstractGame<?, ?, ?> game : reusableGames) {
             source.sendFeedback(
                 () -> Text.literal(
-                    "[" + ranked.source() + "] priority=" + ranked.priority()
-                        + ", mode=" + valueOrDash(resolveGameModeKey(game))
+                    "[reusable] mode=" + valueOrDash(resolveGameModeKey(game))
                         + ", status=" + valueOrDash(getGameStatusText(game))
                         + ", players=" + getGamePlayerCount(game)
+                        + ", onlinePlayers=" + (manager instanceof BFAbstractManager<?, ?, ?> bfManager ? getOnlineAssignedPlayerCount(source, bfManager, game) : 0)
                         + ", name=" + valueOrDash(getGameName(game))
                         + ", type=" + valueOrDash(getGameType(game))
                         + ", uuid=" + valueOrDash(String.valueOf(extractGameUuid(game)))
                 ),
                 false
             );
+        }
+
+        Object gamesMap = manager instanceof BFAbstractManager<?, ?, ?> bfManager ? bfManager.getGames() : getGamesMap();
+        int configuredCount = 0;
+        if (gamesMap instanceof Map<?, ?> entries) {
+            configuredCount = entries.size();
+            source.sendFeedback(() -> Text.literal("Configured BF game assets: " + entries.size()), false);
+            for (Map.Entry<?, ?> entry : entries.entrySet()) {
+                Object asset = entry.getValue();
+                Object rawGame = extractConfiguredGame(asset);
+                if (!(rawGame instanceof AbstractGame<?, ?, ?> game)) {
+                    source.sendFeedback(
+                        () -> Text.literal(
+                            "[asset] key=" + valueOrDash(String.valueOf(entry.getKey()))
+                                + ", assetClass=" + valueOrDash(asset == null ? null : asset.getClass().getName())
+                                + ", game=-"
+                        ),
+                        false
+                    );
+                    continue;
+                }
+                int onlinePlayers = manager instanceof BFAbstractManager<?, ?, ?> bfManager2
+                    ? getOnlineAssignedPlayerCount(source, bfManager2, game)
+                    : 0;
+                source.sendFeedback(
+                    () -> Text.literal(
+                        "[asset] key=" + valueOrDash(String.valueOf(entry.getKey()))
+                            + ", mode=" + valueOrDash(resolveGameModeKey(game))
+                            + ", status=" + valueOrDash(getGameStatusText(game))
+                            + ", players=" + getGamePlayerCount(game)
+                            + ", onlinePlayers=" + onlinePlayers
+                            + ", name=" + valueOrDash(getGameName(game))
+                            + ", type=" + valueOrDash(getGameType(game))
+                    ),
+                    false
+                );
+            }
+        }
+
+        if (configuredCount == 0) {
+            source.sendFeedback(() -> Text.literal("Configured BF game assets: 0"), false);
         }
         return 1;
     }
@@ -713,6 +919,13 @@ public final class MercFrontCoreCommand {
     }
 
     private static String resolveGameModeKey(Object game) {
+        if (game instanceof AbstractGame<?, ?, ?> bfGame) {
+            for (BFGameType type : BFGameType.values()) {
+                if (type.getGameClass().isInstance(bfGame)) {
+                    return type.getName();
+                }
+            }
+        }
         String resolved = resolveGameModeKey(getGameType(game));
         if (resolved != null) {
             return resolved;
@@ -989,6 +1202,13 @@ public final class MercFrontCoreCommand {
             return bfGame.getType();
         }
         return asString(invokeNoArg(game, "getType"), null);
+    }
+
+    private static Object extractConfiguredGame(Object asset) {
+        if (asset instanceof GameAsset gameAsset) {
+            return gameAsset.getGame();
+        }
+        return invokeNoArg(asset, "getGame");
     }
 
     private record RankedGame(Object game, int priority, String source) {

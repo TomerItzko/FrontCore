@@ -114,7 +114,7 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 - Version format is:
 `<frontcore>-<BF>`
 - Example:
-`1.0.9-0.7.1.2b`
+`1.0.10-0.7.1.2b`
 
 ## 8) Requirements
 

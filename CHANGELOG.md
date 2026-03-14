@@ -4,6 +4,11 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [1.0.10-0.7.1.2b] - 2026-03-14
+
+### Fixed
+- `/fc lobby` fallback no longer requires BlockFront games to be marked in rotation when selecting a new match, so servers with valid non-rotation game assets can still open and join a fallback match.
+
 ## [1.0.9-0.7.1.2b] - 2026-03-14
 
 ### Added
