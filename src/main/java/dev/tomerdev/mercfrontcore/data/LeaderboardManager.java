@@ -1,5 +1,6 @@
 package dev.tomerdev.mercfrontcore.data;
 
+import com.boehmod.bflib.cloud.common.player.PlayerRank;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,7 +30,8 @@ public final class LeaderboardManager {
             String username = stored.data().username() == null || stored.data().username().isBlank()
                 ? stored.uuid().toString()
                 : stored.data().username();
-            entries.add(new LeaderboardResponsePacket.Entry(username, stored.uuid(), value));
+            PlayerRank rank = PlayerRank.getRankFromEXP(stored.data().exp());
+            entries.add(new LeaderboardResponsePacket.Entry(username, stored.uuid(), value, rank.getTexture()));
         }
         entries.sort(
             Comparator.comparingInt(LeaderboardResponsePacket.Entry::xp).reversed()

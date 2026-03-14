@@ -34,6 +34,8 @@ import dev.tomerdev.mercfrontcore.client.render.AssetEditRenderer;
 import dev.tomerdev.mercfrontcore.client.render.RenderObject;
 import dev.tomerdev.mercfrontcore.client.render.SpawnViewRenderer;
 import dev.tomerdev.mercfrontcore.data.AddonCommonData;
+import dev.tomerdev.mercfrontcore.config.MercFrontCoreConfigManager;
+import dev.tomerdev.mercfrontcore.util.ClassRankCompat;
 
 @EventBusSubscriber(modid = AddonConstants.MOD_ID, value = Dist.CLIENT)
 public final class MercFrontCoreClientEvents {
@@ -104,6 +106,7 @@ public final class MercFrontCoreClientEvents {
         var client = net.minecraft.client.MinecraftClient.getInstance();
         InputTracker.getInstance().update(client.mouse);
         if (client.world == null) {
+            ClassRankCompat.applyConfiguredRanks(MercFrontCoreConfigManager.get());
             AddonCommonData.getInstance().getProfileOverrides().clear();
             dev.tomerdev.mercfrontcore.client.data.AddonClientData.getInstance().setOwnedGunSkins(java.util.Map.of());
         }

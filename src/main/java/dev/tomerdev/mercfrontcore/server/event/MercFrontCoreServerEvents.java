@@ -1,5 +1,8 @@
 package dev.tomerdev.mercfrontcore.server.event;
 
+import static net.minecraft.server.command.CommandManager.argument;
+import static net.minecraft.server.command.CommandManager.literal;
+
 import com.boehmod.blockfront.BlockFront;
 import com.boehmod.blockfront.common.BFAbstractManager;
 import com.boehmod.blockfront.common.entity.VendorEntity;
@@ -16,9 +19,17 @@ import com.boehmod.blockfront.server.BFServerManager;
 import com.boehmod.blockfront.server.player.BFServerPlayerData;
 import com.boehmod.blockfront.server.player.ServerPlayerDataHandler;
 import com.boehmod.blockfront.util.BFUtils;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.tree.ArgumentCommandNode;
+import com.mojang.brigadier.tree.CommandNode;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import java.lang.reflect.Field;
+import java.util.Locale;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.EntityTrackerEntry;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -44,10 +55,13 @@ import dev.tomerdev.mercfrontcore.net.packet.GunModifiersPacket;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
 import dev.tomerdev.mercfrontcore.net.packet.ProfileXpSyncPacket;
+import dev.tomerdev.mercfrontcore.net.packet.SetClassRanksPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.server.ProxyCompatibility;
+import dev.tomerdev.mercfrontcore.server.command.AssetCommandHelper;
 import dev.tomerdev.mercfrontcore.server.command.MercFrontCoreCommand;
 import dev.tomerdev.mercfrontcore.server.net.BfPacketRouter;
+import dev.tomerdev.mercfrontcore.util.ClassRankCompat;
 import dev.tomerdev.mercfrontcore.setup.GunExtraOptionsIndex;
 import dev.tomerdev.mercfrontcore.setup.GunModifierIndex;
 import dev.tomerdev.mercfrontcore.setup.LoadoutIndex;
@@ -59,6 +73,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class MercFrontCoreServerEvents {
+    private static final Field COMMAND_NODE_CHILDREN_FIELD = mercfrontcore$findCommandNodeField("children");
+    private static final Field COMMAND_NODE_LITERALS_FIELD = mercfrontcore$findCommandNodeField("literals");
+    private static final Field COMMAND_NODE_ARGUMENTS_FIELD = mercfrontcore$findCommandNodeField("arguments");
     private static final int VENDOR_SYNC_WINDOW_TICKS = 120;
     private static final int VENDOR_SYNC_ACTIVE_INTERVAL = 5;
     private static final int VENDOR_SYNC_MAINTENANCE_INTERVAL = 40;
@@ -132,6 +149,11 @@ public final class MercFrontCoreServerEvents {
         MercFrontCoreCommand.register(event.getDispatcher());
     }
 
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void onRegisterCommandsLowest(RegisterCommandsEvent event) {
+        mercfrontcore$replaceNativeAssetsEdit(event.getDispatcher().getRoot());
+    }
+
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayerEntity player)) {
@@ -175,6 +197,7 @@ public final class MercFrontCoreServerEvents {
 
         AddonCommonData.getInstance().refreshLiveProfile(player);
         PlayerGunSkinStore.getInstance().applyToPlayer(player);
+        PacketDistributor.sendToPlayer(player, SetClassRanksPacket.fromCurrentConfig());
         PacketDistributor.sendToPlayer(player, new SetProfileOverridesPacket(
             Map.copyOf(AddonCommonData.getInstance().getProfileOverrides())
         ));
@@ -182,15 +205,14 @@ public final class MercFrontCoreServerEvents {
         PacketDistributor.sendToPlayer(player, PlayerGunSkinStore.getInstance().toPacket(player.getUuid()));
         if (dataHandler != null) {
             var currentProfile = dataHandler.getCloudProfile(player);
-            PacketDistributor.sendToPlayer(
-                player,
-                new ProfileXpSyncPacket(
-                    player.getUuid(),
-                    currentProfile.getExp(),
-                    currentProfile.getPrestigeLevel(),
-                    MatchXpManager.snapshotClassExp(currentProfile)
-                )
-            );
+            syncProfileXpToPlayer(player, player.getUuid(), currentProfile);
+            for (ServerPlayerEntity online : player.getServer().getPlayerManager().getPlayerList()) {
+                if (online.getUuid().equals(player.getUuid())) {
+                    continue;
+                }
+                syncProfileXpToPlayer(player, online.getUuid(), dataHandler.getCloudProfile(online));
+                syncProfileXpToPlayer(online, player.getUuid(), currentProfile);
+            }
         }
         GunExtraOptionsIndex.rebuild();
         var gunOptions = GunExtraOptionsIndex.snapshot();
@@ -505,15 +527,7 @@ public final class MercFrontCoreServerEvents {
                     if (player != null && !player.isDisconnected()) {
                         MatchXpManager.MatchXpAwardResult xpAward = MatchXpManager.awardMatchXp(game, dataHandler, player, winningTeam);
                         if (xpAward != null) {
-                            PacketDistributor.sendToPlayer(
-                                player,
-                                new ProfileXpSyncPacket(
-                                    playerUuid,
-                                    xpAward.afterXp(),
-                                    dataHandler.getCloudProfile(player).getPrestigeLevel(),
-                                    MatchXpManager.snapshotClassExp(dataHandler.getCloudProfile(player))
-                                )
-                            );
+                            syncProfileXpToAllPlayers(playerUuid, dataHandler.getCloudProfile(player));
                             MercFrontCore.LOGGER.info(
                                 "Awarded {} BF XP to {} for game {} ({} -> {})",
                                 xpAward.gainedXp(),
@@ -577,13 +591,41 @@ public final class MercFrontCoreServerEvents {
 
             MatchClass matchClass = MatchClass.values()[classOrdinal];
             Loadout loadout = team.getDivisionData(game).getLoadout(matchClass, classLevel);
+            PlayerCloudData profile = dataHandler.getCloudProfile(player);
+            if (!ClassRankCompat.canUseClass(profile, matchClass)) {
+                seenPlayers.add(player.getUuid());
+                String stateKey = "rank:" + matchClass + ":" + ClassRankCompat.getRequiredRank(matchClass).getID() + ":" + profile.getRank().getID();
+                if (!stateKey.equals(LAST_ENFORCED_LOADOUT_LOCK.put(player.getUuid(), stateKey))) {
+                    MercFrontCore.LOGGER.info(
+                        "Tick-enforced locked class for {} class={} requiredRank={} currentRank={}",
+                        player.getNameForScoreboard(),
+                        matchClass,
+                        ClassRankCompat.describeRank(ClassRankCompat.getRequiredRank(matchClass)),
+                        ClassRankCompat.describeRank(profile.getRank())
+                    );
+                    BFUtils.sendNoticeMessage(
+                        player,
+                        net.minecraft.text.Text.translatable(
+                            "bf.message.gamemode.class.error.rank",
+                            net.minecraft.text.Text.literal(ClassRankCompat.getRequiredRank(matchClass).getTitle()).formatted(net.minecraft.util.Formatting.GRAY)
+                        ).formatted(net.minecraft.util.Formatting.RED)
+                    );
+                }
+
+                game.getPlayerStatData(player.getUuid()).setInteger(BFStats.CLASS.getKey(), -1);
+                game.getPlayerStatData(player.getUuid()).setInteger(BFStats.CLASS_INDEX.getKey(), -1);
+                game.getPlayerStatData(player.getUuid()).setInteger(BFStats.CLASS_ALIVE.getKey(), -1);
+                player.getInventory().clear();
+                player.currentScreenHandler.sendContentUpdates();
+                player.playerScreenHandler.sendContentUpdates();
+                continue;
+            }
             int minimumXp = LoadoutXpCompat.resolveMinimumXp(game, team, matchClass, classLevel, loadout);
             if (minimumXp <= 0) {
                 LAST_ENFORCED_LOADOUT_LOCK.remove(player.getUuid());
                 continue;
             }
 
-            PlayerCloudData profile = dataHandler.getCloudProfile(player);
             int classXp = LoadoutXpCompat.getEffectiveXp(profile, matchClass);
             if (classXp >= minimumXp) {
                 LAST_ENFORCED_LOADOUT_LOCK.remove(player.getUuid());
@@ -615,6 +657,23 @@ public final class MercFrontCoreServerEvents {
         LAST_ENFORCED_LOADOUT_LOCK.keySet().removeIf(uuid -> !seenPlayers.contains(uuid) && server.getPlayerManager().getPlayer(uuid) == null);
     }
 
+    private static void syncProfileXpToAllPlayers(UUID playerUuid, PlayerCloudData profile) {
+        PacketDistributor.sendToAllPlayers(createProfileXpSyncPacket(playerUuid, profile));
+    }
+
+    private static void syncProfileXpToPlayer(ServerPlayerEntity receiver, UUID playerUuid, PlayerCloudData profile) {
+        PacketDistributor.sendToPlayer(receiver, createProfileXpSyncPacket(playerUuid, profile));
+    }
+
+    private static ProfileXpSyncPacket createProfileXpSyncPacket(UUID playerUuid, PlayerCloudData profile) {
+        return new ProfileXpSyncPacket(
+            playerUuid,
+            profile.getExp(),
+            profile.getPrestigeLevel(),
+            MatchXpManager.snapshotClassExp(profile)
+        );
+    }
+
     private static void saveOnlinePlayerXp(net.minecraft.server.MinecraftServer server) {
         BFServerManager manager = getServerManager();
         if (manager == null || !(manager.getPlayerDataHandler() instanceof ServerPlayerDataHandler dataHandler)) {
@@ -637,6 +696,86 @@ public final class MercFrontCoreServerEvents {
                     java.util.List.of()
                 )
             );
+        }
+    }
+
+    private static void mercfrontcore$replaceNativeAssetsEdit(CommandNode<ServerCommandSource> root) {
+        CommandNode<ServerCommandSource> assetsNode = root.getChild("assets");
+        if (assetsNode == null) {
+            MercFrontCore.LOGGER.warn("Could not patch native /assets edit branch: /assets command was not found.");
+            return;
+        }
+
+        CommandNode<ServerCommandSource> editNode = assetsNode.getChild("edit");
+        if (editNode == null) {
+            MercFrontCore.LOGGER.warn("Could not patch native /assets edit branch: /assets edit was not found.");
+            return;
+        }
+
+        CommandNode<ServerCommandSource> assetTypeNode = editNode.getChild("assetType");
+        if (assetTypeNode == null) {
+            MercFrontCore.LOGGER.warn("Could not patch native /assets edit branch: assetType node was not found.");
+            return;
+        }
+
+        CommandNode<ServerCommandSource> assetNameNode = assetTypeNode.getChild("assetName");
+        if (assetNameNode == null) {
+            MercFrontCore.LOGGER.warn("Could not patch native /assets edit branch: assetName node was not found.");
+            return;
+        }
+
+        ArgumentCommandNode<ServerCommandSource, ?> replacement = argument("args", StringArgumentType.greedyString())
+            .suggests(AssetCommandHelper::suggestAssetArgs)
+            .executes(AssetCommandHelper::executeEdit)
+            .build();
+
+        if (!mercfrontcore$replaceChildNode(assetNameNode, "args", replacement)) {
+            MercFrontCore.LOGGER.warn("Failed to replace native /assets edit args branch.");
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static boolean mercfrontcore$replaceChildNode(
+        CommandNode<ServerCommandSource> parent,
+        String childName,
+        CommandNode<ServerCommandSource> replacement
+    ) {
+        if (COMMAND_NODE_CHILDREN_FIELD == null || COMMAND_NODE_LITERALS_FIELD == null || COMMAND_NODE_ARGUMENTS_FIELD == null) {
+            return false;
+        }
+
+        try {
+            java.util.Map<String, CommandNode<ServerCommandSource>> children =
+                (java.util.Map<String, CommandNode<ServerCommandSource>>) COMMAND_NODE_CHILDREN_FIELD.get(parent);
+            java.util.Map<String, LiteralCommandNode<ServerCommandSource>> literals =
+                (java.util.Map<String, LiteralCommandNode<ServerCommandSource>>) COMMAND_NODE_LITERALS_FIELD.get(parent);
+            java.util.Map<String, ArgumentCommandNode<ServerCommandSource, ?>> arguments =
+                (java.util.Map<String, ArgumentCommandNode<ServerCommandSource, ?>>) COMMAND_NODE_ARGUMENTS_FIELD.get(parent);
+
+            children.put(childName, replacement);
+            literals.remove(childName);
+            arguments.remove(childName);
+            if (replacement instanceof LiteralCommandNode<ServerCommandSource> literalNode) {
+                literals.put(childName, literalNode);
+            } else if (replacement instanceof ArgumentCommandNode<ServerCommandSource, ?> argumentNode) {
+                arguments.put(childName, argumentNode);
+            }
+            MercFrontCore.LOGGER.info("Replaced native /assets {} branch.", childName);
+            return true;
+        } catch (ReflectiveOperationException e) {
+            MercFrontCore.LOGGER.warn("Failed to replace child node '{}' on Brigadier tree.", childName, e);
+            return false;
+        }
+    }
+
+    private static Field mercfrontcore$findCommandNodeField(String name) {
+        try {
+            Field field = CommandNode.class.getDeclaredField(name);
+            field.setAccessible(true);
+            return field;
+        } catch (ReflectiveOperationException e) {
+            MercFrontCore.LOGGER.warn("Unable to access Brigadier CommandNode.{}", name.toLowerCase(Locale.ROOT), e);
+            return null;
         }
     }
 

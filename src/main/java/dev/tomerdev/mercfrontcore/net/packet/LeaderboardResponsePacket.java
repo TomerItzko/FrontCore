@@ -21,6 +21,8 @@ public record LeaderboardResponsePacket(String periodId, List<Entry> entries) im
         Entry::uuid,
         PacketCodecs.VAR_INT,
         Entry::xp,
+        PacketCodecs.STRING,
+        Entry::rankTexture,
         Entry::new
     );
     public static final PacketCodec<ByteBuf, LeaderboardResponsePacket> PACKET_CODEC = PacketCodec.tuple(
@@ -40,6 +42,6 @@ public record LeaderboardResponsePacket(String periodId, List<Entry> entries) im
         AddonClientData.getInstance().setLeaderboard(packet.periodId(), packet.entries());
     }
 
-    public record Entry(String username, UUID uuid, int xp) {
+    public record Entry(String username, UUID uuid, int xp, String rankTexture) {
     }
 }

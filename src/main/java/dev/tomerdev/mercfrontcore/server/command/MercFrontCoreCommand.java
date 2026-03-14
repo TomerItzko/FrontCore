@@ -20,6 +20,8 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -59,6 +61,10 @@ import dev.tomerdev.mercfrontcore.setup.GunExtraOptionsIndex;
 import dev.tomerdev.mercfrontcore.setup.GunSkinIndex;
 
 public final class MercFrontCoreCommand {
+    private static final List<String> LOBBY_MODE_ORDER = List.of("ffa", "tdm", "dom", "conq", "inf", "gg", "ttt", "boot");
+    private static final Map<String, Integer> LOBBY_MODE_INDEX = new HashMap<>();
+    private static final Map<String, Integer> LOBBY_MAP_INDEX = new HashMap<>();
+
     private MercFrontCoreCommand() {
     }
 
@@ -366,12 +372,17 @@ public final class MercFrontCoreCommand {
 
         List<Object> candidateGames = findJoinableGames(source, manager, modeKey);
         if (candidateGames.isEmpty()) {
-            source.sendError(Text.literal(
-                modeKey == null
-                    ? "No active joinable BlockFront game is available right now."
-                    : "No active joinable " + modeKey + " game is available right now."
-            ));
-            return 0;
+            Object fallbackGame = selectLobbyFallbackGame(manager, modeKey);
+            if (fallbackGame != null) {
+                candidateGames = List.of(fallbackGame);
+            } else {
+                source.sendError(Text.literal(
+                    modeKey == null
+                        ? "No active or idle BlockFront game is available right now."
+                        : "No active or idle " + modeKey + " game is available right now."
+                ));
+                return 0;
+            }
         }
 
         Object joinedGame = null;
@@ -396,6 +407,68 @@ public final class MercFrontCoreCommand {
 
     private static List<Object> findJoinableGames(ServerCommandSource source, Object manager, String modeKey) {
         return new ArrayList<>(findRankedJoinableGames(source, manager, modeKey).values().stream().map(RankedGame::game).toList());
+    }
+
+    private static Object selectLobbyFallbackGame(Object manager, String modeKey) {
+        if (!(manager instanceof BFAbstractManager<?, ?, ?> bfManager)) {
+            return null;
+        }
+
+        if (modeKey != null) {
+            List<AbstractGame<?, ?, ?>> games = getSortedAvailableGamesForMode(bfManager, modeKey);
+            if (games.isEmpty()) {
+                return null;
+            }
+            return games.get(nextIndex(LOBBY_MAP_INDEX, modeKey, games.size()));
+        }
+
+        List<String> availableModes = new ArrayList<>();
+        Map<String, List<AbstractGame<?, ?, ?>>> gamesByMode = new HashMap<>();
+        for (String candidateMode : LOBBY_MODE_ORDER) {
+            List<AbstractGame<?, ?, ?>> games = getSortedAvailableGamesForMode(bfManager, candidateMode);
+            if (games.isEmpty()) {
+                continue;
+            }
+            availableModes.add(candidateMode);
+            gamesByMode.put(candidateMode, games);
+        }
+        if (availableModes.isEmpty()) {
+            return null;
+        }
+
+        String mode = availableModes.get(nextIndex(LOBBY_MODE_INDEX, "random", availableModes.size()));
+        List<AbstractGame<?, ?, ?>> games = gamesByMode.get(mode);
+        return games.get(nextIndex(LOBBY_MAP_INDEX, mode, games.size()));
+    }
+
+    private static List<AbstractGame<?, ?, ?>> getSortedAvailableGamesForMode(BFAbstractManager<?, ?, ?> manager, String modeKey) {
+        BFGameType type = resolveBfGameType(modeKey);
+        if (type == null) {
+            return List.of();
+        }
+        List<AbstractGame<?, ?, ?>> games = new ArrayList<>(manager.getAvailableGames(type, null));
+        games.sort(
+            Comparator.comparing((AbstractGame<?, ?, ?> game) -> safeString(game.getMap() == null ? null : game.getMap().getName()))
+                .thenComparing(game -> safeString(game.getName()))
+                .thenComparing(game -> safeString(game.getUUID() == null ? null : game.getUUID().toString()))
+        );
+        return games;
+    }
+
+    private static int nextIndex(Map<String, Integer> state, String key, int size) {
+        if (size <= 0) {
+            return 0;
+        }
+        int index = state.getOrDefault(key, -1) + 1;
+        if (index >= size) {
+            index = 0;
+        }
+        state.put(key, index);
+        return index;
+    }
+
+    private static String safeString(String value) {
+        return value == null ? "" : value;
     }
 
     private static Map<String, RankedGame> findRankedJoinableGames(ServerCommandSource source, Object manager, String modeKey) {

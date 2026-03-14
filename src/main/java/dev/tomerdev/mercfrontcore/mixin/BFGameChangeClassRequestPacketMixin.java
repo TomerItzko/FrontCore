@@ -12,6 +12,7 @@ import com.boehmod.blockfront.server.BFServerManager;
 import com.boehmod.blockfront.server.player.ServerPlayerDataHandler;
 import com.boehmod.blockfront.util.PacketUtils;
 import dev.tomerdev.mercfrontcore.MercFrontCore;
+import dev.tomerdev.mercfrontcore.util.ClassRankCompat;
 import dev.tomerdev.mercfrontcore.util.LoadoutXpCompat;
 import java.util.UUID;
 import net.minecraft.entity.player.PlayerEntity;
@@ -62,6 +63,16 @@ public abstract class BFGameChangeClassRequestPacketMixin {
         if (team == null) {
             return;
         }
+        PlayerCloudData profile = dataHandler.getCloudProfile((PlayerEntity) player);
+        if (!ClassRankCompat.canUseClass(profile, matchClass)) {
+            MutableText message = net.minecraft.text.Text.translatable(
+                "bf.message.gamemode.class.error.rank",
+                net.minecraft.text.Text.literal(ClassRankCompat.getRequiredRank(matchClass).getTitle()).formatted(net.minecraft.util.Formatting.GRAY)
+            ).formatted(net.minecraft.util.Formatting.RED);
+            PacketUtils.sendToPlayer(new BFCapturePointSpawnErrorPacket(message), player);
+            ci.cancel();
+            return;
+        }
         Loadout loadout = team.getDivisionData(game).getLoadout(matchClass, classLevel);
         int minimumXp = LoadoutXpCompat.resolveMinimumXp(game, team, matchClass, classLevel, loadout);
         MercFrontCore.LOGGER.info(
@@ -70,15 +81,14 @@ public abstract class BFGameChangeClassRequestPacketMixin {
             matchClass,
             classLevel,
             minimumXp,
-            dataHandler.getCloudProfile((PlayerEntity) player).getExpForClass(matchClass.ordinal()),
-            dataHandler.getCloudProfile((PlayerEntity) player).getExp(),
+            profile.getExpForClass(matchClass.ordinal()),
+            profile.getExp(),
             loadout != null
         );
         if (minimumXp <= 0) {
             return;
         }
 
-        PlayerCloudData profile = dataHandler.getCloudProfile((PlayerEntity) player);
         int effectiveXp = LoadoutXpCompat.getEffectiveXp(profile, matchClass);
         if (effectiveXp >= minimumXp) {
             return;

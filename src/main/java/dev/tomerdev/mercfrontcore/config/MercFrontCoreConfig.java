@@ -5,6 +5,7 @@ public final class MercFrontCoreConfig {
     public AudioSettings audio = new AudioSettings();
     public RewardSettings rewards = new RewardSettings();
     public ExperienceSettings experience = new ExperienceSettings();
+    public ClassRankSettings classRanks = new ClassRankSettings();
 
     public static final class ProxySettings {
         public boolean enableProxyCompatibility = true;
@@ -40,5 +41,18 @@ public final class MercFrontCoreConfig {
         public int infectedMatchWinXp = 1200;
         public int classPlayerKillXp = 5;
         public int classAssistXp = 2;
+    }
+
+    public static final class ClassRankSettings {
+        public String rifleman = "RECRUIT";
+        public String lightInfantry = "RECRUIT";
+        public String assault = "RECRUIT";
+        public String support = "PRIVATE_SECOND_CLASS";
+        public String medic = "CORPORAL";
+        public String sniper = "SERGEANT_FIRST_CLASS";
+        public String gunner = "FIRST_SERGEANT";
+        public String antiTank = "CAPTAIN";
+        public String specialist = "LIEUTENANT_COLONEL";
+        public String commander = "BRIGADIER_GENERAL";
     }
 }

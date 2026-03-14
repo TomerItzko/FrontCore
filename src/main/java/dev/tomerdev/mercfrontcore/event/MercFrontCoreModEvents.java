@@ -15,6 +15,7 @@ import dev.tomerdev.mercfrontcore.net.packet.NewProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.PlayerGunSkinStatePacket;
 import dev.tomerdev.mercfrontcore.net.packet.ProfileXpSyncPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SelectPlayerGunSkinPacket;
+import dev.tomerdev.mercfrontcore.net.packet.SetClassRanksPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPacket;
 import dev.tomerdev.mercfrontcore.net.packet.SetProfileOverridesPropertyPacket;
 import dev.tomerdev.mercfrontcore.net.packet.ViewSpawnsPacket;
@@ -59,6 +60,11 @@ public final class MercFrontCoreModEvents {
             ProfileXpSyncPacket.ID,
             ProfileXpSyncPacket.PACKET_CODEC,
             ProfileXpSyncPacket::handleClient
+        );
+        registrar.playToClient(
+            SetClassRanksPacket.ID,
+            SetClassRanksPacket.PACKET_CODEC,
+            SetClassRanksPacket::handleClient
         );
         registrar.playToClient(
             LeaderboardResponsePacket.ID,

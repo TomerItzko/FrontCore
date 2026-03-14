@@ -2,6 +2,19 @@
 
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+
+## [1.0.9-0.7.1.2b] - 2026-03-14
+
+### Added
+- Wired Front-Utilities-style nested subcommand suggestions into BlockFront's native `/assets edit <assetType> <assetName> [args]` command path.
+- Added configurable per-class base rank requirements in `config/mercfrontcore.json` under `classRanks`, with server-to-client sync so match class-select UI and enforcement use the same class unlock ranks.
+
+### Fixed
+- Synced native BlockFront profile XP/prestige data to all clients on player join and after match XP awards so other players now see updated ranks in tab and player nameplates instead of only in server-formatted chat.
+- `/fc lobby` now falls back to cycling idle in-rotation BlockFront games when no active joinable match exists, rotating across modes with available maps first and then across maps within the chosen mode.
+- Leaderboard rows now show each player's native BlockFront rank icon and color the top three places gold, silver, and bronze.
+
 ## [1.0.8-0.7.1.2b] - 2026-03-13
 
 ### Added

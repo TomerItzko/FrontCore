@@ -1,5 +1,6 @@
 package dev.tomerdev.mercfrontcore.config;
 
+import com.boehmod.bflib.cloud.common.player.PlayerRank;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -120,6 +121,10 @@ public final class MercFrontCoreConfigManager {
             config.experience = new MercFrontCoreConfig.ExperienceSettings();
             changed = true;
         }
+        if (config.classRanks == null) {
+            config.classRanks = new MercFrontCoreConfig.ClassRankSettings();
+            changed = true;
+        }
         if (Float.isNaN(config.rewards.winnerSkinDropChance)) {
             config.rewards.winnerSkinDropChance = 0.25f;
             changed = true;
@@ -147,6 +152,16 @@ public final class MercFrontCoreConfigManager {
         changed |= clampMin(() -> config.experience.infectedMatchWinXp, v -> config.experience.infectedMatchWinXp = v, 0);
         changed |= clampMin(() -> config.experience.classPlayerKillXp, v -> config.experience.classPlayerKillXp = v, 0);
         changed |= clampMin(() -> config.experience.classAssistXp, v -> config.experience.classAssistXp = v, 0);
+        changed |= normalizeRank(() -> config.classRanks.rifleman, v -> config.classRanks.rifleman = v, "RECRUIT");
+        changed |= normalizeRank(() -> config.classRanks.lightInfantry, v -> config.classRanks.lightInfantry = v, "RECRUIT");
+        changed |= normalizeRank(() -> config.classRanks.assault, v -> config.classRanks.assault = v, "RECRUIT");
+        changed |= normalizeRank(() -> config.classRanks.support, v -> config.classRanks.support = v, "PRIVATE_SECOND_CLASS");
+        changed |= normalizeRank(() -> config.classRanks.medic, v -> config.classRanks.medic = v, "CORPORAL");
+        changed |= normalizeRank(() -> config.classRanks.sniper, v -> config.classRanks.sniper = v, "SERGEANT_FIRST_CLASS");
+        changed |= normalizeRank(() -> config.classRanks.gunner, v -> config.classRanks.gunner = v, "FIRST_SERGEANT");
+        changed |= normalizeRank(() -> config.classRanks.antiTank, v -> config.classRanks.antiTank = v, "CAPTAIN");
+        changed |= normalizeRank(() -> config.classRanks.specialist, v -> config.classRanks.specialist = v, "LIEUTENANT_COLONEL");
+        changed |= normalizeRank(() -> config.classRanks.commander, v -> config.classRanks.commander = v, "BRIGADIER_GENERAL");
         return changed;
     }
 
@@ -157,6 +172,33 @@ public final class MercFrontCoreConfigManager {
         }
         setter.accept(min);
         return true;
+    }
+
+    private static boolean normalizeRank(
+        java.util.function.Supplier<String> getter,
+        java.util.function.Consumer<String> setter,
+        String fallback
+    ) {
+        String value = getter.get();
+        if (value == null || value.isBlank()) {
+            setter.accept(fallback);
+            return true;
+        }
+        String normalized = value.trim().toUpperCase(java.util.Locale.ROOT);
+        try {
+            Object rank = PlayerRank.class.getField(normalized).get(null);
+            if (!(rank instanceof PlayerRank)) {
+                throw new IllegalArgumentException(normalized);
+            }
+        } catch (ReflectiveOperationException | IllegalArgumentException ex) {
+            setter.accept(fallback);
+            return true;
+        }
+        if (!normalized.equals(value)) {
+            setter.accept(normalized);
+            return true;
+        }
+        return false;
     }
 
     private static JsonObject defaultConfigTree() {

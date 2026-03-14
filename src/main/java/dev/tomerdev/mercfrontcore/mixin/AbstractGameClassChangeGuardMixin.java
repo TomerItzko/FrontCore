@@ -8,6 +8,7 @@ import com.boehmod.blockfront.common.player.PlayerCloudData;
 import com.boehmod.blockfront.game.AbstractGame;
 import com.boehmod.blockfront.game.GameTeam;
 import com.boehmod.blockfront.util.PacketUtils;
+import dev.tomerdev.mercfrontcore.util.ClassRankCompat;
 import dev.tomerdev.mercfrontcore.MercFrontCore;
 import dev.tomerdev.mercfrontcore.util.LoadoutXpCompat;
 import java.util.UUID;
@@ -50,8 +51,17 @@ public abstract class AbstractGameClassChangeGuardMixin {
             return;
         }
         Loadout loadout = team.getDivisionData(game).getLoadout(matchClass, classLevel);
-        int minimumXp = LoadoutXpCompat.resolveMinimumXp(game, team, matchClass, classLevel, loadout);
         PlayerCloudData profile = manager.getPlayerDataHandler().getCloudProfile((PlayerEntity) player);
+        if (!ClassRankCompat.canUseClass(profile, matchClass)) {
+            MutableText message = net.minecraft.text.Text.translatable(
+                "bf.message.gamemode.class.error.rank",
+                net.minecraft.text.Text.literal(ClassRankCompat.getRequiredRank(matchClass).getTitle()).formatted(net.minecraft.util.Formatting.GRAY)
+            ).formatted(net.minecraft.util.Formatting.RED);
+            PacketUtils.sendToPlayer(new BFCapturePointSpawnErrorPacket(message), player);
+            ci.cancel();
+            return;
+        }
+        int minimumXp = LoadoutXpCompat.resolveMinimumXp(game, team, matchClass, classLevel, loadout);
         int classXp = LoadoutXpCompat.getEffectiveXp(profile, matchClass);
         MercFrontCore.LOGGER.info(
             "Direct XP check: player={}, class={}, level={}, minimumXp={}, classXp={}, globalXp={}, loadoutPresent={}",

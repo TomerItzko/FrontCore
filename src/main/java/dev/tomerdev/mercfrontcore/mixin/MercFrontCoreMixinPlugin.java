@@ -97,21 +97,6 @@ public final class MercFrontCoreMixinPlugin implements IMixinConfigPlugin {
                 "com.boehmod.blockfront.util.BFUtils"
             );
         }
-        if (mixinClassName.endsWith(".client.AbstractMatchSelectClassScreenLoadoutXpMixin")) {
-            return hasAll(
-                "com.boehmod.blockfront.client.screen.match.AbstractMatchSelectClassScreen"
-            );
-        }
-        if (mixinClassName.endsWith(".client.BF197LoadoutXpMixin")) {
-            return hasAll(
-                "com.boehmod.blockfront.unnamed.BF_197"
-            );
-        }
-        if (mixinClassName.endsWith(".client.MatchSelectClassScreenLoadoutLockMixin")) {
-            return hasAll(
-                "com.boehmod.blockfront.client.screen.match.MatchSelectClassScreen"
-            );
-        }
         if (mixinClassName.endsWith(".PacketListenerPlayerActionMixin")) {
             return hasAll(
                 "com.boehmod.blockfront.server.net.PacketListenerPlayerAction",

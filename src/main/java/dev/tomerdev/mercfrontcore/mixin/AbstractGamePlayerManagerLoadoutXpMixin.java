@@ -9,6 +9,7 @@ import com.boehmod.blockfront.common.player.PlayerDataHandler;
 import com.boehmod.blockfront.game.AbstractGame;
 import com.boehmod.blockfront.game.GameTeam;
 import com.boehmod.blockfront.util.PacketUtils;
+import dev.tomerdev.mercfrontcore.util.ClassRankCompat;
 import dev.tomerdev.mercfrontcore.util.LoadoutXpCompat;
 import java.util.UUID;
 import net.minecraft.entity.player.PlayerEntity;
@@ -51,12 +52,21 @@ public abstract class AbstractGamePlayerManagerLoadoutXpMixin<G extends Abstract
         if (team == null) {
             return;
         }
+        PlayerCloudData profile = this.playerData.getCloudProfile((PlayerEntity) player);
+        if (!ClassRankCompat.canUseClass(profile, matchClass)) {
+            MutableText message = net.minecraft.text.Text.translatable(
+                "bf.message.gamemode.class.error.rank",
+                net.minecraft.text.Text.literal(ClassRankCompat.getRequiredRank(matchClass).getTitle()).formatted(net.minecraft.util.Formatting.GRAY)
+            ).formatted(net.minecraft.util.Formatting.RED);
+            PacketUtils.sendToPlayer(new BFCapturePointSpawnErrorPacket(message), player);
+            cir.setReturnValue(false);
+            return;
+        }
         Loadout loadout = team.getDivisionData(this.game).getLoadout(matchClass, classLevel);
         int minimumXp = LoadoutXpCompat.resolveMinimumXp(this.game, team, matchClass, classLevel, loadout);
         if (loadout == null || minimumXp <= 0) {
             return;
         }
-        PlayerCloudData profile = this.playerData.getCloudProfile((PlayerEntity) player);
         int effectiveXp = LoadoutXpCompat.getEffectiveXp(profile, matchClass);
         if (effectiveXp >= minimumXp) {
             return;
@@ -90,6 +100,15 @@ public abstract class AbstractGamePlayerManagerLoadoutXpMixin<G extends Abstract
             return;
         }
         PlayerCloudData profile = this.playerData.getCloudProfile((PlayerEntity) player);
+        if (!ClassRankCompat.canUseClass(profile, matchClass)) {
+            cir.setReturnValue(
+                net.minecraft.text.Text.translatable(
+                    "bf.message.gamemode.class.error.rank",
+                    net.minecraft.text.Text.literal(ClassRankCompat.getRequiredRank(matchClass).getTitle()).formatted(net.minecraft.util.Formatting.GRAY)
+                ).formatted(net.minecraft.util.Formatting.RED)
+            );
+            return;
+        }
         int effectiveXp = LoadoutXpCompat.getEffectiveXp(profile, matchClass);
         if (effectiveXp >= minimumXp) {
             return;

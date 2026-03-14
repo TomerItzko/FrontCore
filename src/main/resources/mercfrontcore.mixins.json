@@ -17,10 +17,7 @@
   ],
   "client": [
     "client.BFWeaponItemRendererMixin",
-    "client.AbstractMatchSelectClassScreenLoadoutXpMixin",
     "client.AbstractSoundInstanceMixin",
-    "client.BF197LoadoutXpMixin",
-    "client.MatchSelectClassScreenLoadoutLockMixin",
     "client.GameMenuScreenMixin",
     "client.SoundOptionsScreenMixin"
   ]

@@ -1,5 +1,6 @@
 package dev.tomerdev.mercfrontcore.client.screen;
 
+import com.boehmod.blockfront.util.BFRes;
 import dev.tomerdev.mercfrontcore.client.data.AddonClientData;
 import dev.tomerdev.mercfrontcore.data.LeaderboardPeriod;
 import dev.tomerdev.mercfrontcore.net.packet.LeaderboardRequestPacket;
@@ -14,6 +15,10 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public final class LeaderboardScreen extends AddonScreen {
     private static final Text TITLE = Text.literal("XP Leaderboard");
+    private static final int FIRST_PLACE_COLOR = 0xFFFFD54A;
+    private static final int SECOND_PLACE_COLOR = 0xFFC9D1D9;
+    private static final int THIRD_PLACE_COLOR = 0xFFCD8A5B;
+    private static final int SELF_COLOR = 0xFFE7D27A;
     private final Screen parent;
     private LeaderboardPeriod period;
     private int page;
@@ -80,7 +85,7 @@ public final class LeaderboardScreen extends AddonScreen {
         drawText(TITLE, width / 2, panelY + 8, true);
         drawText(period.displayText(), width / 2, panelY + 52, true);
         drawText(Text.literal("#"), panelX + 20, panelY + 66, false, false);
-        drawText(Text.literal("Player"), panelX + 48, panelY + 66, false, false);
+        drawText(Text.literal("Player"), panelX + 64, panelY + 66, false, false);
         drawText(Text.literal("XP"), panelX + 250, panelY + 66, false, false);
 
         if (AddonClientData.getInstance().isLeaderboardLoading(period) && entries.isEmpty()) {
@@ -96,17 +101,34 @@ public final class LeaderboardScreen extends AddonScreen {
         int start = page * pageSize;
         int end = Math.min(entries.size(), start + pageSize);
         int y = panelY + 82;
-        String selfName = MinecraftClient.getInstance().player == null ? "" : MinecraftClient.getInstance().player.getNameForScoreboard();
+        var self = MinecraftClient.getInstance().player;
         for (int i = start; i < end; i++) {
             LeaderboardResponsePacket.Entry entry = entries.get(i);
-            boolean self = entry.username().equalsIgnoreCase(selfName);
-            int color = self ? 0xFFE7D27A : 0xFFFFFFFF;
-            drawText(Text.literal(Integer.toString(i + 1)), panelX + 20, y, false, false);
-            context.drawText(textRenderer, entry.username(), panelX + 48, y, color, false);
+            boolean isSelf = self != null && entry.uuid().equals(self.getUuid());
+            int color = getEntryColor(i, isSelf);
+            context.drawText(textRenderer, Integer.toString(i + 1), panelX + 20, y, color, false);
+            drawRankIcon(context, entry.rankTexture(), panelX + 48, y - 1);
+            context.drawText(textRenderer, entry.username(), panelX + 64, y, color, false);
             String xpText = Integer.toString(entry.xp());
             context.drawText(textRenderer, xpText, panelX + 278 - textRenderer.getWidth(xpText), y, color, false);
             y += 12;
         }
+    }
+
+    private int getEntryColor(int entryIndex, boolean isSelf) {
+        return switch (entryIndex) {
+            case 0 -> FIRST_PLACE_COLOR;
+            case 1 -> SECOND_PLACE_COLOR;
+            case 2 -> THIRD_PLACE_COLOR;
+            default -> isSelf ? SELF_COLOR : 0xFFFFFFFF;
+        };
+    }
+
+    private void drawRankIcon(DrawContext context, String rankTexture, int x, int y) {
+        if (rankTexture == null || rankTexture.isBlank()) {
+            return;
+        }
+        context.drawTexture(BFRes.loc("textures/misc/ranks/" + rankTexture + ".png"), x, y, 0.0f, 0.0f, 10, 10, 10, 10);
     }
 
     private void switchPeriod(LeaderboardPeriod newPeriod) {
