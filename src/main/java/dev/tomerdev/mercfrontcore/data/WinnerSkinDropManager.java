@@ -108,13 +108,14 @@ public final class WinnerSkinDropManager {
             .append(Text.literal("[Victory Reward] ").formatted(Formatting.GOLD, Formatting.BOLD))
             .append(Text.literal(winner.getNameForScoreboard()).formatted(Formatting.YELLOW))
             .append(Text.literal(" received ").formatted(Formatting.GRAY))
-            .append(Text.literal("'").formatted(Formatting.GRAY))
-            .append(Text.literal(reward.skin()).formatted(getRarityFormatting(reward.rarity()), Formatting.BOLD))
-            .append(Text.literal("' skin for ").formatted(Formatting.GRAY))
+            .append(Text.literal(reward.rarity().toUpperCase(Locale.ROOT)).formatted(getRarityFormatting(reward.rarity()), Formatting.BOLD))
+            .append(Text.literal(" skin '").formatted(Formatting.GRAY))
+            .append(Text.literal(reward.skin()).formatted(Formatting.WHITE))
+            .append(Text.literal("' for ").formatted(Formatting.GRAY))
             .append(Text.literal(reward.gunId().toString()).formatted(Formatting.AQUA));
 
         if (applied > 0) {
-            message = message.append(Text.literal(" and it was applied immediately.").formatted(Formatting.GREEN));
+            message = message.append(Text.literal(".").formatted(Formatting.GRAY));
         } else {
             message = message.append(Text.literal(".").formatted(Formatting.GRAY));
         }

@@ -7,7 +7,7 @@ config = "mercfrontcore.mixins.json"
 
 [[mods]]
 modId = "mercfrontcore"
-version = "1.0.10-0.7.1.2b"
+version = "1.0.11-0.7.1.2b"
 displayName = "FrontCore"
 authors = "TomerDev (credit to OG author of front-utilities: forteus19)"
 description = '''Helper stuff for BlockFront with proxy compatibility. Credit to the OG author: forteus19 (https://github.com/forteus19/Front-Utilities).'''

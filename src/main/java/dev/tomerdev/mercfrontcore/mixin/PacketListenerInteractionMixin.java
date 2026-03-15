@@ -31,7 +31,17 @@ public abstract class PacketListenerInteractionMixin {
             return;
         }
 
+        if (!player.isAlive()) {
+            ci.cancel();
+            return;
+        }
+
         Entity target = mercfrontcore$getTarget(packet, player);
+        if (target == null || !target.isAlive() || target.isRemoved()) {
+            ci.cancel();
+            return;
+        }
+
         if (target != null && target.getId() == player.getId()) {
             ci.cancel();
             return;

@@ -27,5 +27,6 @@ public abstract class GameMenuScreenMixin extends Screen {
         GameMenuScreen parent = (GameMenuScreen) (Object) this;
         addDrawableChild(new PauseMenuIconWidget(x, y, size, parent, PauseMenuIconWidget.Action.LEADERBOARD));
         addDrawableChild(new PauseMenuIconWidget(x, y + 28, size, parent, PauseMenuIconWidget.Action.GUN_SKINS));
+        addDrawableChild(new PauseMenuIconWidget(x, y + 56, size, parent, PauseMenuIconWidget.Action.LEAVE_MATCH));
     }
 }

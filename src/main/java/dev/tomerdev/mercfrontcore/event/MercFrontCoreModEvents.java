@@ -9,6 +9,7 @@ import dev.tomerdev.mercfrontcore.net.packet.GunExtraOptionsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.GunModifiersPacket;
 import dev.tomerdev.mercfrontcore.net.packet.LeaderboardRequestPacket;
 import dev.tomerdev.mercfrontcore.net.packet.LeaderboardResponsePacket;
+import dev.tomerdev.mercfrontcore.net.packet.LeaveMatchTeleportPacket;
 import dev.tomerdev.mercfrontcore.net.packet.LoadoutsPacket;
 import dev.tomerdev.mercfrontcore.net.packet.MapEffectPositionPacket;
 import dev.tomerdev.mercfrontcore.net.packet.NewProfileOverridesPacket;
@@ -100,6 +101,11 @@ public final class MercFrontCoreModEvents {
             LeaderboardRequestPacket.ID,
             LeaderboardRequestPacket.PACKET_CODEC,
             LeaderboardRequestPacket::handleServer
+        );
+        registrar.playToServer(
+            LeaveMatchTeleportPacket.ID,
+            LeaveMatchTeleportPacket.PACKET_CODEC,
+            LeaveMatchTeleportPacket::handleServer
         );
         registrar.playToClient(
             ViewSpawnsPacket.ID,

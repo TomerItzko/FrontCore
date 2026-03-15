@@ -6,6 +6,7 @@ public final class MercFrontCoreConfig {
     public RewardSettings rewards = new RewardSettings();
     public ExperienceSettings experience = new ExperienceSettings();
     public ClassRankSettings classRanks = new ClassRankSettings();
+    public LeaveMatchSettings leaveMatch = new LeaveMatchSettings();
 
     public static final class ProxySettings {
         public boolean enableProxyCompatibility = true;
@@ -54,5 +55,13 @@ public final class MercFrontCoreConfig {
         public String antiTank = "CAPTAIN";
         public String specialist = "LIEUTENANT_COLONEL";
         public String commander = "BRIGADIER_GENERAL";
+    }
+
+    public static final class LeaveMatchSettings {
+        public double x = 0.5;
+        public double y = 100.0;
+        public double z = 0.5;
+        public float yaw = 0.0f;
+        public float pitch = 0.0f;
     }
 }

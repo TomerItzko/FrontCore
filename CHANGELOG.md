@@ -4,10 +4,24 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [1.0.11-0.7.1.2b] - 2026-03-14
+
+### Added
+- Added a pause-menu `Leave Match` shortcut that removes the player from their current BlockFront match if needed and teleports them to a configurable `x/y/z/yaw/pitch` destination from `mercfrontcore.json`.
+- Added `/fc admin leaveMatch setHere` to save the current player position and rotation as the leave-match destination in config.
+- Added overwrite confirmation for `/fc admin leaveMatch setHere` so an existing saved leave destination is not replaced accidentally by another admin.
+- Added a safer in-game config UX through `/fc admin config ...`, covering common proxy, rewards, XP, and class-rank config writes without requiring direct JSON edits.
+
+### Fixed
+- Dropped stale BlockFront entity interaction packets before they reach vanilla handling, preventing players from being kicked for attacking an invalid entity after rapid kill/death desync cases.
+- Reformatted winner skin reward chat announcements to show the rarity first and match the compact `[Victory Reward] ... received COAL skin 'black' for ...` style.
+
 ## [1.0.10-0.7.1.2b] - 2026-03-14
 
 ### Fixed
 - `/fc lobby` fallback no longer requires BlockFront games to be marked in rotation when selecting a new match, so servers with valid non-rotation game assets can still open and join a fallback match.
+- `/fc lobby` now resolves configured BlockFront game assets through the typed `GameAsset` path and can reuse configured matches with no online players even when their runtime status is not already `IDLE`.
+- `/fc admin lobby debug` now dumps configured game assets and reusable fallback candidates, making it easier to diagnose why a server has no joinable or reusable BlockFront match.
 
 ## [1.0.9-0.7.1.2b] - 2026-03-14
 

@@ -52,6 +52,11 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 `/fc admin infected vendor relocate`
 `/fc admin infected vendor here`
 `/fc admin randomDrop <players> [count]`
+`/fc admin config show|reload|save`
+`/fc admin config set proxy compatibility|directOnly|trustForwardedIdentity <value>`
+`/fc admin config set rewards winnerSkinDrops|winnerSkinDropChance <value>`
+`/fc admin config set experience <field> <value>`
+`/fc admin config set classRanks <class> <rank>`
 
 ### Admin Client Commands
 
@@ -84,6 +89,14 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 - The vanilla pause menu includes icon buttons for:
 `Leaderboard`
 `Gun Skins`
+`Leave Match`
+
+- `Leave Match` removes the player from any current BlockFront match and teleports them to the configured `x/y/z/yaw/pitch` destination in `config/mercfrontcore.json` on the current server world.
+
+- Admin command to save the current position/rotation into config:
+`/fc admin leaveMatch setHere`
+
+- Safer config editing is available in-game through `/fc admin config ...` for common proxy, reward, XP, and class-rank settings, so those values can be changed without hand-editing `mercfrontcore.json`.
 
 ## 5) Native XP And Leaderboard
 
@@ -114,7 +127,7 @@ Credit to the OG author: [`forteus19`](https://github.com/forteus19/Front-Utilit
 - Version format is:
 `<frontcore>-<BF>`
 - Example:
-`1.0.10-0.7.1.2b`
+`1.0.11-0.7.1.2b`
 
 ## 8) Requirements
 

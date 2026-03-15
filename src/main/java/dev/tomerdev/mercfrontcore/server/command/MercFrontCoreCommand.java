@@ -12,8 +12,11 @@ import com.boehmod.blockfront.game.impl.inf.InfectedGame;
 import com.boehmod.blockfront.registry.BFDataComponents;
 import com.boehmod.blockfront.server.BFServerManager;
 import com.boehmod.blockfront.util.math.FDSPose;
+import com.boehmod.bflib.cloud.common.player.PlayerRank;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -66,7 +69,9 @@ public final class MercFrontCoreCommand {
     private static final List<String> LOBBY_MODE_ORDER = List.of("ffa", "tdm", "dom", "conq", "inf", "gg", "ttt", "boot");
     private static final Map<String, Integer> LOBBY_MODE_INDEX = new HashMap<>();
     private static final Map<String, Integer> LOBBY_MAP_INDEX = new HashMap<>();
+    private static final Map<UUID, Long> LEAVE_MATCH_SET_CONFIRM = new HashMap<>();
     private static final String LOBBY_ANY_KEY = "__any__";
+    private static final long LEAVE_MATCH_CONFIRM_WINDOW_MS = 15_000L;
 
     private MercFrontCoreCommand() {
     }
@@ -206,6 +211,88 @@ public final class MercFrontCoreCommand {
                             .then(literal("gg").executes(ctx -> debugLobbyGames(ctx.getSource(), "gg")))
                             .then(literal("ttt").executes(ctx -> debugLobbyGames(ctx.getSource(), "ttt")))
                             .then(literal("boot").executes(ctx -> debugLobbyGames(ctx.getSource(), "boot")))
+                    )
+                    .then(
+                        literal("leaveMatch")
+                            .then(literal("setHere").executes(ctx -> setLeaveMatchHere(ctx.getSource())))
+                    )
+                    .then(
+                        literal("config")
+                            .then(literal("show").executes(ctx -> showConfig(ctx.getSource())))
+                            .then(literal("reload").executes(ctx -> reloadConfig(ctx.getSource())))
+                            .then(literal("save").executes(ctx -> saveConfig(ctx.getSource())))
+                            .then(
+                                literal("set")
+                                    .then(
+                                        literal("proxy")
+                                            .then(argument("field", StringArgumentType.word())
+                                                .suggests(MercFrontCoreCommand::suggestProxyFields)
+                                                .then(argument("value", StringArgumentType.word())
+                                                    .suggests(MercFrontCoreCommand::suggestBooleanValues)
+                                                    .executes(ctx ->
+                                                        setProxyField(
+                                                            ctx.getSource(),
+                                                            StringArgumentType.getString(ctx, "field"),
+                                                            StringArgumentType.getString(ctx, "value")
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                    )
+                                    .then(
+                                        literal("rewards")
+                                            .then(argument("field", StringArgumentType.word())
+                                                .suggests(MercFrontCoreCommand::suggestRewardFields)
+                                                .then(argument("value", StringArgumentType.word())
+                                                    .suggests(MercFrontCoreCommand::suggestRewardValues)
+                                                    .executes(ctx ->
+                                                        setRewardField(
+                                                            ctx.getSource(),
+                                                            StringArgumentType.getString(ctx, "field"),
+                                                            StringArgumentType.getString(ctx, "value")
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                    )
+                                    .then(
+                                        literal("experience")
+                                            .then(
+                                                literal("nativeMatchXp")
+                                                    .then(argument("value", BoolArgumentType.bool()).executes(ctx ->
+                                                        setNativeMatchXp(ctx.getSource(), BoolArgumentType.getBool(ctx, "value"))
+                                                    ))
+                                            )
+                                            .then(argument("field", StringArgumentType.word())
+                                                .suggests(MercFrontCoreCommand::suggestExperienceFields)
+                                                .then(argument("value", IntegerArgumentType.integer(0)).executes(ctx ->
+                                                    setExperienceInt(
+                                                        ctx.getSource(),
+                                                        StringArgumentType.getString(ctx, "field"),
+                                                        IntegerArgumentType.getInteger(ctx, "value")
+                                                    )
+                                                ))
+                                            )
+                                    )
+                                    .then(
+                                        literal("classRanks")
+                                            .then(argument("className", StringArgumentType.word())
+                                                .suggests(MercFrontCoreCommand::suggestClassRankKeys)
+                                                .then(argument("rank", StringArgumentType.word())
+                                                    .suggests(MercFrontCoreCommand::suggestPlayerRanks)
+                                                    .executes(ctx -> setClassRank(
+                                                        ctx.getSource(),
+                                                        StringArgumentType.getString(ctx, "className"),
+                                                        StringArgumentType.getString(ctx, "rank")
+                                                    ))
+                                                )
+                                            )
+                                    )
+                                    .then(
+                                        literal("leaveMatch")
+                                            .executes(ctx -> showConfig(ctx.getSource()))
+                                    )
+                            )
                     )
                     .then(
                         literal("proxy")
@@ -1250,6 +1337,73 @@ public final class MercFrontCoreCommand {
         return 1;
     }
 
+    private static int showConfig(ServerCommandSource source) {
+        MercFrontCoreConfig cfg = MercFrontCoreConfigManager.get();
+        source.sendFeedback(() -> Text.literal("Config file: " + MercFrontCoreConfigManager.getConfigPath()), false);
+        source.sendFeedback(
+            () -> Text.literal(
+                "proxy: compatibility=" + cfg.proxy.enableProxyCompatibility
+                    + ", directOnly=" + cfg.proxy.enforceDirectConnection
+                    + ", trustForwardedIdentity=" + cfg.proxy.trustForwardedIdentity
+            ),
+            false
+        );
+        source.sendFeedback(
+            () -> Text.literal(
+                "rewards: winnerSkinDrops=" + cfg.rewards.enableWinnerSkinDrops
+                    + ", winnerSkinDropChance=" + cfg.rewards.winnerSkinDropChance
+            ),
+            false
+        );
+        source.sendFeedback(
+            () -> Text.literal(
+                "experience: nativeMatchXp=" + cfg.experience.enableNativeMatchXp
+                    + ", death=" + cfg.experience.deathXp
+                    + ", assist=" + cfg.experience.assistXp
+                    + ", botKill=" + cfg.experience.botKillXp
+                    + ", playerKill=" + cfg.experience.playerKillXp
+                    + ", fireKill=" + cfg.experience.fireKillXp
+                    + ", vehicleKill=" + cfg.experience.vehicleKillXp
+                    + ", headshot=" + cfg.experience.headshotXp
+                    + ", noScope=" + cfg.experience.noScopeXp
+                    + ", backStab=" + cfg.experience.backStabXp
+                    + ", firstBlood=" + cfg.experience.firstBloodXp
+                    + ", participation=" + cfg.experience.participationXp
+                    + ", victory=" + cfg.experience.victoryXp
+                    + ", infectedRoundWin=" + cfg.experience.infectedRoundWinXp
+                    + ", infectedMatchWin=" + cfg.experience.infectedMatchWinXp
+                    + ", classPlayerKill=" + cfg.experience.classPlayerKillXp
+                    + ", classAssist=" + cfg.experience.classAssistXp
+            ),
+            false
+        );
+        source.sendFeedback(
+            () -> Text.literal(
+                "leaveMatch: "
+                    + String.format(java.util.Locale.ROOT, "%.2f %.2f %.2f", cfg.leaveMatch.x, cfg.leaveMatch.y, cfg.leaveMatch.z)
+                    + " yaw=" + String.format(java.util.Locale.ROOT, "%.2f", cfg.leaveMatch.yaw)
+                    + " pitch=" + String.format(java.util.Locale.ROOT, "%.2f", cfg.leaveMatch.pitch)
+            ),
+            false
+        );
+        source.sendFeedback(
+            () -> Text.literal(
+                "classRanks: rifleman=" + cfg.classRanks.rifleman
+                    + ", lightInfantry=" + cfg.classRanks.lightInfantry
+                    + ", assault=" + cfg.classRanks.assault
+                    + ", support=" + cfg.classRanks.support
+                    + ", medic=" + cfg.classRanks.medic
+                    + ", sniper=" + cfg.classRanks.sniper
+                    + ", gunner=" + cfg.classRanks.gunner
+                    + ", antiTank=" + cfg.classRanks.antiTank
+                    + ", specialist=" + cfg.classRanks.specialist
+                    + ", commander=" + cfg.classRanks.commander
+            ),
+            false
+        );
+        return 1;
+    }
+
     private static int giveWithSkin(ServerCommandSource source, Identifier id, String skin) {
         GunSkinIndex.ensureInitialized();
         ServerPlayerEntity player;
@@ -1579,6 +1733,191 @@ public final class MercFrontCoreCommand {
         return saveAfterSetting(source, "trust forwarded identity", value);
     }
 
+    private static int setProxyField(ServerCommandSource source, String fieldName, String rawValue) {
+        boolean value;
+        if ("true".equalsIgnoreCase(rawValue)) {
+            value = true;
+        } else if ("false".equalsIgnoreCase(rawValue)) {
+            value = false;
+        } else {
+            source.sendError(Text.literal("Proxy config value must be true or false."));
+            return 0;
+        }
+
+        return switch (fieldName) {
+            case "compatibility" -> setCompatibility(source, value);
+            case "directOnly" -> setDirectOnly(source, value);
+            case "trustForwardedIdentity" -> setTrustForwardedIdentity(source, value);
+            default -> {
+                source.sendError(Text.literal("Unknown proxy field: " + fieldName));
+                yield 0;
+            }
+        };
+    }
+
+    private static int setWinnerSkinDrops(ServerCommandSource source, boolean value) {
+        MercFrontCoreConfigManager.get().rewards.enableWinnerSkinDrops = value;
+        return saveAfterSetting(source, "winner skin drops", value);
+    }
+
+    private static int setWinnerSkinDropChance(ServerCommandSource source, float value) {
+        MercFrontCoreConfigManager.get().rewards.winnerSkinDropChance = value;
+        return saveAfterSetting(source, "winner skin drop chance", value);
+    }
+
+    private static int setNativeMatchXp(ServerCommandSource source, boolean value) {
+        MercFrontCoreConfigManager.get().experience.enableNativeMatchXp = value;
+        return saveAfterSetting(source, "native match XP", value);
+    }
+
+    private static int setRewardField(ServerCommandSource source, String fieldName, String rawValue) {
+        return switch (fieldName) {
+            case "winnerSkinDrops" -> {
+                if (!"true".equalsIgnoreCase(rawValue) && !"false".equalsIgnoreCase(rawValue)) {
+                    source.sendError(Text.literal("winnerSkinDrops must be true or false."));
+                    yield 0;
+                }
+                yield setWinnerSkinDrops(source, Boolean.parseBoolean(rawValue));
+            }
+            case "winnerSkinDropChance" -> {
+                try {
+                    float value = Float.parseFloat(rawValue);
+                    if (value < 0.0f || value > 1.0f) {
+                        source.sendError(Text.literal("winnerSkinDropChance must be between 0.0 and 1.0."));
+                        yield 0;
+                    }
+                    yield setWinnerSkinDropChance(source, value);
+                } catch (NumberFormatException e) {
+                    source.sendError(Text.literal("winnerSkinDropChance must be a number between 0.0 and 1.0."));
+                    yield 0;
+                }
+            }
+            default -> {
+                source.sendError(Text.literal("Unknown reward field: " + fieldName));
+                yield 0;
+            }
+        };
+    }
+
+    private static int setExperienceInt(ServerCommandSource source, String fieldName, int value) {
+        MercFrontCoreConfig.ExperienceSettings settings = MercFrontCoreConfigManager.get().experience;
+        try {
+            Field field = MercFrontCoreConfig.ExperienceSettings.class.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.setInt(settings, value);
+        } catch (ReflectiveOperationException e) {
+            source.sendError(Text.literal("Unknown experience field: " + fieldName));
+            return 0;
+        }
+        return saveAfterSetting(source, "experience." + fieldName, value);
+    }
+
+    private static int setClassRank(ServerCommandSource source, String className, String rankName) {
+        String normalizedKey = className.trim();
+        String normalizedRank = rankName.trim().toUpperCase(java.util.Locale.ROOT);
+        try {
+            Object rank = PlayerRank.class.getField(normalizedRank).get(null);
+            if (!(rank instanceof PlayerRank)) {
+                throw new IllegalArgumentException(normalizedRank);
+            }
+        } catch (ReflectiveOperationException | IllegalArgumentException e) {
+            source.sendError(Text.literal("Unknown BlockFront rank: " + rankName));
+            return 0;
+        }
+
+        MercFrontCoreConfig.ClassRankSettings settings = MercFrontCoreConfigManager.get().classRanks;
+        try {
+            Field field = MercFrontCoreConfig.ClassRankSettings.class.getDeclaredField(normalizedKey);
+            field.setAccessible(true);
+            field.set(settings, normalizedRank);
+        } catch (ReflectiveOperationException e) {
+            source.sendError(Text.literal("Unknown class rank key: " + className));
+            return 0;
+        }
+        return saveAfterSetting(source, "classRanks." + normalizedKey, normalizedRank);
+    }
+
+    private static int setLeaveMatchHere(ServerCommandSource source) {
+        ServerPlayerEntity player;
+        try {
+            player = source.getPlayerOrThrow();
+        } catch (Exception e) {
+            source.sendError(Text.literal("Only players can set the leave-match destination."));
+            return 0;
+        }
+
+        MercFrontCoreConfig.LeaveMatchSettings settings = MercFrontCoreConfigManager.get().leaveMatch;
+        double currentX = player.getX();
+        double currentY = player.getY();
+        double currentZ = player.getZ();
+        float currentYaw = player.getYaw();
+        float currentPitch = player.getPitch();
+        if (hasSavedLeaveMatchDestination(settings) && !matchesLeaveMatchDestination(settings, currentX, currentY, currentZ, currentYaw, currentPitch)) {
+            long now = System.currentTimeMillis();
+            Long previous = LEAVE_MATCH_SET_CONFIRM.get(player.getUuid());
+            if (previous == null || now - previous > LEAVE_MATCH_CONFIRM_WINDOW_MS) {
+                LEAVE_MATCH_SET_CONFIRM.put(player.getUuid(), now);
+                source.sendError(
+                    Text.literal(
+                        "A leave-match destination is already saved. Run /fc admin leaveMatch setHere again within 15 seconds to overwrite it."
+                    )
+                );
+                return 0;
+            }
+            LEAVE_MATCH_SET_CONFIRM.remove(player.getUuid());
+        } else {
+            LEAVE_MATCH_SET_CONFIRM.remove(player.getUuid());
+        }
+
+        settings.x = currentX;
+        settings.y = currentY;
+        settings.z = currentZ;
+        settings.yaw = currentYaw;
+        settings.pitch = currentPitch;
+
+        boolean ok = MercFrontCoreConfigManager.save();
+        if (ok) {
+            source.sendFeedback(
+                () -> Text.literal(
+                    "Saved leave-match destination to "
+                        + String.format(java.util.Locale.ROOT, "%.2f %.2f %.2f", settings.x, settings.y, settings.z)
+                        + " yaw="
+                        + String.format(java.util.Locale.ROOT, "%.2f", settings.yaw)
+                        + " pitch="
+                        + String.format(java.util.Locale.ROOT, "%.2f", settings.pitch)
+                ),
+                true
+            );
+            return 1;
+        }
+        source.sendError(Text.literal("Saved leave-match destination in memory, but failed to write config."));
+        return 0;
+    }
+
+    private static boolean hasSavedLeaveMatchDestination(MercFrontCoreConfig.LeaveMatchSettings settings) {
+        return settings != null
+            && (settings.x != 0.5 || settings.y != 100.0 || settings.z != 0.5 || settings.yaw != 0.0f || settings.pitch != 0.0f);
+    }
+
+    private static boolean matchesLeaveMatchDestination(
+        MercFrontCoreConfig.LeaveMatchSettings settings,
+        double x,
+        double y,
+        double z,
+        float yaw,
+        float pitch
+    ) {
+        return nearlyEqual(settings.x, x)
+            && nearlyEqual(settings.y, y)
+            && nearlyEqual(settings.z, z)
+            && nearlyEqual(settings.yaw, yaw)
+            && nearlyEqual(settings.pitch, pitch);
+    }
+
+    private static boolean nearlyEqual(double left, double right) {
+        return Math.abs(left - right) < 0.01;
+    }
+
     private static int saveAfterSetting(ServerCommandSource source, String key, boolean value) {
         boolean ok = MercFrontCoreConfigManager.save();
         if (ok) {
@@ -1587,6 +1926,112 @@ public final class MercFrontCoreCommand {
         }
         source.sendError(Text.literal("Updated " + key + " in memory, but failed to save config."));
         return 0;
+    }
+
+    private static int saveAfterSetting(ServerCommandSource source, String key, int value) {
+        boolean ok = MercFrontCoreConfigManager.save();
+        if (ok) {
+            source.sendFeedback(() -> Text.literal("Updated " + key + " = " + value), true);
+            return 1;
+        }
+        source.sendError(Text.literal("Updated " + key + " in memory, but failed to save config."));
+        return 0;
+    }
+
+    private static int saveAfterSetting(ServerCommandSource source, String key, float value) {
+        boolean ok = MercFrontCoreConfigManager.save();
+        if (ok) {
+            source.sendFeedback(
+                () -> Text.literal("Updated " + key + " = " + String.format(java.util.Locale.ROOT, "%.3f", value)),
+                true
+            );
+            return 1;
+        }
+        source.sendError(Text.literal("Updated " + key + " in memory, but failed to save config."));
+        return 0;
+    }
+
+    private static int saveAfterSetting(ServerCommandSource source, String key, String value) {
+        boolean ok = MercFrontCoreConfigManager.save();
+        if (ok) {
+            source.sendFeedback(() -> Text.literal("Updated " + key + " = " + value), true);
+            return 1;
+        }
+        source.sendError(Text.literal("Updated " + key + " in memory, but failed to save config."));
+        return 0;
+    }
+
+    private static CompletableFuture<Suggestions> suggestClassRankKeys(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
+        return CommandSource.suggestMatching(
+            List.of("rifleman", "lightInfantry", "assault", "support", "medic", "sniper", "gunner", "antiTank", "specialist", "commander"),
+            builder
+        );
+    }
+
+    private static CompletableFuture<Suggestions> suggestProxyFields(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
+        return CommandSource.suggestMatching(List.of("compatibility", "directOnly", "trustForwardedIdentity"), builder);
+    }
+
+    private static CompletableFuture<Suggestions> suggestRewardFields(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
+        return CommandSource.suggestMatching(List.of("winnerSkinDrops", "winnerSkinDropChance"), builder);
+    }
+
+    private static CompletableFuture<Suggestions> suggestExperienceFields(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
+        return CommandSource.suggestMatching(
+            List.of(
+                "deathXp",
+                "assistXp",
+                "botKillXp",
+                "playerKillXp",
+                "fireKillXp",
+                "vehicleKillXp",
+                "headshotXp",
+                "noScopeXp",
+                "backStabXp",
+                "firstBloodXp",
+                "participationXp",
+                "victoryXp",
+                "infectedRoundWinXp",
+                "infectedMatchWinXp",
+                "classPlayerKillXp",
+                "classAssistXp"
+            ),
+            builder
+        );
+    }
+
+    private static CompletableFuture<Suggestions> suggestBooleanValues(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
+        return CommandSource.suggestMatching(List.of("true", "false"), builder);
+    }
+
+    private static CompletableFuture<Suggestions> suggestRewardValues(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
+        String field = null;
+        try {
+            field = StringArgumentType.getString(context, "field");
+        } catch (IllegalArgumentException ignored) {
+        }
+        if ("winnerSkinDrops".equals(field)) {
+            return suggestBooleanValues(context, builder);
+        }
+        if ("winnerSkinDropChance".equals(field)) {
+            return CommandSource.suggestMatching(List.of("0.0", "0.25", "0.5", "1.0"), builder);
+        }
+        return CommandSource.suggestMatching(List.of("winnerSkinDrops", "winnerSkinDropChance"), builder);
+    }
+
+    private static CompletableFuture<Suggestions> suggestPlayerRanks(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
+        List<String> suggestions = new ArrayList<>();
+        for (Field field : PlayerRank.class.getFields()) {
+            if (!java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
+                continue;
+            }
+            if (field.getType() != PlayerRank.class) {
+                continue;
+            }
+            suggestions.add(field.getName());
+        }
+        suggestions.sort(String::compareTo);
+        return CommandSource.suggestMatching(suggestions, builder);
     }
 
     private static int setProfileOverride(

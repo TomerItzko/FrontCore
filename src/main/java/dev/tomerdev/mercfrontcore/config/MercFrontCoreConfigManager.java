@@ -125,6 +125,10 @@ public final class MercFrontCoreConfigManager {
             config.classRanks = new MercFrontCoreConfig.ClassRankSettings();
             changed = true;
         }
+        if (config.leaveMatch == null) {
+            config.leaveMatch = new MercFrontCoreConfig.LeaveMatchSettings();
+            changed = true;
+        }
         if (Float.isNaN(config.rewards.winnerSkinDropChance)) {
             config.rewards.winnerSkinDropChance = 0.25f;
             changed = true;

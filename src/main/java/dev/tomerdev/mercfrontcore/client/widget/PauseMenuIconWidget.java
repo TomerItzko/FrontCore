@@ -4,6 +4,7 @@ import com.boehmod.blockfront.registry.BFItems;
 import dev.tomerdev.mercfrontcore.client.screen.LeaderboardScreen;
 import dev.tomerdev.mercfrontcore.client.screen.OwnedGunSkinsScreen;
 import dev.tomerdev.mercfrontcore.data.LeaderboardPeriod;
+import dev.tomerdev.mercfrontcore.net.packet.LeaveMatchTeleportPacket;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.GameMenuScreen;
@@ -11,8 +12,10 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public final class PauseMenuIconWidget extends ClickableWidget {
     private static final Identifier VANILLA_BUTTON = Identifier.ofVanilla("widget/button");
@@ -39,6 +42,10 @@ public final class PauseMenuIconWidget extends ClickableWidget {
         switch (action) {
             case LEADERBOARD -> client.setScreen(new LeaderboardScreen(parent, LeaderboardPeriod.ALL_TIME));
             case GUN_SKINS -> client.setScreen(new OwnedGunSkinsScreen(parent));
+            case LEAVE_MATCH -> {
+                PacketDistributor.sendToServer(new LeaveMatchTeleportPacket());
+                client.setScreen(null);
+            }
         }
     }
 
@@ -72,6 +79,12 @@ public final class PauseMenuIconWidget extends ClickableWidget {
             @Override
             ItemStack createIcon() {
                 return new ItemStack(BFItems.GUN_M1928A1_THOMPSON.get());
+            }
+        },
+        LEAVE_MATCH(Text.literal("Leave Match")) {
+            @Override
+            ItemStack createIcon() {
+                return new ItemStack(Items.COMPASS);
             }
         };
 
